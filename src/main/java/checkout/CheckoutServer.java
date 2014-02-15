@@ -17,7 +17,16 @@ public class CheckoutServer {
     private final WebServer webServer;
     private final Rest rest;
     private Gson json = new Gson();
-    
+
+
+    public static class ErrorResponse {
+        String errorMessage;
+
+        public ErrorResponse(String message){
+            errorMessage = message;
+        }
+    }
+
     public static class BatchPrice {
         public BatchTotals batch = new BatchTotals();
     }
@@ -59,60 +68,99 @@ public class CheckoutServer {
         String errorMessage;
     }
 
+    public class JsonProcessorResultWrapper {
+        public int httpStatus;
+        public String jsonResponse;
+
+        public JsonProcessorResultWrapper(int httpStatus, String jsonResponse){
+            this.httpStatus = httpStatus;
+            this.jsonResponse = jsonResponse;
+        }
+    }
+
+    public interface JsonProcessor {
+        JsonProcessorResultWrapper execute(HttpRequest req);
+    }
+
     public CheckoutServer(int port) {
         webServer  = new NettyWebServer(port);
         rest = new Rest(webServer);
-        
-        rest.PUT("/Checkout/Team", new HttpHandler() {
+
+        addPutHandler("/Checkout/Team", new JsonProcessor() {
             @Override
-            public void handleHttpRequest(HttpRequest req, HttpResponse res, HttpControl ctl) {
-                new DatabaseConnectionInitialiser();
-
-                String jsonBody = req.body();
-                RegistrationDataIn body = json.fromJson(jsonBody, RegistrationDataIn.class);
-                
+            public JsonProcessorResultWrapper execute(HttpRequest reqJson) {
+                RegistrationDataIn body = json.fromJson(reqJson.body(), RegistrationDataIn.class);
                 RegistrationDataOut out = new RegistrationDataOut();
-                try {
-                    Team team = TeamFactory.create(body.name);
-                    out.id = ((Long)team.getId());
-                    out.acceptedName = team.getName();
-
-                    res
-                        .status(201)
-                        .content(json.toJson(out))
-                        .end();
-                }
-                catch (IllegalArgumentException ie) {
-                    out.errorMessage = ie.getMessage();
-                    res
-                        .status(400)
-                        .content(json.toJson(out))
-                        .end();
-                }
+                Team team = TeamFactory.create(body.name);
+                out.id = ((Long) team.getId());
+                out.acceptedName = team.getName();
+                return new JsonProcessorResultWrapper(201, json.toJson(out));
             }
         });
 
-        rest.GET("/Checkout/Batch/{teamName}", new HttpHandler() {
+        addGetHandler("/Checkout/Batch/{teamName}", new JsonProcessor() {
+            @Override
+            public JsonProcessorResultWrapper execute(HttpRequest req) {
+                BatchDataOut out = new BatchDataOut();
+                String teamName = Rest.param(req, "teamName");
+                Team team = Team.findFirst("name=?", teamName);
+                if (team == null) {
+                    throw new IllegalArgumentException(String.format("Unregistered team name supplied '%s'", teamName));
+                }
+
+                out.batch = BatchFactory.create(team.getCurrentRound());
+                return new JsonProcessorResultWrapper(200, json.toJson(out));
+            }
+        });
+
+
+        addPutHandler("/Checkout/Batch/{teamName}", new JsonProcessor() {
+            @Override
+            public JsonProcessorResultWrapper execute(HttpRequest req) {
+                new DatabaseConnectionInitialiser();
+
+                BatchPrice submittedTotals = json.fromJson(req.body(), BatchPrice.class);
+                String teamName = Rest.param(req, "teamName");
+                Team team = Team.findFirst("name=?", teamName);
+                if (team == null) {
+                    throw new IllegalArgumentException(String.format("Unregistered team name supplied '%s'", teamName));
+                }
+
+                Batch batch = BatchFactory.create(team.getCurrentRound());
+                PriceList priceList = PriceListFactory.create(team.getCurrentRound());
+                BatchPrice expectedTotals = BatchPriceCalculator.calculate(batch, priceList);
+
+                BatchTotalsDataOut out = new BatchTotalsDataOut();
+                BatchPriceComparisonResult verification = checkout.BatchPriceComparator.check(expectedTotals, submittedTotals);
+                out.batch = verification;
+
+                int responseStatus = 400;
+                if (verification.allResultsCorrect()) {
+                    responseStatus = 201;
+                    team.setCurrentRound(team.getCurrentRound() + 1);
+                    team.saveIt();
+                }
+                return new JsonProcessorResultWrapper(responseStatus, json.toJson(out));
+            }
+        });
+    }
+
+
+    private void addPutHandler(String path, final JsonProcessor operation) {
+        rest.PUT(path, new HttpHandler() {
             @Override
             public void handleHttpRequest(HttpRequest req, HttpResponse res, HttpControl ctl) {
                 new DatabaseConnectionInitialiser();
 
-                BatchDataOut out = new BatchDataOut();
                 try {
-                    String teamName = Rest.param(req, "teamName");
-                    Team team = Team.findFirst("name=?", teamName);
-                    if (team == null) {
-                        throw new IllegalArgumentException(String.format("Unregistered team name supplied '%s'", teamName));
-                    }
-
-                    out.batch = BatchFactory.create(team.getCurrentRound());
-
+                    JsonProcessorResultWrapper response = operation.execute(req);
                     res
-                            .status(200)
-                            .content(json.toJson(out))
+                            .status(response.httpStatus)
+                            .content(response.jsonResponse)
                             .end();
-                } catch (IllegalArgumentException ie) {
-                    out.errorMessage = ie.getMessage();
+                }
+                catch (IllegalArgumentException ie) {
+                    ErrorResponse out = new ErrorResponse(ie.getMessage());
                     res
                             .status(400)
                             .content(json.toJson(out))
@@ -120,44 +168,22 @@ public class CheckoutServer {
                 }
             }
         });
+    }
 
-        rest.PUT("/Checkout/Batch/{teamName}", new HttpHandler() {
+    private void addGetHandler(String path, final JsonProcessor operation) {
+        rest.GET(path, new HttpHandler() {
             @Override
             public void handleHttpRequest(HttpRequest req, HttpResponse res, HttpControl ctl) {
                 new DatabaseConnectionInitialiser();
 
-                String jsonBody = req.body();
-                System.out.println(String.format("RECEIVED: %s", jsonBody));
-                BatchPrice submittedTotals = json.fromJson(jsonBody, BatchPrice.class);
-
-                BatchTotalsDataOut out = new BatchTotalsDataOut();
                 try {
-                    String teamName = Rest.param(req, "teamName");
-                    Team team = Team.findFirst("name=?", teamName);
-                    if (team == null) {
-                        throw new IllegalArgumentException(String.format("Unregistered team name supplied '%s'", teamName));
-                    }
-
-                    Batch batch = BatchFactory.create(team.getCurrentRound());
-                    PriceList priceList = PriceListFactory.create(team.getCurrentRound());
-                    BatchPrice expectedTotals = BatchPriceCalculator.calculate(batch,priceList);
-
-                    BatchPriceComparisonResult verification = checkout.BatchPriceComparator.check(expectedTotals, submittedTotals);
-                    out.batch = verification;
-
-                    int responseStatus = 400;
-                    if (verification.allResultsCorrect()) {
-                        responseStatus = 201;
-                        team.setCurrentRound(team.getCurrentRound()+1);
-                        team.saveIt();
-                    }
-
+                    JsonProcessorResultWrapper response = operation.execute(req);
                     res
-                            .status(responseStatus)
-                            .content(json.toJson(out))
+                            .status(response.httpStatus)
+                            .content(response.jsonResponse)
                             .end();
                 } catch (IllegalArgumentException ie) {
-                    out.errorMessage = ie.getMessage();
+                    ErrorResponse out = new ErrorResponse(ie.getMessage());
                     res
                             .status(400)
                             .content(json.toJson(out))
