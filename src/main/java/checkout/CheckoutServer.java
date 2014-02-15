@@ -159,7 +159,7 @@ public class CheckoutServer {
                             .content(response.jsonResponse)
                             .end();
                 }
-                catch (IllegalArgumentException ie) {
+                catch (Exception ie) {
                     ErrorResponse out = new ErrorResponse(ie.getMessage());
                     res
                             .status(400)
@@ -182,7 +182,7 @@ public class CheckoutServer {
                             .status(response.httpStatus)
                             .content(response.jsonResponse)
                             .end();
-                } catch (IllegalArgumentException ie) {
+                } catch (Exception ie) {
                     ErrorResponse out = new ErrorResponse(ie.getMessage());
                     res
                             .status(400)
