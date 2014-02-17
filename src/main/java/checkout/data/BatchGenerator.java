@@ -67,6 +67,12 @@ public class BatchGenerator {
         builder.addToBasket()
                 .withItem("banana");
 
+        builder.addNewBasket();
+
+        builder.addNewBasket()
+                .withItem("avocado")
+                .withQuantity(12);
+
         return builder.build();
     }
 }
