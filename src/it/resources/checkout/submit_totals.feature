@@ -9,20 +9,20 @@ Feature: Post answers for a batch
   Scenario: Correct response is successful and moves to next round
     Given my team is in round 0
     When I submit the correct totals
-    Then I receive a success confirmation
+    Then I receive a CREATED response
     And my team is now in round 1
 
   Scenario: Incorrect response is rejected
     Given my team is in round 0
     When I submit incorrect totals
-    Then I receive a failure notification
+    Then I receive an ERROR response
     And my team is still in round 0
     And I know the basket ID of the incorrect total
 
   Scenario: Empty response is rejected
     Given my team is in round 0
     When I submit empty totals
-    Then I receive a failure notification
+    Then I receive an ERROR response
     And my team is still in round 0
     And I know the basket ID of the missing basket
 
@@ -30,6 +30,6 @@ Feature: Post answers for a batch
   Scenario: Unexpected response is rejected
     Given my team is in round 0
     When I submit totals for an unexpected basket
-    Then I receive a failure notification
+    Then I receive an ERROR response
     And my team is still in round 0
     And I know the basket ID of the unexpected basket

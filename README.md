@@ -34,10 +34,19 @@ Current REST operations supported are:
 * Getting a batch of baskets for pricing
     GET /Checkout/Batch/my_team_name
     Response 200 - success (returns batch in JSON)
+    - the batch is made up of Baskets each of which has a unique ID
+      and zero or more items
+    Response 400 - failure (response shows what was wrong with request)
+
+* Getting the current price list
+    Get /Checkout/PriceList/my_team_name
+    Response 200 - success (returns price list in JSON)
     Response 400 - failure (response shows what was wrong with request)
 
 * Submitting prices for the current batch
     PUT /Checkout/Batch/my_team_name
+    JSON Payload : {"batch":{"baskets":{"1":{"dollars":0,"cents":25},"2":{"dollars":0,"cents":25}}}}
+    - totals for all baskets have to be submitted at the same time
     Response 201 - success (team now moves on to next round)
     Response 400 - failure (response shows what was wrong with submission)
 

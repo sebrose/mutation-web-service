@@ -50,30 +50,22 @@ public class BasketAnswerSteps {
 
     @When("^I submit the correct totals$")
     public void I_submit_the_correct_totals() throws Throwable {
-        KnowsTheDomain.ResponseWrapper returned = helper.submitTotals("{\"batch\":{\"baskets\":{\"1\":{\"dollars\":0,\"cents\":25}}}}");
-
-        helper.storeResponse(returned);
+        helper.submitTotals("{\"batch\":{\"baskets\":{\"1\":{\"dollars\":0,\"cents\":25}}}}");
     }
 
     @When("^I submit empty totals$")
     public void I_submit_empty_totals() throws Throwable {
-        KnowsTheDomain.ResponseWrapper returned = helper.submitTotals("{\"batch\":{\"baskets\":{}}}");
-
-        helper.storeResponse(returned);
+        helper.submitTotals("{\"batch\":{\"baskets\":{}}}");
     }
 
     @When("^I submit incorrect totals$")
     public void I_submit_incorrect_totals() throws Throwable {
-        KnowsTheDomain.ResponseWrapper returned = helper.submitTotals("{\"batch\":{\"baskets\":{\"1\":{\"dollars\":0,\"cents\":50}}}}");
-
-        helper.storeResponse(returned);
+        helper.submitTotals("{\"batch\":{\"baskets\":{\"1\":{\"dollars\":0,\"cents\":50}}}}");
     }
 
     @When("^I submit totals for an unexpected basket$")
     public void I_submit_totals_for_an_unexpected_basket() throws Throwable {
-        KnowsTheDomain.ResponseWrapper returned = helper.submitTotals("{\"batch\":{\"baskets\":{\"1\":{\"dollars\":0,\"cents\":25},\"2\":{\"dollars\":0,\"cents\":25}}}}");
-
-        helper.storeResponse(returned);
+        helper.submitTotals("{\"batch\":{\"baskets\":{\"1\":{\"dollars\":0,\"cents\":25},\"2\":{\"dollars\":0,\"cents\":25}}}}");
     }
 
     @And("^I know the basket ID of the incorrect total$")

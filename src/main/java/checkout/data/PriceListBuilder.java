@@ -1,6 +1,7 @@
 package checkout.data;
 
 import checkout.Entry;
+import checkout.PriceList;
 
 import java.util.ArrayList;
 import java.util.List;

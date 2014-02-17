@@ -2,7 +2,6 @@ package checkout;
 
 
 import checkout.data.Item;
-import checkout.data.PriceList;
 
 public class BatchPriceCalculator {
     public static CheckoutServer.BatchPrice calculate(Batch batch, PriceList priceList) {

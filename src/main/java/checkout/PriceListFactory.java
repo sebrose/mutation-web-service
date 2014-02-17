@@ -1,6 +1,5 @@
 package checkout;
 
-import checkout.data.PriceList;
 import checkout.data.PriceListGenerator;
 
 public class PriceListFactory {

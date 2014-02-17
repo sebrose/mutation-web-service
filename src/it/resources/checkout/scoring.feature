@@ -7,7 +7,7 @@ Feature: Scoring
   Scenario: Unregistered team has no score
     Given my team is unregistered
     When I retrieve my score
-    Then I receive a failure notification
+    Then I receive an ERROR response
 
   Scenario: Registering gives me a score
     Given I register a team

@@ -1,7 +1,6 @@
 package checkout;
 
 import checkout.data.DatabaseConnectionInitialiser;
-import checkout.data.PriceList;
 import com.google.gson.Gson;
 import org.javalite.activejdbc.Base;
 import org.webbitserver.*;
@@ -86,6 +85,13 @@ public class CheckoutServer {
         String errorMessage;
     }
 
+    public static class PriceListDataOut {
+        PriceList priceList;
+        String errorMessage;
+    }
+
+
+
     public class JsonProcessorResultWrapper {
         public int httpStatus;
         public String jsonResponse;
@@ -130,6 +136,7 @@ public class CheckoutServer {
                     throw new IllegalArgumentException(String.format("Unregistered team name supplied '%s'", teamName));
                 }
 
+                team.refresh();
                 out.batch = BatchFactory.create(team.getCurrentRound());
                 return new JsonProcessorResultWrapper(200, json.toJson(out));
             }
@@ -138,7 +145,6 @@ public class CheckoutServer {
         addGetHandler("/Checkout/Score/{teamName}", new JsonProcessor() {
             @Override
             public JsonProcessorResultWrapper execute(HttpRequest req) {
-                BatchDataOut out = new BatchDataOut();
                 String teamName = Rest.param(req, "teamName");
                 Team team = Team.findFirst("name=?", teamName);
                 if (team == null) {
@@ -147,6 +153,22 @@ public class CheckoutServer {
 
                 team.refresh();
                 return new JsonProcessorResultWrapper(200, String.format("{\"score\": %d}", team.getScore()));
+            }
+        });
+
+        addGetHandler("/Checkout/PriceList/{teamName}", new JsonProcessor() {
+            @Override
+            public JsonProcessorResultWrapper execute(HttpRequest req) {
+                String teamName = Rest.param(req, "teamName");
+                Team team = Team.findFirst("name=?", teamName);
+                if (team == null) {
+                    throw new IllegalArgumentException(String.format("Unregistered team name supplied '%s'", teamName));
+                }
+
+                team.refresh();
+                PriceListDataOut out = new PriceListDataOut();
+                out.priceList = PriceListFactory.create(team.getCurrentRound());
+                return new JsonProcessorResultWrapper(200, json.toJson(out));
             }
         });
 

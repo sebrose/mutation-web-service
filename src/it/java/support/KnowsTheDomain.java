@@ -90,7 +90,53 @@ public class KnowsTheDomain{
 
     }
 
-    public ResponseWrapper submitTotals(String input) {
+    public void requestBatch() {
+        try {
+
+            Client client = Client.create();
+
+            WebResource webResource = client
+                    .resource("http://localhost:" + ServerHooks.PORT + "/Checkout/Batch/" + getTeamName());
+
+            ClientResponse response = webResource.type("application/json")
+                    .get(ClientResponse.class);
+
+            storeResponse(response.getStatus(), response.getEntity(String.class));
+        }
+        catch (RuntimeException r) {
+            throw r;
+        }
+        catch (Exception e) {
+            System.out.println("Exception caught");
+            e.printStackTrace();
+
+        }
+    }
+
+    public void requestPriceList() {
+        try {
+
+            Client client = Client.create();
+
+            WebResource webResource = client
+                    .resource("http://localhost:" + ServerHooks.PORT + "/Checkout/PriceList/" + getTeamName());
+
+            ClientResponse response = webResource.type("application/json")
+                    .get(ClientResponse.class);
+
+            storeResponse(response.getStatus(), response.getEntity(String.class));
+        }
+        catch (RuntimeException r) {
+            throw r;
+        }
+        catch (Exception e) {
+            System.out.println("Exception caught");
+            e.printStackTrace();
+
+        }
+    }
+
+    public void submitTotals(String input) {
         try {
 
             Client client = Client.create();
@@ -105,7 +151,7 @@ public class KnowsTheDomain{
 
             String jsonString = response.getEntity(String.class);
 
-            return new ResponseWrapper(httpReturnCode, jsonString);
+            storeResponse(httpReturnCode, jsonString);
         }
         catch (RuntimeException r) {
             throw r;
@@ -114,7 +160,7 @@ public class KnowsTheDomain{
 
             e.printStackTrace();
 
-            return new ResponseWrapper(500, e.getMessage());
+            storeResponse(500, e.getMessage());
         }
     }
 

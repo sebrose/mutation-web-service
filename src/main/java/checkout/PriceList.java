@@ -1,7 +1,5 @@
-package checkout.data;
+package checkout;
 
-
-import checkout.Entry;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,4 +15,6 @@ public class PriceList {
     public Entry findEntry(String itemCode){
         return entries.get(itemCode);
     }
+
+
 }
