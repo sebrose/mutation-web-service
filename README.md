@@ -31,6 +31,11 @@ Current REST operations supported are:
     Response 201 - success (with actual name registered returned in JSON - it may have been trimmed)
     Response 400 - failure (response shows what was wrong with submission)
 
+* Getting requirements for current round
+    GET /Checkout/Requirements/my_team_name
+    Response 200 - success (returns requirements in JSON as plain text)
+    Response 400 - failure (response shows what was wrong with request)
+
 * Getting a batch of baskets for pricing
     GET /Checkout/Batch/my_team_name
     Response 200 - success (returns batch in JSON)

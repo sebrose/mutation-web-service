@@ -12,6 +12,8 @@ public class BatchGenerator {
                 return round0();
             case 1:
                 return round1();
+            case 2:
+                return round2();
             default:
                 return null;
         }
@@ -35,6 +37,35 @@ public class BatchGenerator {
         builder.addNewBasket()
                 .withItem("banana")
                 .withQuantity(2);
+
+        builder.addNewBasket()
+                .withItem("banana");
+        builder.addToBasket()
+                .withItem("apple")
+                .withQuantity(3);
+        builder.addToBasket()
+                .withItem("banana");
+
+        return builder.build();
+    }
+
+    private static Batch round2() {
+        BatchBuilder builder = new BatchBuilder();
+
+        builder.addNewBasket()
+                .withItem("banana");
+
+        builder.addNewBasket()
+                .withItem("banana")
+                .withQuantity(2);
+
+        builder.addNewBasket()
+                .withItem("banana");
+        builder.addToBasket()
+                .withItem("apple")
+                .withQuantity(3);
+        builder.addToBasket()
+                .withItem("banana");
 
         return builder.build();
     }

@@ -1,6 +1,7 @@
 package checkout;
 
 import checkout.data.DatabaseConnectionInitialiser;
+import checkout.data.RequirementsGenerator;
 import com.google.gson.Gson;
 import org.javalite.activejdbc.Base;
 import org.webbitserver.*;
@@ -90,6 +91,11 @@ public class CheckoutServer {
         String errorMessage;
     }
 
+    public static class RequirementsOut {
+        String requirements;
+        String errorMessage;
+    }
+
 
 
     public class JsonProcessorResultWrapper {
@@ -123,6 +129,22 @@ public class CheckoutServer {
                 out.id = ((Long) team.getId());
                 out.acceptedName = team.getName();
                 return new JsonProcessorResultWrapper(201, json.toJson(out));
+            }
+        });
+
+        addGetHandler("/Checkout/Requirements/{teamName}", new JsonProcessor() {
+            @Override
+            public JsonProcessorResultWrapper execute(HttpRequest req) {
+                RequirementsOut out = new RequirementsOut();
+                String teamName = Rest.param(req, "teamName");
+                Team team = Team.findFirst("name=?", teamName);
+                if (team == null) {
+                    throw new IllegalArgumentException(String.format("Unregistered team name supplied '%s'", teamName));
+                }
+
+                team.refresh();
+                out.requirements = RequirementsGenerator.forRound(team.getCurrentRound());
+                return new JsonProcessorResultWrapper(200, json.toJson(out));
             }
         });
 
