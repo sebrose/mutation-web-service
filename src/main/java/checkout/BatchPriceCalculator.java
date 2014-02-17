@@ -16,12 +16,9 @@ public class BatchPriceCalculator {
                 Item item = basket.getBasketItem(j);
                 Entry entry = priceList.findEntry(item.getItemCode());
 
-                System.out.println(String.format("%s x %d @ %s", item.getItemCode(), item.getQuantity(), entry.getUnitPrice()));
                 basketTotal = basketTotal.add(entry.getUnitPrice().multiply(item.getQuantity()));
-                System.out.println(String.format("Basket total %s", basketTotal));
             }
 
-            System.out.println(String.format("Basket id %d,  total %s", basket.getBasketId(), basketTotal));
             in.batch.baskets.put(basket.getBasketId(), basketTotal);
         }
 

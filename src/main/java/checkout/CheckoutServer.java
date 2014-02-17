@@ -17,6 +17,24 @@ public class CheckoutServer {
     private final WebServer webServer;
     private final Rest rest;
     private Gson json = new Gson();
+    private static final PersistentEntity<Integer, Integer> roundEntity = new PersistentEntity<Integer, Integer>() {
+        @Override
+            public void update(Integer roundNumber, Integer pointsAvailable) {
+            Round round = Round.findFirst("number = ?", roundNumber);
+            if (round == null) {
+                round = new Round(roundNumber, pointsAvailable);
+            } else {
+                round.setPoints(pointsAvailable);
+            }
+            round.saveIt();
+        }
+
+        @Override
+        public Integer get(Integer roundNumber) {
+            Round round = Round.findFirst("number = ?", roundNumber);
+            return (round == null ? 99999 : round.getPoints());
+        }
+    };
 
 
     public static class ErrorResponse {
@@ -83,6 +101,10 @@ public class CheckoutServer {
     }
 
     public CheckoutServer(int port) {
+        new DatabaseConnectionInitialiser();
+
+        Scoring.initialise(roundEntity);
+
         webServer  = new NettyWebServer(port);
         rest = new Rest(webServer);
 
@@ -113,38 +135,60 @@ public class CheckoutServer {
             }
         });
 
-
-        addPutHandler("/Checkout/Batch/{teamName}", new JsonProcessor() {
+        addGetHandler("/Checkout/Score/{teamName}", new JsonProcessor() {
             @Override
             public JsonProcessorResultWrapper execute(HttpRequest req) {
-                new DatabaseConnectionInitialiser();
-
-                BatchPrice submittedTotals = json.fromJson(req.body(), BatchPrice.class);
+                BatchDataOut out = new BatchDataOut();
                 String teamName = Rest.param(req, "teamName");
                 Team team = Team.findFirst("name=?", teamName);
                 if (team == null) {
                     throw new IllegalArgumentException(String.format("Unregistered team name supplied '%s'", teamName));
                 }
 
-                Batch batch = BatchFactory.create(team.getCurrentRound());
-                PriceList priceList = PriceListFactory.create(team.getCurrentRound());
-                BatchPrice expectedTotals = BatchPriceCalculator.calculate(batch, priceList);
+                team.refresh();
+                return new JsonProcessorResultWrapper(200, String.format("{\"score\": %d}", team.getScore()));
+            }
+        });
 
-                BatchTotalsDataOut out = new BatchTotalsDataOut();
-                BatchPriceComparisonResult verification = checkout.BatchPriceComparator.check(expectedTotals, submittedTotals);
-                out.batch = verification;
 
-                int responseStatus = 400;
-                if (verification.allResultsCorrect()) {
-                    responseStatus = 201;
-                    team.setCurrentRound(team.getCurrentRound() + 1);
+        addPutHandler("/Checkout/Batch/{teamName}", new JsonProcessor() {
+            @Override
+            public JsonProcessorResultWrapper execute(HttpRequest req) {
+
+                String teamName = Rest.param(req, "teamName");
+                Team team = Team.findFirst("name=?", teamName);
+                if (team == null) {
+                    throw new IllegalArgumentException(String.format("Unregistered team name supplied '%s'", teamName));
+                }
+
+                int pointsScored = Scoring.INCORRECT_RESPONSE_POINTS;
+
+                try {
+                    int currentRound = team.getCurrentRound();
+
+                    BatchPrice submittedTotals = json.fromJson(req.body(), BatchPrice.class);
+                    Batch batch = BatchFactory.create(currentRound);
+                    PriceList priceList = PriceListFactory.create(currentRound);
+                    BatchPrice expectedTotals = BatchPriceCalculator.calculate(batch, priceList);
+
+                    BatchTotalsDataOut out = new BatchTotalsDataOut();
+                    BatchPriceComparisonResult verification = checkout.BatchPriceComparator.check(expectedTotals, submittedTotals);
+                    out.batch = verification;
+
+                    int responseStatus = 400;
+                    if (verification.allResultsCorrect()) {
+                        responseStatus = 201;
+                        pointsScored = Scoring.getScoreForRound(currentRound, roundEntity);
+                        team.setCurrentRound(currentRound + 1);
+                    }
+                    return new JsonProcessorResultWrapper(responseStatus, json.toJson(out));
+                } finally {
+                    team.addPoints(pointsScored);
                     team.saveIt();
                 }
-                return new JsonProcessorResultWrapper(responseStatus, json.toJson(out));
             }
         });
     }
-
 
     private void addPutHandler(String path, final JsonProcessor operation) {
         rest.PUT(path, new HttpHandler() {
@@ -193,7 +237,7 @@ public class CheckoutServer {
         });
     }
 
-    public void start() throws IOException, InterruptedException, ExecutionException {        
+    public void start() throws IOException, InterruptedException, ExecutionException {
         webServer.start().get();
     }
 

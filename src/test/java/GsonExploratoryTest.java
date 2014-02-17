@@ -26,7 +26,6 @@ public class GsonExploratoryTest {
         builder.withBasketTotal("0.25");
 
         String jsonBody = json.toJson(builder.build());
-        System.out.println(jsonBody);
 
         BatchPrice submittedTotals = json.fromJson(jsonBody, BatchPrice.class);
 
@@ -40,7 +39,6 @@ public class GsonExploratoryTest {
         builder.withBasketTotal("0.50");
 
         String jsonBody = json.toJson(builder.build());
-        System.out.println(jsonBody);
 
         BatchPrice submittedTotals = json.fromJson(jsonBody, BatchPrice.class);
 
@@ -51,7 +49,6 @@ public class GsonExploratoryTest {
         BatchPriceBuilder builder = new BatchPriceBuilder();
 
         String jsonBody = json.toJson(builder.build());
-        System.out.println(jsonBody);
 
         BatchPrice submittedTotals = json.fromJson(jsonBody, BatchPrice.class);
 

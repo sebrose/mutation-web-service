@@ -110,7 +110,6 @@ public class BasketSteps {
     @Then("^I successfully receive a batch$")
     public void I_successfully_receive_a_batch() {
         assertEquals(200, httpReturnCode);
-        System.out.println(results.toString());
     }
 
     @Then("^my batch request is rejected$")

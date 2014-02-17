@@ -1,9 +1,6 @@
 package checkout;
 
 import com.google.gson.Gson;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -13,21 +10,20 @@ import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static support.KnowsTheDomain.ResponseWrapper;
 
 public class TeamSteps {
     private KnowsTheDomain helper;
     private Gson json = new Gson();
     private String requestedName;
-    
+    private RegistrationData registrationData;
+
     private static class RegistrationData {
         public long id;
         public String acceptedName;
         public String errorMessage;
     }
-    
-    RegistrationData registrationData;
-    int httpReturnCode;
-    
+
     public TeamSteps(KnowsTheDomain helper) {
         this.helper = helper;
     }
@@ -46,10 +42,16 @@ public class TeamSteps {
     public void team_is_already_registered(String name) throws Throwable {
         helper.createTeam(name, 0);
     }
-    
+
     @Given("^my chosen team name is \"([^\"]*)\"$")
     public void my_chosen_team_name_is(String teamName) throws Throwable {
         requestedName = teamName;
+    }
+
+    @Given("^I register a team$")
+    public void I_register_a_team() throws Throwable {
+        requestedName = "MyTeam";
+        I_register();
     }
 
     @Given("^I choose a really long name$")
@@ -62,43 +64,24 @@ public class TeamSteps {
     
     @When("^I register$")
     public void I_register() throws Throwable {
-        try {
+        ResponseWrapper response = helper.registerTeam(requestedName);
 
-            Client client = Client.create();
-
-            WebResource webResource = client
-                .resource("http://localhost:"+ ServerHooks.PORT +"/Checkout/Team");
-
-            String input = "{\"name\":\"" + requestedName + "\"}";
-            ClientResponse response = webResource.type("application/json")
-                       .put(ClientResponse.class, input);
-
-            httpReturnCode = response.getStatus();
-
-            String jsonString = response.getEntity(String.class);
-            if (jsonString != null){
-                registrationData = json.fromJson(jsonString, RegistrationData.class);
-            }
+        if (response.jsonBody != null){
+            registrationData = json.fromJson(response.jsonBody, RegistrationData.class);
+            helper.registeredTeamIs(registrationData.acceptedName);
         }
-        catch (RuntimeException r) {
-            throw r;
-        } 
-        catch (Exception e) {
-
-            e.printStackTrace();
-
-        }
+        
     }
 
     @Then("^my choice of name should be confirmed$")
     public void my_registration_should_be_successful() throws Throwable {
-        assertEquals(201, httpReturnCode);
+        assertEquals(201, helper.getHttpResponseCode());
         assertEquals(requestedName, registrationData.acceptedName);
     }
 
     @Then("^my choice of name should be rejected$")
     public void my_registration_should_be_rejected() throws Throwable {
-        assertEquals(400, httpReturnCode);
+        assertEquals(400, helper.getHttpResponseCode());
         assertTrue(registrationData.errorMessage.length() > 0);
     }
 

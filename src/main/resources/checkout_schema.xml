@@ -32,4 +32,26 @@
         </addColumn>
     </changeSet>
 
+    <changeSet author="seb" id="4">
+        <addColumn tableName="teams">
+            <column name="score" type="int" defaultValueNumeric="0" >
+                <constraints nullable="false" />
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="seb" id="5">
+        <createTable tableName="rounds">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="number" type="int" >
+                <constraints nullable="false" />
+            </column>
+            <column name="points" type="int" >
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+
 </databaseChangeLog>

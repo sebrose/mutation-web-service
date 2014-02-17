@@ -1,7 +1,6 @@
 package support;
 
-import checkout.ServerHooks;
-import checkout.Team;
+import checkout.*;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -19,14 +18,58 @@ public class KnowsTheDomain{
     }
 
     private Team team;
+    private ResponseWrapper response;
 
     public KnowsTheDomain() {
+    }
+
+    public void storeResponse(int status, String json) {
+        response = new ResponseWrapper(status, json);
+    }
+
+    public void storeResponse(ResponseWrapper response) {
+        this.response = response;
+    }
+
+    public int getHttpResponseCode() {
+        return response.httpResponseCode;
+    }
+
+    public String getJsonResponse() {
+        return response.jsonBody;
+    }
+
+    public void receiveSuccessfulTotalsForRound(int roundNumber) {
+        final PersistentEntity<Integer, Integer> roundEntity = new PersistentEntity<Integer, Integer>() {
+            @Override
+            public void update(Integer roundNumber, Integer pointsAvailable) {
+                Round round = Round.findFirst("number = ?", roundNumber);
+                if (round == null) {
+                    round = new Round(roundNumber, pointsAvailable);
+                } else {
+                    round.setPoints(pointsAvailable);
+                }
+                round.saveIt();
+            }
+
+            @Override
+            public Integer get(Integer roundNumber) {
+                Round round = Round.findFirst("number = ?", roundNumber);
+                return (round == null ? 99999 : round.getPoints());
+            }
+        };
+
+        Scoring.getScoreForRound(roundNumber, roundEntity);
     }
 
     public void createTeam(String testTeam, int currentRound) {
         team = new Team(testTeam);
         team.setCurrentRound(currentRound);
         team.saveIt();
+    }
+
+    public void registeredTeamIs(String name) {
+        team = Team.findFirst("Name = ?", name);
     }
 
     public String getTeamName() {
@@ -61,9 +104,6 @@ public class KnowsTheDomain{
             int httpReturnCode = response.getStatus();
 
             String jsonString = response.getEntity(String.class);
-            if (jsonString != null){
-                System.out.println(String.format("JSON: %s", jsonString));
-            }
 
             return new ResponseWrapper(httpReturnCode, jsonString);
         }
@@ -77,5 +117,35 @@ public class KnowsTheDomain{
             return new ResponseWrapper(500, e.getMessage());
         }
     }
+
+    public ResponseWrapper registerTeam(String requestedName) {
+        try {
+
+            Client client = Client.create();
+
+            WebResource webResource = client
+                    .resource("http://localhost:"+ ServerHooks.PORT +"/Checkout/Team");
+
+            String input = "{\"name\":\"" + requestedName + "\"}";
+            ClientResponse clientResponse = webResource.type("application/json")
+                    .put(ClientResponse.class, input);
+
+            String jsonString = clientResponse.getEntity(String.class);
+            storeResponse(clientResponse.getStatus(), jsonString);
+
+            return response;
+        }
+        catch (RuntimeException r) {
+            throw r;
+        }
+        catch (Exception e) {
+
+            e.printStackTrace();
+
+        }
+
+        return null;
+    }
+
 }
 

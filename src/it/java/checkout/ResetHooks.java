@@ -7,8 +7,9 @@ import checkout.data.DatabaseConnectionInitialiser;
 public class ResetHooks {
     private final static DatabaseConnectionInitialiser  databaseConnectionInitiliser = new DatabaseConnectionInitialiser();
     
-    @Before
+    @Before(order=1)
     public void reset() {
         Team.deleteAll();
+        Round.deleteAll();
     }
 }

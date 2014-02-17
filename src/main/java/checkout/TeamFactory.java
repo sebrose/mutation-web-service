@@ -11,6 +11,7 @@ public class TeamFactory {
         }
 
         Team team = new Team(acceptedName);
+        team.addPoints(Scoring.REGISTRATION_POINTS);
         
         try {
             team.saveIt();

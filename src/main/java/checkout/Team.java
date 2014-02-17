@@ -10,6 +10,7 @@ public class Team extends Model {
     
     public Team(String name) {
         setString("name", name);
+        setInteger("score", 0);
     }
     
     public String getName() {
@@ -22,5 +23,14 @@ public class Team extends Model {
 
     public int getCurrentRound() {
         return getInteger("currentRound");
+    }
+
+    public int getScore() {
+        return getInteger("score");
+    }
+
+    public void addPoints(int points){
+        int currentPoints = getScore();
+        setInteger("score", currentPoints + points);
     }
 }
