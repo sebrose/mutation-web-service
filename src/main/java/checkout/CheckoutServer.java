@@ -124,12 +124,15 @@ public class CheckoutServer {
         addPutHandler("/Checkout/Team", new JsonProcessor() {
             @Override
             public JsonProcessorResultWrapper execute(HttpRequest reqJson) {
+                System.out.println(String.format("Body: %s", reqJson.body()));
                 RegistrationDataIn body = json.fromJson(reqJson.body(), RegistrationDataIn.class);
                 RegistrationDataOut out = new RegistrationDataOut();
                 Team team = TeamFactory.create(body.name);
                 out.id = ((Long) team.getId());
                 out.acceptedName = team.getName();
-                return new JsonProcessorResultWrapper(201, json.toJson(out));
+                String jsonOut = json.toJson(out);
+                System.out.println(String.format("Response: %s", jsonOut));
+                return new JsonProcessorResultWrapper(201, jsonOut);
             }
         });
 
@@ -252,6 +255,7 @@ public class CheckoutServer {
                     JsonProcessorResultWrapper response = operation.execute(req);
                     res
                             .status(response.httpStatus)
+                            .header("Content-Type", "application/json")
                             .content(response.jsonResponse)
                             .end();
                 }
@@ -259,6 +263,7 @@ public class CheckoutServer {
                     ErrorResponse out = new ErrorResponse(ie.getMessage());
                     res
                             .status(400)
+                            .header("Content-Type", "application/json")
                             .content(json.toJson(out))
                             .end();
                 }
@@ -276,12 +281,14 @@ public class CheckoutServer {
                     JsonProcessorResultWrapper response = operation.execute(req);
                     res
                             .status(response.httpStatus)
+                            .header("Content-Type", "application/json")
                             .content(response.jsonResponse)
                             .end();
                 } catch (Exception ie) {
                     ErrorResponse out = new ErrorResponse(ie.getMessage());
                     res
                             .status(400)
+                            .header("Content-Type", "application/json")
                             .content(json.toJson(out))
                             .end();
                 }
