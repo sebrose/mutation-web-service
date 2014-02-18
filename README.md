@@ -52,7 +52,7 @@ Current REST operations supported are:
 
 * Submitting prices for the current batch
   * `PUT /Checkout/Batch/my_team_name`
-  * JSON Payload : `{"batch":{"baskets":{"1":{"dollars":0,"cents":25},"2":{"dollars":0,"cents":25}}}}`
+  * JSON Payload : `{"batch":{"mutationScore":83,"baskets":{"1":{"dollars":0,"cents":25},"2":{"dollars":0,"cents":25}}}}`
     * totals for all baskets have to be submitted at the same time
   * Response 201 - all baskets totalled correctly (team now moves on to next round)
   * Response 400 - failure (response shows what was wrong with submission)

@@ -1,13 +1,17 @@
 package checkout;
 
 
+import com.google.gson.Gson;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import support.KnowsTheDomain;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class GeneralSteps {
     private KnowsTheDomain helper;
+    private Gson json = new Gson();
 
     public GeneralSteps(KnowsTheDomain helper){
         this.helper = helper;
@@ -28,4 +32,9 @@ public class GeneralSteps {
         assertEquals(400, helper.getHttpResponseCode());
     }
 
+    @And("^the error message mentions \"([^\"]*)\"$")
+    public void the_error_message_mentions(String fragment) throws Throwable {
+        CheckoutServer.ErrorResponse error = json.fromJson(helper.getJsonResponse(), CheckoutServer.ErrorResponse.class);
+        assertTrue(error.errorMessage.contains(fragment));
+    }
 }

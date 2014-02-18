@@ -50,6 +50,7 @@ public class CheckoutServer {
     }
 
     public static class BatchTotals {
+        public Integer mutationScore;
         public Map<Integer, Money> baskets = new HashMap<Integer, Money>();
     }
 
@@ -211,6 +212,13 @@ public class CheckoutServer {
                     int currentRound = team.getCurrentRound();
 
                     BatchPrice submittedTotals = json.fromJson(req.body(), BatchPrice.class);
+
+                    if (submittedTotals.batch.mutationScore == null){
+                        throw new IllegalArgumentException("Submissions must be accompanied by a valid mutation score");
+                    } else if (submittedTotals.batch.mutationScore < 0 || submittedTotals.batch.mutationScore > 100){
+                        throw new IllegalArgumentException("Mutation scores must be between 0 and 100");
+                    }
+
                     Batch batch = BatchFactory.create(currentRound);
                     PriceList priceList = PriceListFactory.create(currentRound);
                     BatchPrice expectedTotals = BatchPriceCalculator.calculate(batch, priceList);

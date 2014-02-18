@@ -50,22 +50,32 @@ public class BasketAnswerSteps {
 
     @When("^I submit the correct totals$")
     public void I_submit_the_correct_totals() throws Throwable {
-        helper.submitTotals("{\"batch\":{\"baskets\":{\"1\":{\"dollars\":0,\"cents\":25}}}}");
+        helper.submitTotals("{\"batch\":{\"mutationScore\":100,\"baskets\":{\"1\":{\"dollars\":0,\"cents\":25}}}}");
     }
 
     @When("^I submit empty totals$")
     public void I_submit_empty_totals() throws Throwable {
-        helper.submitTotals("{\"batch\":{\"baskets\":{}}}");
+        helper.submitTotals("{\"batch\":{\"mutationScore\":0,\"baskets\":{}}}");
     }
 
     @When("^I submit incorrect totals$")
     public void I_submit_incorrect_totals() throws Throwable {
-        helper.submitTotals("{\"batch\":{\"baskets\":{\"1\":{\"dollars\":0,\"cents\":50}}}}");
+        helper.submitTotals("{\"batch\":{\"mutationScore\":85,\"baskets\":{\"1\":{\"dollars\":0,\"cents\":50}}}}");
     }
 
     @When("^I submit totals for an unexpected basket$")
     public void I_submit_totals_for_an_unexpected_basket() throws Throwable {
-        helper.submitTotals("{\"batch\":{\"baskets\":{\"1\":{\"dollars\":0,\"cents\":25},\"2\":{\"dollars\":0,\"cents\":25}}}}");
+        helper.submitTotals("{\"batch\":{\"mutationScore\":85,\"baskets\":{\"1\":{\"dollars\":0,\"cents\":25},\"2\":{\"dollars\":0,\"cents\":25}}}}");
+    }
+
+    @When("^I submit totals without a mutation score$")
+    public void I_submit_totals_without_a_mutation_score() throws Throwable {
+        helper.submitTotals("{\"batch\":{\"baskets\":{\"1\":{\"dollars\":0,\"cents\":25}}}}");
+    }
+
+    @When("^I submit totals with an invalid mutation score$")
+    public void I_submit_totals_with_an_invalid_mutation_score() throws Throwable {
+        helper.submitTotals("{\"batch\":{\"mutationScore\":101,\"baskets\":{\"1\":{\"dollars\":0,\"cents\":25}}}}");
     }
 
     @And("^I know the basket ID of the incorrect total$")
