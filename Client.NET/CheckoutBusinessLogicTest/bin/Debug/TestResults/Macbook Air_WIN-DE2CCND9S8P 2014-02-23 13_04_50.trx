@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="d4cdfad7-bb8e-4369-bd71-0e9b548d70a1" name="Macbook Air@WIN-DE2CCND9S8P 2014-02-23 13:04:50" runUser="WIN-DE2CCND9S8P\Macbook Air" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestSettings name="Default Test Settings" id="2f60082b-a9fe-45bc-9edb-b97130e2921d">
+    <Execution>
+      <TestTypeSpecific />
+      <AgentRule name="Execution Agents">
+      </AgentRule>
+    </Execution>
+    <Deployment runDeploymentRoot="Macbook Air_WIN-DE2CCND9S8P 2014-02-23 13_04_50" />
+  </TestSettings>
+  <Times creation="2014-02-23T13:04:50.5047793+00:00" queuing="2014-02-23T13:04:51.0199555+00:00" start="2014-02-23T13:04:51.1448467+00:00" finish="2014-02-23T13:04:51.6288001+00:00" />
+  <ResultSummary outcome="Failed">
+    <Counters total="1" executed="1" error="0" failed="1" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" passed="0" completed="0" inProgress="0" pending="0" />
+    <RunInfos>
+      <RunInfo computerName="WIN-DE2CCND9S8P" outcome="Warning" timestamp="2014-02-23T13:04:51.0043441+00:00">
+        <Text>Warning: Test Run deployment issue: The assembly or module 'NLog' directly or indirectly referenced by the test container 'c:\users\macbook air\appdata\local\temp\ninjaturtles\a068c134289c47da8f7b6f764cb7daba\checkoutbusinesslogictest.dll' was not found.</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+  <TestDefinitions>
+    <UnitTest name="ShouldRegisterTeam" storage="c:\users\macbook air\appdata\local\temp\ninjaturtles\a068c134289c47da8f7b6f764cb7daba\checkoutbusinesslogictest.dll" id="ca74c2fc-f984-558b-2f9e-2b79b67fe6ed">
+      <Execution id="7d18ec33-6614-47fb-a75d-b16f9ca3992f" />
+      <TestMethod codeBase="C:/Users/Macbook Air/AppData/Local/Temp/NinjaTurtles/a068c134289c47da8f7b6f764cb7daba/CheckoutBusinessLogicTest.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CheckoutConsoleTest.TeamRegistrationTest, CheckoutBusinessLogicTest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="ShouldRegisterTeam" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <TestEntries>
+    <TestEntry testId="ca74c2fc-f984-558b-2f9e-2b79b67fe6ed" executionId="7d18ec33-6614-47fb-a75d-b16f9ca3992f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <Results>
+    <UnitTestResult executionId="7d18ec33-6614-47fb-a75d-b16f9ca3992f" testId="ca74c2fc-f984-558b-2f9e-2b79b67fe6ed" testName="ShouldRegisterTeam" computerName="WIN-DE2CCND9S8P" duration="00:00:00.2490598" startTime="2014-02-23T13:04:51.1448467+00:00" endTime="2014-02-23T13:04:51.5663545+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7d18ec33-6614-47fb-a75d-b16f9ca3992f">
+      <Output>
+        <ErrorInfo>
+          <Message>Test method CheckoutConsoleTest.TeamRegistrationTest.ShouldRegisterTeam threw exception: 
+System.NullReferenceException: Object reference not set to an instance of an object.</Message>
+          <StackTrace>    at CheckoutUtils.Team.register(ICheckoutClient client, String teamName)
+   at CheckoutConsoleTest.TeamRegistrationTest.ShouldRegisterTeam() in c:\Users\Macbook Air\Documents\Visual Studio 2012\Projects\MutationTesting.NET\CheckoutBusinessLogicTest\TeamRegistrationTest.cs:line 37
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+</TestRun>

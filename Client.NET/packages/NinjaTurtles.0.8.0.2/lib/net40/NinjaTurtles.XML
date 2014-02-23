@@ -1,0 +1,1157 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NinjaTurtles</name>
+    </assembly>
+    <members>
+        <member name="T:NinjaTurtles.Module">
+            <summary>
+            Class representing the main module of a .NET assembly.
+            </summary>
+        </member>
+        <member name="M:NinjaTurtles.Module.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:NinjaTurtles.Module"/> class.
+            </summary>
+            <param name="assemblyLocation">
+            The location on disk of the assembly whose main module is to be
+            loaded.
+            </param>
+        </member>
+        <member name="P:NinjaTurtles.Module.AssemblyLocation">
+            <summary>
+            Gets the location on disk of the assembly.
+            </summary>
+        </member>
+        <member name="P:NinjaTurtles.Module.AssemblyDefinition">
+            <summary>
+            Gets the <see cref="P:NinjaTurtles.Module.AssemblyDefinition"/>.
+            </summary>
+        </member>
+        <member name="P:NinjaTurtles.Module.Definition">
+            <summary>
+            Gets the <see cref="T:Mono.Cecil.ModuleDefinition"/>.
+            </summary>
+        </member>
+        <member name="P:NinjaTurtles.Module.SourceFiles">
+            <summary>
+            Gets a dictionary of source code files with their contained lines
+            of code.
+            </summary>
+        </member>
+        <member name="T:NinjaTurtles.MutationTestAttribute">
+            <summary>
+            A marker attribute used to tell NinjaTurtles that the unit test to
+            which it is applied is a mutation test. Such a test method should not
+            be included in the list of detected tests that forms the suite of
+            tests run in testing a particular code mutant.
+            </summary>
+        </member>
+        <member name="T:NinjaTurtles.NamespaceDoc">
+            <summary>
+            Contains core classes that are used to define and run mutation tests.
+            The best starting point to see how this is done is the
+            <see cref="T:NinjaTurtles.MutationTestBuilder`1"/> class.
+            </summary>
+        </member>
+        <member name="T:NinjaTurtles.ConsoleProcessFactory">
+            <summary>
+            A factory class used to instatiate a <see cref="T:System.Diagnostics.Process"/> instance,
+            taking into account the operating system and runtime.
+            </summary>
+        </member>
+        <member name="M:NinjaTurtles.ConsoleProcessFactory.CreateProcess(System.String,System.String,System.String[])">
+            <summary>
+            Creates a <see cref="T:System.Diagnostics.Process"/> instance used to execute the
+            executable identifier by the <paramref name="exeName"/>
+            parameter, with the <paramref name="arguments"/> specified.
+            </summary>
+            <param name="exeName">
+            The name (and path) of the executable to run.
+            </param>
+            <param name="arguments">
+            The command line arguments to pass to the executable.
+            </param>
+            <param name="additionalSearchLocations">
+            An optional list of additional search paths.
+            </param>
+            <returns>
+            An instance of <see cref="T:System.Diagnostics.Process"/>.
+            </returns>
+        </member>
+        <member name="T:NinjaTurtles.MutationTestBuilder`1">
+            <summary>
+            A static class used as the starting point for a fluent definition of
+            a set of mutation tests.
+            </summary>
+            <typeparam name="T">
+            The type to be tested.
+            </typeparam>
+            <example>
+            <para>
+            This code creates and runs mutation tests for the 
+            <b>ClassUnderTest</b> class's <b>MethodUnderTest</b> method:
+            </para>
+            <code lang="cs">
+            MutationTestBuilder&lt;ClassUnderTest&gt;
+                .For("MethodUnderTest")
+                .Run();
+            </code>
+            <code lang="vbnet">
+            Call MutationTestBuilder(Of ClassUnderTest) _
+                .For("MethodUnderTest") _
+                .Run
+            </code>
+            <code lang="cpp">
+            MutationTestBuilder&lt;ClassUnderTest^&gt;
+                ::For("MethodUnderTest")
+                ->Run();
+            </code>
+            <para>
+            When this code is included in a test, it causes the matching tests to
+            be run for each mutation that is found of the code under test. The
+            matching tests are determined automatically by NinjaTurtles. By
+            default, NinjaTurtles assumes it is running under NUnit, and thus uses
+            an NUnit runner to run the suite against the mutated code. This can be
+            changed using the fluent interface:
+            </para>
+            <code lang="cs">
+            MutationTestBuilder&lt;ClassUnderTest&gt;
+                .For("MethodUnderTest")
+                .UsingRunner&lt;GallioTestRunner&gt;()
+                .Run();
+            </code>
+            <code lang="vbnet">
+            Call MutationTestBuilder(Of ClassUnderTest) _
+                .For("MethodUnderTest") _
+                .UsingRunner(Of GallioTestRunner)() _
+                .Run
+            </code>
+            <code lang="cpp">
+            MutationTestBuilder&lt;ClassUnderTest^&gt;
+                ::For("MethodUnderTest")
+                ->UsingRunner&lt;GallioTestRunner^&gt;()
+                ->Run();
+            </code>
+            <para>
+            Alternatively, this option can be set across all tests in a fixture by
+            including this line in the test fixture's setup method:
+            </para>
+            <code lang="cs">
+            MutationTestBuilder.UseRunner&lt;GallioTestRunner&gt;();
+            </code>
+            <code lang="vbnet">
+            Call MutationTestBuilder.UseRunner(Of GallioTestRunner)
+            </code>
+            <code lang="cpp">
+            MutationTestBuilder::UseRunner&lt;GallioTestRunner^&gt;();
+            </code>
+            </example>
+        </member>
+        <member name="M:NinjaTurtles.MutationTestBuilder`1.For(System.String,System.Type[])">
+            <summary>
+            Returns an <see cref="T:NinjaTurtles.IMutationTest"/> instance allowing a fluent
+            definition of a set of mutation tests for a particular method.
+            </summary>
+            <param name="targetMethod">
+            The name of the method to mutate.
+            </param>
+            <param name="parameterTypes">
+            Optional parameter specifying an array of parameter types used to
+            identify a particular method overload.
+            </param>
+            <returns>
+            An <see cref="T:NinjaTurtles.IMutationTest"/> instance to allow fluent
+            method chaining.
+            </returns>
+        </member>
+        <member name="T:NinjaTurtles.MutationTestBuilder">
+            <summary>
+            A static class used as the starting point for a fluent definition of
+            a set of mutation tests.
+            </summary>
+            <remarks>
+            For public classes, the generic <see cref="T:NinjaTurtles.MutationTestBuilder`1"/>
+            is to be prefered. See that class for full documentation.
+            </remarks>
+        </member>
+        <member name="M:NinjaTurtles.MutationTestBuilder.For(System.String,System.String,System.Type[])">
+            <summary>
+            Returns an <see cref="T:NinjaTurtles.IMutationTest"/> instance allowing a fluent
+            definition of a set of mutation tests for a particular method.
+            </summary>
+            <param name="targetClass">
+            The namespace-qualified name of the type for which mutation tests
+            are being defined.
+            </param>
+            <param name="targetMethod">
+            The name of the method to mutate.
+            </param>
+            <param name="parameterTypes">
+            Optional parameter specifying an array of parameter types used to
+            identify a particular method overload.
+            </param>
+            <returns>
+            An <see cref="T:NinjaTurtles.IMutationTest"/> instance to allow fluent
+            method chaining.
+            </returns>
+        </member>
+        <member name="M:NinjaTurtles.MutationTestBuilder.UseRunner``1">
+            <summary>
+            Specifies the implementation of <see cref="T:NinjaTurtles.TestRunners.ITestRunner"/> to be
+            used to run the test suite for each mutant. By default, this will
+            be the <see cref="T:NinjaTurtles.TestRunners.NUnitTestRunner"/>. This can still be overridden
+            on a per-test basis using the
+            <see mref="IMutationTest.UsingRunner"/> method.
+            </summary>
+            <typeparam name="T">
+            A type that implements <see cref="T:NinjaTurtles.TestRunners.ITestRunner"/>.
+            </typeparam>
+        </member>
+        <member name="T:NinjaTurtles.IMutationTest">
+            <summary>
+            An interface forming the core of a fluent interface for defining
+            and running mutation tests using NinjaTurtles.
+            </summary>
+            <remarks>
+            Client code will not use this interface explicitly, nor attempt to
+            instantiate an implementing class. Instead, this interface is exposed
+            by the <see cref="T:NinjaTurtles.MutationTestBuilder`1"/> class's 
+            <see mref="MutationTestBuilder{T}.For"/> method, which forms the start
+            of a chain of fluent statements defining a set of mutation tests.
+            </remarks>
+        </member>
+        <member name="M:NinjaTurtles.IMutationTest.Run">
+            <summary>
+            Runs the defined mutation tests.
+            </summary>
+        </member>
+        <member name="M:NinjaTurtles.IMutationTest.With``1">
+            <summary>
+            Adds a <see cref="T:NinjaTurtles.Turtles.IMethodTurtle"/> type to be used in mutation
+            testing. If no turtles are added, then all turtles from the
+            NinjaTurtles assembly are added by default.
+            </summary>
+            <typeparam name="T">
+            A type that implements <see cref="T:NinjaTurtles.Turtles.IMethodTurtle"/>.
+            </typeparam>
+            <returns>
+            The original <see cref="T:NinjaTurtles.IMutationTest"/> instance to allow fluent
+            method chaining.
+            </returns>
+        </member>
+        <member name="M:NinjaTurtles.IMutationTest.UsingRunner``1">
+            <summary>
+            Sets the unit test runner to be used, which is an implementation of
+            <see cref="T:NinjaTurtles.TestRunners.ITestRunner"/>. If none is specified, then the default
+            is to use <see cref="T:NinjaTurtles.TestRunners.NUnitTestRunner"/>.
+            </summary>
+            <typeparam name="T">
+            A type that implements <see cref="T:NinjaTurtles.TestRunners.ITestRunner"/>.
+            </typeparam>
+            <returns>
+            The original <see cref="T:NinjaTurtles.IMutationTest"/> instance to allow fluent
+            method chaining.
+            </returns>
+        </member>
+        <member name="M:NinjaTurtles.IMutationTest.WriteReportTo(System.String)">
+            <summary>
+            Specifies a file name to which mutation test results should be
+            written. If the file already exists, it will be overwritten.
+            </summary>
+            <param name="fileName">
+            The path and file name of the output file.
+            </param>
+            <returns>
+            The original <see cref="T:NinjaTurtles.IMutationTest"/> instance to allow fluent
+            method chaining.
+            </returns>
+        </member>
+        <member name="M:NinjaTurtles.IMutationTest.MergeReportTo(System.String)">
+            <summary>
+            Specifies a file name to which mutation test results should be
+            written. If the file already exists, then the results of the
+            current mutation test will be merged into it.
+            </summary>
+            <param name="fileName">
+            The path and file name of the output file.
+            </param>
+            <returns>
+            The original <see cref="T:NinjaTurtles.IMutationTest"/> instance to allow fluent
+            method chaining.
+            </returns>
+        </member>
+        <member name="P:NinjaTurtles.IMutationTest.TargetType">
+            <summary>
+            Gets the type which is the target of the current mutation test.
+            </summary>
+        </member>
+        <member name="P:NinjaTurtles.IMutationTest.TargetMethod">
+            <summary>
+            Gets the name of the method which is the target of the current
+            mutation test.
+            </summary>
+        </member>
+        <member name="M:NinjaTurtles.MutationTest.UsingRunner``1">
+            <summary>
+            Sets the unit test runner to be used, which is an implementation of
+            <see cref="T:NinjaTurtles.TestRunners.ITestRunner"/>. If none is specified, then the default
+            is to use <see cref="T:NinjaTurtles.TestRunners.NUnitTestRunner"/>.
+            </summary>
+            <typeparam name="T">
+            A type that implements <see cref="T:NinjaTurtles.TestRunners.ITestRunner"/>.
+            </typeparam>
+            <returns>
+            The original <see cref="T:NinjaTurtles.IMutationTest"/> instance to allow fluent
+            method chaining.
+            </returns>
+        </member>
+        <member name="T:NinjaTurtles.Reporting.AppliedMutant">
+            <summary>
+            Represents a mutant applied to the code.
+            </summary>
+        </member>
+        <member name="P:NinjaTurtles.Reporting.AppliedMutant.Description">
+            <summary>
+            Gets or sets a description of the mutant.
+            </summary>
+        </member>
+        <member name="P:NinjaTurtles.Reporting.AppliedMutant.Killed">
+            <summary>
+            Gets or sets a flag indicating whether or not the mutant was
+            successfully killed.
+            </summary>
+        </member>
+        <member name="T:NinjaTurtles.Reporting.MutationTestingReport">
+            <summary>
+            Represents the top level of a mutation testing report for a project.
+            </summary>
+        </member>
+        <member name="M:NinjaTurtles.Reporting.MutationTestingReport.#ctor">
+            <summary>
+            Initializes a new instance of <see cref="T:NinjaTurtles.Reporting.MutationTestingReport"/>.
+            </summary>
+        </member>
+        <member name="P:NinjaTurtles.Reporting.MutationTestingReport.SourceFiles">
+            <summary>
+            Gets or sets a list of the <see cref="T:NinjaTurtles.Reporting.SourceFile"/>s covered by
+            this report.
+            </summary>
+        </member>
+        <member name="T:NinjaTurtles.Reporting.NamespaceDoc">
+            <summary>
+            Contains classes used in generating XML mutation test reports.
+            </summary>
+        </member>
+        <member name="T:NinjaTurtles.Reporting.SequencePoint">
+            <summary>
+            Represents an IL sequence point.
+            </summary>
+        </member>
+        <member name="M:NinjaTurtles.Reporting.SequencePoint.#ctor">
+            <summary>
+            Initializes a new instance of <see cref="T:NinjaTurtles.Reporting.SequencePoint"/>.
+            </summary>
+        </member>
+        <member name="M:NinjaTurtles.Reporting.SequencePoint.#ctor(Mono.Cecil.Cil.SequencePoint)">
+            <summary>
+            Initializes a new instance of <see cref="T:NinjaTurtles.Reporting.SequencePoint"/>, copying
+            data from the provided <see cref="T:Mono.Cecil.Cil.SequencePoint"/>.
+            </summary>
+            <param name="sequencePoint">
+            An instance of <see cref="T:Mono.Cecil.Cil.SequencePoint"/> from which to copy
+            property values.
+            </param>
+        </member>
+        <member name="P:NinjaTurtles.Reporting.SequencePoint.StartLine">
+            <summary>
+            Gets or sets the number of the first line of code covered by this
+            sequence point.
+            </summary>
+        </member>
+        <member name="P:NinjaTurtles.Reporting.SequencePoint.StartColumn">
+            <summary>
+            Gets or sets the start column within the first line.
+            </summary>
+        </member>
+        <member name="P:NinjaTurtles.Reporting.SequencePoint.EndLine">
+            <summary>
+            Gets or sets the number of the last line of code covered by this
+            sequence point.
+            </summary>
+        </member>
+        <member name="P:NinjaTurtles.Reporting.SequencePoint.EndColumn">
+            <summary>
+            Gets or sets the end column within the final line.
+            </summary>
+        </member>
+        <member name="P:NinjaTurtles.Reporting.SequencePoint.AppliedMutants">
+            <summary>
+            Gets or sets a list of <see cref="T:NinjaTurtles.Reporting.AppliedMutant"/>s, representing
+            the mutants applied.
+            </summary>
+        </member>
+        <member name="T:NinjaTurtles.Reporting.SourceFile">
+            <summary>
+            Represents a source code file that is part of a mutation testing
+            report.
+            </summary>
+        </member>
+        <member name="M:NinjaTurtles.Reporting.SourceFile.#ctor">
+            <summary>
+            Initializes a new instance of <see cref="T:NinjaTurtles.Reporting.SourceFile"/>.
+            </summary>
+        </member>
+        <member name="P:NinjaTurtles.Reporting.SourceFile.Url">
+            <summary>
+            Gets or sets the URL of the file.
+            </summary>
+        </member>
+        <member name="P:NinjaTurtles.Reporting.SourceFile.FileName">
+            <summary>
+            Gets or sets the filename part of the URL.
+            </summary>
+        </member>
+        <member name="P:NinjaTurtles.Reporting.SourceFile.SequencePoints">
+            <summary>
+            Gets or sets a list of <see cref="T:NinjaTurtles.Reporting.SequencePoint"/>s in the file.
+            </summary>
+        </member>
+        <member name="P:NinjaTurtles.Reporting.SourceFile.Lines">
+            <summary>
+            Gets or sets a list of <see cref="T:NinjaTurtles.Reporting.Line"/>s of code in the file. 
+            </summary>
+        </member>
+        <member name="T:NinjaTurtles.Reporting.Line">
+            <summary>
+            Represents a line of source code.
+            </summary>
+        </member>
+        <member name="P:NinjaTurtles.Reporting.Line.Text">
+            <summary>
+            Gets or sets the text of the line of code.
+            </summary>
+        </member>
+        <member name="P:NinjaTurtles.Reporting.Line.Number">
+            <summary>
+            Gets or sets the index within its source code file of the line
+            of code.
+            </summary>
+        </member>
+        <member name="T:NinjaTurtles.TestRunners.MSTestTestRunner">
+            <summary>
+            An implementation of <see cref="T:NinjaTurtles.TestRunners.ITestRunner"/> to run a unit test
+            suite using the MSTest console runner.
+            </summary>
+            <example>
+            <para>
+            This code creates and runs the default set of mutation tests for the
+            <b>ClassUnderTest</b> class's <b>MethodUnderTest</b> method using 
+            the <see cref="T:NinjaTurtles.TestRunners.MSTestTestRunner"/>:
+            </para>
+            <code lang="cs">
+            MutationTestBuilder&lt;ClassUnderTest&gt;
+                .For("MethodUnderTest")
+                .UsingRunner&lt;MSTestTestRunner&gt;()
+                .Run();
+            </code>
+            <code lang="vbnet">
+            Call MutationTestBuilder(Of ClassUnderTest) _
+                .For("MethodUnderTest") _
+                .UsingRunner(Of MSTestTestRunner)() _
+                .Run
+            </code>
+            <code lang="cpp">
+            MutationTestBuilder&lt;ClassUnderTest^&gt;
+                ::For("MethodUnderTest")
+                -&gt;UsingRunner&lt;MSTestTestRunner^&gt;()
+                -&gt;Run();
+            </code>
+            </example>
+        </member>
+        <member name="T:NinjaTurtles.TestRunners.ITestRunner">
+            <summary>
+            Interface defining core behavior of a unit test runner used by
+            NinjaTurtles.
+            </summary>
+        </member>
+        <member name="M:NinjaTurtles.TestRunners.ITestRunner.GetRunnerProcess(NinjaTurtles.TestDirectory,System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Runs the tests specified from the test assembly, found within the
+            test directory identified in the provided
+            <see cref="T:NinjaTurtles.MutantMetaData"/> instance.
+            <remarks>
+            This method won't be called
+            from a user's testing code, it is called internally by
+            NinjaTurtles, and is only exposed publicly to allow for a new
+            implementation to be provided as an extension to NinjaTurtles.
+            </remarks>
+            </summary>
+            <param name="testDirectory">
+            The <see cref="T:NinjaTurtles.TestDirectory"/> containing the test image.
+            </param>
+            <param name="testAssemblyLocation">
+              The file name (with or without path) of the unit test assembly.
+            </param>
+            <param name="testsToRun">
+              A list of qualified unit test names.
+            </param>
+            <returns>
+            A <see cref="T:System.Diagnostics.Process"/> instance to run the unit test runner.
+            </returns>
+        </member>
+        <member name="M:NinjaTurtles.TestRunners.MSTestTestRunner.GetRunnerProcess(NinjaTurtles.TestDirectory,System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Runs the tests specified from the test assembly, found within the
+            test directory identified in the provided
+            <see cref="T:NinjaTurtles.MutantMetaData"/> instance.
+            <remarks>
+            This method won't be called
+            from a user's testing code, it is called internally by
+            NinjaTurtles, and is only exposed publicly to allow for a new
+            implementation to be provided as an extension to NinjaTurtles.
+            </remarks>
+            </summary>
+            <param name="testDirectory">
+            The <see cref="T:NinjaTurtles.TestDirectory"/> containing the test image.
+            </param>
+            <param name="testAssemblyLocation">
+              The file name (with or without path) of the unit test assembly.
+            </param>
+            <param name="testsToRun">
+              A list of qualified unit test names.
+            </param>
+            <returns>
+            A <see cref="T:System.Diagnostics.Process"/> instance to run the unit test runner.
+            </returns>
+        </member>
+        <member name="T:NinjaTurtles.TestRunners.NamespaceDoc">
+            <summary>
+            Contains the <see cref="T:NinjaTurtles.TestRunners.ITestRunner"/> interface and some
+            implementations of it, used to run test suites against generated
+            mutants using different unit testing frameworks.
+            </summary>
+        </member>
+        <member name="T:NinjaTurtles.TestRunners.xUnitTestRunner">
+            <summary>
+            An implementation of <see cref="T:NinjaTurtles.TestRunners.ITestRunner"/> to run a unit test
+            suite using the xUnit console runner.
+            </summary>
+            <example>
+            <para>
+            This code creates and runs the default set of mutation tests for the
+            <b>ClassUnderTest</b> class's <b>MethodUnderTest</b> method using 
+            the <see cref="T:NinjaTurtles.TestRunners.xUnitTestRunner"/>:
+            </para>
+            <code lang="cs">
+            MutationTestBuilder&lt;ClassUnderTest&gt;
+                .For("MethodUnderTest")
+                .UsingRunner&lt;xUnitTestRunner&gt;()
+                .Run();
+            </code>
+            <code lang="vbnet">
+            Call MutationTestBuilder(Of ClassUnderTest) _
+                .For("MethodUnderTest") _
+                .UsingRunner(Of xUnitTestRunner)() _
+                .Run
+            </code>
+            <code lang="cpp">
+            MutationTestBuilder&lt;ClassUnderTest^&gt;
+                ::For("MethodUnderTest")
+                -&gt;UsingRunner&lt;xUnitTestRunner^&gt;()
+                -&gt;Run();
+            </code>
+            </example>
+        </member>
+        <member name="M:NinjaTurtles.TestRunners.xUnitTestRunner.GetRunnerProcess(NinjaTurtles.TestDirectory,System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Runs the tests specified from the test assembly, found within the
+            test directory identified in the provided
+            <see cref="T:NinjaTurtles.MutantMetaData"/> instance.
+            <remarks>
+            This method won't be called
+            from a user's testing code, it is called internally by
+            NinjaTurtles, and is only exposed publicly to allow for a new
+            implementation to be provided as an extension to NinjaTurtles.
+            </remarks>
+            </summary>
+            <param name="testDirectory">
+            The <see cref="T:NinjaTurtles.TestDirectory"/> containing the test image.
+            </param>
+            <param name="testAssemblyLocation">
+              The file name (with or without path) of the unit test assembly.
+            </param>
+            <param name="testsToRun">
+              A list of qualified unit test names.
+            </param>
+            <returns>
+            A <see cref="T:System.Diagnostics.Process"/> instance to run the unit test runner.
+            </returns>
+        </member>
+        <member name="T:NinjaTurtles.TestRunners.GallioTestRunner">
+            <summary>
+            An implementation of <see cref="T:NinjaTurtles.TestRunners.ITestRunner"/> to run a unit test
+            suite using the Gallio console runner.
+            </summary>
+            <example>
+            <para>
+            This code creates and runs the default set of mutation tests for the
+            <b>ClassUnderTest</b> class's <b>MethodUnderTest</b> method using 
+            the <see cref="T:NinjaTurtles.TestRunners.GallioTestRunner"/>:
+            </para>
+            <code lang="cs">
+            MutationTestBuilder&lt;ClassUnderTest&gt;
+                .For("MethodUnderTest")
+                .UsingRunner&lt;GallioTestRunner&gt;()
+                .Run();
+            </code>
+            <code lang="vbnet">
+            Call MutationTestBuilder(Of ClassUnderTest) _
+                .For("MethodUnderTest") _
+                .UsingRunner(Of GallioTestRunner)() _
+                .Run
+            </code>
+            <code lang="cpp">
+            MutationTestBuilder&lt;ClassUnderTest^&gt;
+                ::For("MethodUnderTest")
+                -&gt;UsingRunner&lt;GallioTestRunner^&gt;()
+                -&gt;Run();
+            </code>
+            </example>
+        </member>
+        <member name="M:NinjaTurtles.TestRunners.GallioTestRunner.GetRunnerProcess(NinjaTurtles.TestDirectory,System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Runs the tests specified from the test assembly, found within the
+            test directory identified in the provided
+            <see cref="T:NinjaTurtles.MutantMetaData"/> instance.
+            <remarks>
+            This method won't be called
+            from a user's testing code, it is called internally by
+            NinjaTurtles, and is only exposed publicly to allow for a new
+            implementation to be provided as an extension to NinjaTurtles.
+            </remarks>
+            </summary>
+            <param name="testDirectory">
+            The <see cref="T:NinjaTurtles.TestDirectory"/> containing the test image.
+            </param>
+            <param name="testAssemblyLocation">
+              The file name (with or without path) of the unit test assembly.
+            </param>
+            <param name="testsToRun">
+              A list of qualified unit test names.
+            </param>
+            <returns>
+            A <see cref="T:System.Diagnostics.Process"/> instance to run the unit test runner.
+            </returns>
+        </member>
+        <member name="T:NinjaTurtles.TestRunners.NUnitTestRunner">
+            <summary>
+            An implementation of <see cref="T:NinjaTurtles.TestRunners.ITestRunner"/> to run a unit test
+            suite using the NUnit console runner.
+            </summary>
+            <example>
+            <para>
+            This code creates and runs the default set of mutation tests for the
+            <b>ClassUnderTest</b> class's <b>MethodUnderTest</b> method using 
+            the <see cref="T:NinjaTurtles.TestRunners.NUnitTestRunner"/>:
+            </para>
+            <code lang="cs">
+            MutationTestBuilder&lt;ClassUnderTest&gt;
+                .For("MethodUnderTest")
+                .UsingRunner&lt;NUnitTestRunner&gt;()
+                .Run();
+            </code>
+            <code lang="vbnet">
+            Call MutationTestBuilder(Of ClassUnderTest) _
+                .For("MethodUnderTest") _
+                .UsingRunner(Of NUnitTestRunner)() _
+                .Run
+            </code>
+            <code lang="cpp">
+            MutationTestBuilder&lt;ClassUnderTest^&gt;
+                ::For("MethodUnderTest")
+                -&gt;UsingRunner&lt;NUnitTestRunner^&gt;()
+                -&gt;Run();
+            </code>
+            <para>
+            Alternatively, this can be omitted, since this is the default runner
+            used by NinjaTurtles.
+            </para>
+            </example>
+        </member>
+        <member name="M:NinjaTurtles.TestRunners.NUnitTestRunner.GetRunnerProcess(NinjaTurtles.TestDirectory,System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Runs the tests specified from the test assembly, found within the
+            test directory identified in the provided
+            <see cref="T:NinjaTurtles.MutantMetaData"/> instance.
+            <remarks>
+            This method won't be called
+            from a user's testing code, it is called internally by
+            NinjaTurtles, and is only exposed publicly to allow for a new
+            implementation to be provided as an extension to NinjaTurtles.
+            </remarks>
+            </summary>
+            <param name="testDirectory">
+            The <see cref="T:NinjaTurtles.TestDirectory"/> containing the test image.
+            </param>
+            <param name="testAssemblyLocation">
+              The file name (with or without path) of the unit test assembly.
+            </param>
+            <param name="testsToRun">
+              A list of qualified unit test names.
+            </param>
+            <returns>
+            A <see cref="T:System.Diagnostics.Process"/> instance to run the unit test runner.
+            </returns>
+        </member>
+        <member name="T:NinjaTurtles.Turtles.ArithmeticOperatorTurtle">
+            <summary>
+            An implementation of <see cref="T:NinjaTurtles.Turtles.IMethodTurtle"/> that replaces each of
+            the arithmetic operators <see cref="F:Mono.Cecil.Cil.OpCodes.Add"/>,
+            <see cref="F:Mono.Cecil.Cil.OpCodes.Sub"/>, <see cref="F:Mono.Cecil.Cil.OpCodes.Mul"/>,
+            <see cref="F:Mono.Cecil.Cil.OpCodes.Div"/> and <see cref="F:Mono.Cecil.Cil.OpCodes.Rem"/> with each
+            of the others in turn.
+            </summary>
+        </member>
+        <member name="T:NinjaTurtles.Turtles.OpCodeRotationTurtle">
+            <summary>
+            An abstract base class for implementations of
+            <see cref="T:NinjaTurtles.Turtles.IMethodTurtle"/> that operator by replacing a number of
+            IL OpCodes with a list of replacements in turn.
+            </summary>
+            <remarks>
+            Classes extending this one only need to set the value of the
+            <see fref="_opCodes"/> field to an appropriate dictionary of source
+            and target OpCodes.
+            </remarks>
+        </member>
+        <member name="T:NinjaTurtles.Turtles.MethodTurtleBase">
+            <summary>
+            An abstract base class for implementations of
+            <see cref="T:NinjaTurtles.Turtles.IMethodTurtle"/>.
+            </summary>
+        </member>
+        <member name="T:NinjaTurtles.Turtles.IMethodTurtle">
+            <summary>
+            An <b>interface</b> defining basic functionality for a turtle that
+            operates on the IL of a method body.
+            </summary>
+        </member>
+        <member name="M:NinjaTurtles.Turtles.IMethodTurtle.Mutate(Mono.Cecil.MethodDefinition,NinjaTurtles.Module,System.Int32[])">
+            <summary>
+            Returns an <see cref="T:System.Collections.Generic.IEnumerable`1"/> of detailed descriptions
+            of mutations, having first carried out the mutation in question and
+            saved the modified assembly under test to disk.
+            </summary>
+            <param name="method">
+            A <see cref="T:Mono.Cecil.MethodDefinition"/> for the method on which mutation
+            testing is to be carried out.
+            </param>
+            <param name="module">
+            A <see cref="T:NinjaTurtles.Module"/> representing the main module of the
+            containing assembly.
+            </param>
+            <param name="originalOffsets">
+            An array of the original IL offsets before macros were expanded.
+            </param>
+            <returns>
+            An <see cref="T:System.Collections.Generic.IEnumerable`1"/> of
+            <see cref="T:NinjaTurtles.MutantMetaData"/> structures.
+            </returns>
+        </member>
+        <member name="P:NinjaTurtles.Turtles.IMethodTurtle.Description">
+            <summary>
+            Gets a description of the current turtle.
+            </summary>
+        </member>
+        <member name="M:NinjaTurtles.Turtles.MethodTurtleBase.Mutate(Mono.Cecil.MethodDefinition,NinjaTurtles.Module,System.Int32[])">
+            <summary>
+            Returns an <see cref="T:System.Collections.Generic.IEnumerable`1"/> of detailed descriptions
+            of mutations, having first carried out the mutation in question and
+            saved the modified assembly under test to disk.
+            </summary>
+            <param name="method">
+            A <see cref="T:Mono.Cecil.MethodDefinition"/> for the method on which mutation
+            testing is to be carried out.
+            </param>
+            <param name="module">
+            A <see cref="T:NinjaTurtles.Module"/> representing the main module of the
+            containing assembly.
+            </param>
+            <param name="originalOffsets">
+            An array of the original IL offsets before macros were expanded.
+            </param>
+            <returns>
+            An <see cref="T:System.Collections.Generic.IEnumerable`1"/> of
+            <see cref="T:NinjaTurtles.MutantMetaData"/> structures.
+            </returns>
+        </member>
+        <member name="M:NinjaTurtles.Turtles.MethodTurtleBase.DoMutate(Mono.Cecil.MethodDefinition,NinjaTurtles.Module)">
+            <summary>
+            Performs the actual code mutations, returning each with
+            <c>yield</c> for the calling code to use.
+            </summary>
+            <remarks>
+            Implementing classes should yield the result obtained by calling
+            the <see mref="DoYield"/> method.
+            </remarks>
+            <param name="method">
+            A <see cref="T:Mono.Cecil.MethodDefinition"/> for the method on which mutation
+            testing is to be carried out.
+            </param>
+            <param name="module">
+            A <see cref="T:NinjaTurtles.Module"/> representing the main module of the
+            containing assembly.
+            </param>
+            <returns>
+            An <see cref="T:System.Collections.Generic.IEnumerable`1"/> of
+            <see cref="T:NinjaTurtles.MutantMetaData"/> structures.
+            </returns>
+        </member>
+        <member name="M:NinjaTurtles.Turtles.MethodTurtleBase.DoYield(Mono.Cecil.MethodDefinition,NinjaTurtles.Module,System.String,System.Int32)">
+            <summary>
+            A helper method that copies the test folder, and saves the mutated
+            assembly under test into it before returning an instance of
+            <see cref="T:NinjaTurtles.MutantMetaData"/>.
+            </summary>
+            <param name="method">
+            A <see cref="T:Mono.Cecil.MethodDefinition"/> for the method on which mutation
+            testing is to be carried out.
+            </param>
+            <param name="module">
+            A <see cref="T:NinjaTurtles.Module"/> representing the main module of the
+            containing assembly.
+            </param>
+            <param name="description">
+            A description of the mutation that has been applied.
+            </param>
+            <param name="index">
+            The index of the (first) IL instruction at which the mutation was
+            applied.
+            </param>
+            <returns></returns>
+        </member>
+        <member name="P:NinjaTurtles.Turtles.MethodTurtleBase.Description">
+            <summary>
+            Gets a description of the current turtle.
+            </summary>
+        </member>
+        <member name="F:NinjaTurtles.Turtles.OpCodeRotationTurtle._opCodes">
+            <summary>
+            An <see cref="T:System.Collections.Generic.IDictionary`2"/> containing source OpCodes as
+            keys, and <see cref="T:System.Collections.Generic.IEnumerable`1"/>s of OpCodes as each key's
+            possible replacements.
+            </summary>
+        </member>
+        <member name="M:NinjaTurtles.Turtles.OpCodeRotationTurtle.DoMutate(Mono.Cecil.MethodDefinition,NinjaTurtles.Module)">
+            <summary>
+            Performs the actual code mutations, returning each with
+            <c>yield</c> for the calling code to use.
+            </summary>
+            <remarks>
+            Implementing classes should yield the result obtained by calling
+            the <see mref="DoYield"/> method.
+            </remarks>
+            <param name="method">
+            A <see cref="T:Mono.Cecil.MethodDefinition"/> for the method on which mutation
+            testing is to be carried out.
+            </param>
+            <param name="module">
+            A <see cref="T:NinjaTurtles.Module"/> representing the main module of the
+            containing assembly.
+            </param>
+            <returns>
+            An <see cref="T:System.Collections.Generic.IEnumerable`1"/> of
+            <see cref="T:NinjaTurtles.MutantMetaData"/> structures.
+            </returns>
+        </member>
+        <member name="M:NinjaTurtles.Turtles.ArithmeticOperatorTurtle.#ctor">
+            <summary>
+            Initializes a new instance of 
+            <see cref="T:NinjaTurtles.Turtles.ArithmeticOperatorTurtle"/>.
+            </summary>
+        </member>
+        <member name="P:NinjaTurtles.Turtles.ArithmeticOperatorTurtle.Description">
+            <summary>
+            Gets a description of the current turtle.
+            </summary>
+        </member>
+        <member name="T:NinjaTurtles.MutantMetaData">
+            <summary>
+            A class containing metadata for a mutation test.
+            </summary>
+        </member>
+        <member name="P:NinjaTurtles.MutantMetaData.Description">
+            <summary>
+            Gets or sets the description of the mutation test being run.
+            </summary>
+        </member>
+        <member name="P:NinjaTurtles.MutantMetaData.TestDirectoryName">
+            <summary>
+            Gets the name of the target directory for the mutation test, to
+            which the test DLLs and mutated assembly have been copied.
+            </summary>
+        </member>
+        <member name="T:NinjaTurtles.Turtles.BranchConditionTurtle">
+            <summary>
+            An implementation of <see cref="T:NinjaTurtles.Turtles.IMethodTurtle"/> that replaces the
+            conditional branch operators
+            <see cref="F:Mono.Cecil.Cil.OpCodes.Brtrue"/> and <see cref="F:Mono.Cecil.Cil.OpCodes.Brfalse"/> with
+            their converse and with the operators <see cref="F:Mono.Cecil.Cil.OpCodes.Br"/> (always
+            branch) and <see cref="F:Mono.Cecil.Cil.OpCodes.Nop"/> (never branch) in turn.
+            </summary>
+        </member>
+        <member name="M:NinjaTurtles.Turtles.BranchConditionTurtle.#ctor">
+            <summary>
+            Initializes a new instance of <see cref="T:NinjaTurtles.Turtles.BranchConditionTurtle"/>.
+            </summary>
+        </member>
+        <member name="P:NinjaTurtles.Turtles.BranchConditionTurtle.Description">
+            <summary>
+            Gets a description of the current turtle.
+            </summary>
+        </member>
+        <member name="T:NinjaTurtles.Turtles.BitwiseOperatorTurtle">
+            <summary>
+            An implementation of <see cref="T:NinjaTurtles.Turtles.IMethodTurtle"/> that replaces each of
+            the bitwise operators <see cref="F:Mono.Cecil.Cil.OpCodes.Or"/>,
+            <see cref="F:Mono.Cecil.Cil.OpCodes.And"/> and <see cref="F:Mono.Cecil.Cil.OpCodes.Xor"/> with each
+            of the others in turn.
+            </summary>
+        </member>
+        <member name="M:NinjaTurtles.Turtles.BitwiseOperatorTurtle.#ctor">
+            <summary>
+            Initializes a new instance of <see cref="T:NinjaTurtles.Turtles.BitwiseOperatorTurtle"/>.
+            </summary>
+        </member>
+        <member name="P:NinjaTurtles.Turtles.BitwiseOperatorTurtle.Description">
+            <summary>
+            Gets a description of the current turtle.
+            </summary>
+        </member>
+        <member name="T:NinjaTurtles.Turtles.ConditionalBoundaryTurtle">
+            <summary>
+            An implementation of <see cref="T:NinjaTurtles.Turtles.IMethodTurtle"/> that changes
+            whether or not equality is included in comparison operators, so
+            for example <see cref="F:Mono.Cecil.Cil.OpCodes.Clt"/> is replaced by a combination
+            of <see cref="F:Mono.Cecil.Cil.OpCodes.Cgt"/> and a comparison with zero to give the
+            effect of a &lt;= operator.
+            </summary>
+        </member>
+        <member name="M:NinjaTurtles.Turtles.ConditionalBoundaryTurtle.DoMutate(Mono.Cecil.MethodDefinition,NinjaTurtles.Module)">
+            <summary>
+            Performs the actual code mutations, returning each with
+            <c>yield</c> for the calling code to use.
+            </summary>
+            <remarks>
+            Implementing classes should yield the result obtained by calling
+            the <see mref="DoYield"/> method.
+            </remarks>
+            <param name="method">
+            A <see cref="T:Mono.Cecil.MethodDefinition"/> for the method on which mutation
+            testing is to be carried out.
+            </param>
+            <param name="module">
+            A <see cref="T:NinjaTurtles.Module"/> representing the main module of the
+            containing assembly.
+            </param>
+            <returns>
+            An <see cref="T:System.Collections.Generic.IEnumerable`1"/> of
+            <see cref="T:NinjaTurtles.MutantMetaData"/> structures.
+            </returns>
+        </member>
+        <member name="P:NinjaTurtles.Turtles.ConditionalBoundaryTurtle.Description">
+            <summary>
+            Gets a description of the current turtle.
+            </summary>
+        </member>
+        <member name="T:NinjaTurtles.MutationTestFailureException">
+            <summary>
+            A custom exception type that is thrown to indicate a mutation test
+            failure. Test frameworks that do not simply fail their tests on an
+            exception being thrown can catch this exception type and act
+            accordingly.
+            </summary>
+        </member>
+        <member name="M:NinjaTurtles.MutationTestFailureException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the
+            <see cref="T:NinjaTurtles.MutationTestFailureException"/> class with the specified
+            message.
+            </summary>
+            <param name="message">
+            The message to use.
+            </param>
+        </member>
+        <member name="M:NinjaTurtles.MutationTestFailureException.#ctor">
+            <summary>
+            Initializes a new instance of the
+            <see cref="T:NinjaTurtles.MutationTestFailureException"/> class with the default
+            message.
+            </summary>
+        </member>
+        <member name="T:NinjaTurtles.TestDirectory">
+            <summary>
+            Represents a temporary directory used to contain a mutated assembly
+            to be tested. The directory cleans up after itself when its
+            <see mref="Dispose" /> method is called, unless its
+            <see pref="DoNotDelete" /> property is set to <b>true</b>.
+            </summary>
+        </member>
+        <member name="M:NinjaTurtles.TestDirectory.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:NinjaTurtles.TestDirectory"/>
+            class.
+            </summary>
+        </member>
+        <member name="M:NinjaTurtles.TestDirectory.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:NinjaTurtles.TestDirectory"/>
+            class.
+            </summary>
+            <param name="sourceFolder">
+            The name of a folder whose contents should be recursively
+            copied to the temporary folder.
+            </param>
+        </member>
+        <member name="M:NinjaTurtles.TestDirectory.SaveAssembly(NinjaTurtles.Module)">
+            <summary>
+            Saves an image of a mutated assembly into the root of the test
+            directory.
+            </summary>
+            <param name="module"></param>
+        </member>
+        <member name="M:NinjaTurtles.TestDirectory.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing,
+            releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="P:NinjaTurtles.TestDirectory.FullName">
+            <summary>
+            Gets the full path of the test directory.
+            </summary>
+        </member>
+        <member name="P:NinjaTurtles.TestDirectory.DoNotDelete">
+            <summary>
+            Gets or sets a flag indicating whether or not the contents of the
+            test directory should be allowed to remain on disk when the
+            instance is disposed.
+            </summary>
+        </member>
+        <member name="T:NinjaTurtles.Turtles.NamespaceDoc">
+            <summary>
+            Contains interfaces defining core turtle functionality for
+            NinjaTurtles, as well as abstract and concrete implementation classes
+            for a number of mutations.
+            </summary>
+        </member>
+        <member name="T:NinjaTurtles.Turtles.SequencePointDeletionTurtle">
+            <summary>
+            An implementation of <see cref="T:NinjaTurtles.Turtles.IMethodTurtle"/> that removes from the
+            compiled IL each sequence point in turn (with the exception of
+            structurally vital ones and compiler generated ones).
+            </summary>
+        </member>
+        <member name="M:NinjaTurtles.Turtles.SequencePointDeletionTurtle.DoMutate(Mono.Cecil.MethodDefinition,NinjaTurtles.Module)">
+            <summary>
+            Performs the actual code mutations, returning each with
+            <c>yield</c> for the calling code to use.
+            </summary>
+            <remarks>
+            Implementing classes should yield the result obtained by calling
+            the <see mref="DoYield"/> method.
+            </remarks>
+            <param name="method">
+            A <see cref="T:Mono.Cecil.MethodDefinition"/> for the method on which mutation
+            testing is to be carried out.
+            </param>
+            <param name="module">
+            A <see cref="T:NinjaTurtles.Module"/> representing the main module of the
+            containing assembly.
+            </param>
+            <returns>
+            An <see cref="T:System.Collections.Generic.IEnumerable`1"/> of
+            <see cref="T:NinjaTurtles.MutantMetaData"/> structures.
+            </returns>
+        </member>
+        <member name="P:NinjaTurtles.Turtles.SequencePointDeletionTurtle.Description">
+            <summary>
+            Gets a description of the current turtle.
+            </summary>
+        </member>
+        <member name="T:NinjaTurtles.Turtles.VariableReadTurtle">
+            <summary>
+            An implementation of <see cref="T:NinjaTurtles.Turtles.IMethodTurtle"/> that identifies local
+            variables, method parameters and fields of the same type, and permutes
+            any reads from them. For example, if two <see cref="T:System.Int32"/>
+            parameters <c>a</c> and <c>b</c> exist, along with a local variable
+            <c>c</c> of the same type, then a read from <c>a</c> will be replaced
+            by one from <c>b</c> and <c>c</c> in turn, and so on.
+            </summary>
+        </member>
+        <member name="M:NinjaTurtles.Turtles.VariableReadTurtle.DoMutate(Mono.Cecil.MethodDefinition,NinjaTurtles.Module)">
+            <summary>
+            Performs the actual code mutations, returning each with
+            <c>yield</c> for the calling code to use.
+            </summary>
+            <remarks>
+            Implementing classes should yield the result obtained by calling
+            the <see mref="DoYield"/> method.
+            </remarks>
+            <param name="method">
+            A <see cref="T:Mono.Cecil.MethodDefinition"/> for the method on which mutation
+            testing is to be carried out.
+            </param>
+            <param name="module">
+            A <see cref="T:NinjaTurtles.Module"/> representing the main module of the
+            containing assembly.
+            </param>
+            <returns>
+            An <see cref="T:System.Collections.Generic.IEnumerable`1"/> of
+            <see cref="T:NinjaTurtles.MutantMetaData"/> structures.
+            </returns>
+        </member>
+        <member name="P:NinjaTurtles.Turtles.VariableReadTurtle.Description">
+            <summary>
+            Gets a description of the current turtle.
+            </summary>
+        </member>
+        <member name="T:NinjaTurtles.Turtles.VariableWriteTurtle">
+            <summary>
+            An implementation of <see cref="T:NinjaTurtles.Turtles.IMethodTurtle"/> that identifies local
+            variables of the same type, and permutes any assignments to them. For
+            example, if two <see cref="T:System.Int32"/> variables <c>a</c> and <c>b</c>
+            exist, then an assignment to <c>a</c> will be replaced by one to
+            <c>b</c>, and vice versa.
+            </summary>
+        </member>
+        <member name="M:NinjaTurtles.Turtles.VariableWriteTurtle.DoMutate(Mono.Cecil.MethodDefinition,NinjaTurtles.Module)">
+            <summary>
+            Performs the actual code mutations, returning each with
+            <c>yield</c> for the calling code to use.
+            </summary>
+            <remarks>
+            Implementing classes should yield the result obtained by calling
+            the <see mref="DoYield"/> method.
+            </remarks>
+            <param name="method">
+            A <see cref="T:Mono.Cecil.MethodDefinition"/> for the method on which mutation
+            testing is to be carried out.
+            </param>
+            <param name="module">
+            A <see cref="T:NinjaTurtles.Module"/> representing the main module of the
+            containing assembly.
+            </param>
+            <returns>
+            An <see cref="T:System.Collections.Generic.IEnumerable`1"/> of
+            <see cref="T:NinjaTurtles.MutantMetaData"/> structures.
+            </returns>
+        </member>
+        <member name="P:NinjaTurtles.Turtles.VariableWriteTurtle.Description">
+            <summary>
+            Gets a description of the current turtle.
+            </summary>
+        </member>
+    </members>
+</doc>

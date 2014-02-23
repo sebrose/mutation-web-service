@@ -1,0 +1,7 @@
+C:\Users\Macbook Air\Documents\Visual Studio 2012\Projects\MutationWorkshop\CheckoutSupport\bin\Debug\CheckoutSupport.dll
+C:\Users\Macbook Air\Documents\Visual Studio 2012\Projects\MutationWorkshop\CheckoutSupport\bin\Debug\CheckoutSupport.pdb
+C:\Users\Macbook Air\Documents\Visual Studio 2012\Projects\MutationWorkshop\CheckoutSupport\bin\Debug\RestSharp.dll
+C:\Users\Macbook Air\Documents\Visual Studio 2012\Projects\MutationWorkshop\CheckoutSupport\bin\Debug\RestSharp.xml
+C:\Users\Macbook Air\Documents\Visual Studio 2012\Projects\MutationWorkshop\CheckoutSupport\obj\Debug\CheckoutServiceProxy.csprojResolveAssemblyReference.cache
+C:\Users\Macbook Air\Documents\Visual Studio 2012\Projects\MutationWorkshop\CheckoutSupport\obj\Debug\CheckoutSupport.dll
+C:\Users\Macbook Air\Documents\Visual Studio 2012\Projects\MutationWorkshop\CheckoutSupport\obj\Debug\CheckoutSupport.pdb

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MutationTestingReport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <SourceFiles>
+    <SourceFile>
+      <Url>c:\Users\Macbook Air\Documents\Visual Studio 2012\Projects\MutationTesting.NET\CheckoutBusinessLogic\Team.cs</Url>
+      <FileName>Team.cs</FileName>
+      <SequencePoints>
+        <SequencePoint StartLine="31" StartColumn="13" EndLine="31" EndColumn="120">
+          <AppliedMutants>
+            <AppliedMutant Killed="true">
+              <Description>0001: deleting Ldarg, Ldarg, Ldstr, Newobj, Stloc, Ldloc, Ldarg, Callvirt, Nop, Ldloc, Callvirt, Stfld</Description>
+            </AppliedMutant>
+          </AppliedMutants>
+        </SequencePoint>
+        <SequencePoint StartLine="33" StartColumn="13" EndLine="33" EndColumn="74">
+          <AppliedMutants />
+        </SequencePoint>
+        <SequencePoint StartLine="34" StartColumn="9" EndLine="34" EndColumn="10">
+          <AppliedMutants />
+        </SequencePoint>
+      </SequencePoints>
+      <Lines>
+        <Line Number="1">using CheckoutServiceProxy;</Line>
+        <Line Number="2">using System;</Line>
+        <Line Number="3">using System.Collections.Generic;</Line>
+        <Line Number="4">using System.Linq;</Line>
+        <Line Number="5">using System.Text;</Line>
+        <Line Number="6">using System.Threading.Tasks;</Line>
+        <Line Number="7" />
+        <Line Number="8">namespace CheckoutBusinessLogic</Line>
+        <Line Number="9">{</Line>
+        <Line Number="10">    public class Team</Line>
+        <Line Number="11">    {</Line>
+        <Line Number="12">        Tuple&lt;System.Net.HttpStatusCode, RegistrationResponse&gt; response;</Line>
+        <Line Number="13" />
+        <Line Number="14">        public String Name { get { return response.Item2.acceptedName; } }</Line>
+        <Line Number="15">        public String ErrorMessage { </Line>
+        <Line Number="16">            get </Line>
+        <Line Number="17">            {</Line>
+        <Line Number="18">                if (response.Item1 == ICheckoutClientConstants.SERVER_UNREACHABLE)</Line>
+        <Line Number="19">                {</Line>
+        <Line Number="20">                    return "Error contacting host";</Line>
+        <Line Number="21">                }</Line>
+        <Line Number="22">                else</Line>
+        <Line Number="23">                {</Line>
+        <Line Number="24">                    return String.Format("HttpStatusCode {0}\nError Message:{1}", response.Item1, response.Item2.errorMessage);</Line>
+        <Line Number="25">                } </Line>
+        <Line Number="26">            } </Line>
+        <Line Number="27">        }</Line>
+        <Line Number="28" />
+        <Line Number="29">        public bool register(ICheckoutClient client, String teamName)</Line>
+        <Line Number="30">        {</Line>
+        <Line Number="31">            response = client.put&lt;RegistrationResponse&gt;("/Checkout/Team", new RegistrationRequest { name = teamName });</Line>
+        <Line Number="32" />
+        <Line Number="33">            return (response.Item1 == System.Net.HttpStatusCode.Created);</Line>
+        <Line Number="34">        }</Line>
+        <Line Number="35">    }</Line>
+        <Line Number="36">}</Line>
+      </Lines>
+    </SourceFile>
+  </SourceFiles>
+</MutationTestingReport>

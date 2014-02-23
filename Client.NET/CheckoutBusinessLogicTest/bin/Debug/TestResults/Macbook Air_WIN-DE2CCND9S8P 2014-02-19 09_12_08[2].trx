@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="9185187e-dc14-401c-bcf1-50a42355888f" name="Macbook Air@WIN-DE2CCND9S8P 2014-02-19 09:12:08" runUser="WIN-DE2CCND9S8P\Macbook Air" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestSettings name="Default Test Settings" id="edf4cbf4-f7e8-4b86-bbcb-d6f168eebc6a">
+    <Execution>
+      <TestTypeSpecific />
+      <AgentRule name="Execution Agents">
+      </AgentRule>
+    </Execution>
+    <Deployment runDeploymentRoot="Macbook Air_WIN-DE2CCND9S8P 2014-02-19 09_12_08[2]" />
+  </TestSettings>
+  <Times creation="2014-02-19T09:12:08.7697229+00:00" queuing="2014-02-19T09:12:11.0891137+00:00" start="2014-02-19T09:12:11.4853513+00:00" finish="2014-02-19T09:12:12.9522309+00:00" />
+  <ResultSummary outcome="Failed">
+    <Counters total="1" executed="1" error="0" failed="1" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" passed="0" completed="0" inProgress="0" pending="0" />
+    <RunInfos>
+      <RunInfo computerName="WIN-DE2CCND9S8P" outcome="Warning" timestamp="2014-02-19T09:12:10.9630381+00:00">
+        <Text>Warning: Test Run deployment issue: The assembly or module 'NLog' directly or indirectly referenced by the test container 'c:\users\macbook air\appdata\local\temp\ninjaturtles\c6cef5d1ab714b369c1212ef9c16f0c7\checkoutconsoletest.dll' was not found.</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+  <TestDefinitions>
+    <UnitTest name="ShouldRegisterTeam" storage="c:\users\macbook air\appdata\local\temp\ninjaturtles\c6cef5d1ab714b369c1212ef9c16f0c7\checkoutconsoletest.dll" id="ca74c2fc-f984-558b-2f9e-2b79b67fe6ed">
+      <Execution id="bdb1953f-2eeb-4625-b53a-a25c0226dd9e" />
+      <TestMethod codeBase="C:/Users/Macbook Air/AppData/Local/Temp/NinjaTurtles/c6cef5d1ab714b369c1212ef9c16f0c7/CheckoutConsoleTest.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CheckoutConsoleTest.TeamRegistrationTest, CheckoutConsoleTest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="ShouldRegisterTeam" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <TestEntries>
+    <TestEntry testId="ca74c2fc-f984-558b-2f9e-2b79b67fe6ed" executionId="bdb1953f-2eeb-4625-b53a-a25c0226dd9e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <Results>
+    <UnitTestResult executionId="bdb1953f-2eeb-4625-b53a-a25c0226dd9e" testId="ca74c2fc-f984-558b-2f9e-2b79b67fe6ed" testName="ShouldRegisterTeam" computerName="WIN-DE2CCND9S8P" duration="00:00:00.6891984" startTime="2014-02-19T09:12:11.4483291+00:00" endTime="2014-02-19T09:12:12.8221529+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="bdb1953f-2eeb-4625-b53a-a25c0226dd9e">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.AreEqual failed. Expected:&lt;AnyName&gt;. Actual:&lt;AnyName£&gt;. </Message>
+          <StackTrace>   at CheckoutConsoleTest.TeamRegistrationTest.ShouldRegisterTeam() in c:\Users\Macbook Air\Documents\Visual Studio 2012\Projects\CheckoutConsole\CheckoutConsoleTest\TeamRegistrationTest.cs:line 40
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+</TestRun>

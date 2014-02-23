@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="73cb9b89-d73a-48fc-903f-24d39145e365" name="Macbook Air@WIN-DE2CCND9S8P 2014-02-23 13:02:09" runUser="WIN-DE2CCND9S8P\Macbook Air" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestSettings name="Default Test Settings" id="77268434-7547-49b2-b853-3ac765a1deb6">
+    <Execution>
+      <TestTypeSpecific />
+      <AgentRule name="Execution Agents">
+      </AgentRule>
+    </Execution>
+    <Deployment runDeploymentRoot="Macbook Air_WIN-DE2CCND9S8P 2014-02-23 13_02_09" />
+  </TestSettings>
+  <Times creation="2014-02-23T13:02:09.9273869+00:00" queuing="2014-02-23T13:02:10.8069143+00:00" start="2014-02-23T13:02:11.0090355+00:00" finish="2014-02-23T13:02:11.6334099+00:00" />
+  <ResultSummary outcome="Failed">
+    <Counters total="1" executed="1" error="0" failed="1" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" passed="0" completed="0" inProgress="0" pending="0" />
+    <RunInfos>
+      <RunInfo computerName="WIN-DE2CCND9S8P" outcome="Warning" timestamp="2014-02-23T13:02:10.7818993+00:00">
+        <Text>Warning: Test Run deployment issue: The assembly or module 'NLog' directly or indirectly referenced by the test container 'c:\users\macbook air\appdata\local\temp\ninjaturtles\4dd293d22806447aaaa73baed421c7e7\checkoutconsoletest.dll' was not found.</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+  <TestDefinitions>
+    <UnitTest name="ShouldRetrieveRequirements" storage="c:\users\macbook air\appdata\local\temp\ninjaturtles\4dd293d22806447aaaa73baed421c7e7\checkoutconsoletest.dll" id="6bfab240-b6e0-4cdc-1d35-b5300153f27f">
+      <Execution id="a437cb4a-a0ad-462e-a570-3ab65dbbe59d" />
+      <TestMethod codeBase="C:/Users/Macbook Air/AppData/Local/Temp/NinjaTurtles/4dd293d22806447aaaa73baed421c7e7/CheckoutConsoleTest.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CheckoutConsoleTest.RequirementsRetrievalTest, CheckoutConsoleTest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="ShouldRetrieveRequirements" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <TestEntries>
+    <TestEntry testId="6bfab240-b6e0-4cdc-1d35-b5300153f27f" executionId="a437cb4a-a0ad-462e-a570-3ab65dbbe59d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <Results>
+    <UnitTestResult executionId="a437cb4a-a0ad-462e-a570-3ab65dbbe59d" testId="6bfab240-b6e0-4cdc-1d35-b5300153f27f" testName="ShouldRetrieveRequirements" computerName="WIN-DE2CCND9S8P" duration="00:00:00.2833650" startTime="2014-02-23T13:02:11.0220433+00:00" endTime="2014-02-23T13:02:11.5633679+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a437cb4a-a0ad-462e-a570-3ab65dbbe59d">
+      <Output>
+        <ErrorInfo>
+          <Message>Test method CheckoutConsoleTest.RequirementsRetrievalTest.ShouldRetrieveRequirements threw exception: 
+System.NullReferenceException: Object reference not set to an instance of an object.</Message>
+          <StackTrace>    at CheckoutUtils.Requirements.retrieve(ICheckoutClient client, String teamName)
+   at CheckoutConsoleTest.RequirementsRetrievalTest.ShouldRetrieveRequirements() in c:\Users\Macbook Air\Documents\Visual Studio 2012\Projects\MutationTesting.NET\CheckoutBusinessLogicTest\RequirementsRetrievalTest.cs:line 38
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+</TestRun>

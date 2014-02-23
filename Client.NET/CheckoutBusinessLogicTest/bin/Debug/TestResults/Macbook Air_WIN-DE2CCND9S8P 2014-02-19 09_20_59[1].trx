@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="9e2d38aa-f5d4-4057-ba8b-5839363d0f9b" name="Macbook Air@WIN-DE2CCND9S8P 2014-02-19 09:20:59" runUser="WIN-DE2CCND9S8P\Macbook Air" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestSettings name="Default Test Settings" id="0173a5d7-8add-4184-9831-3b75af102ecd">
+    <Execution>
+      <TestTypeSpecific />
+      <AgentRule name="Execution Agents">
+      </AgentRule>
+    </Execution>
+    <Deployment runDeploymentRoot="Macbook Air_WIN-DE2CCND9S8P 2014-02-19 09_20_59[1]" />
+  </TestSettings>
+  <Times creation="2014-02-19T09:20:59.0613126+00:00" queuing="2014-02-19T09:21:00.9942076+00:00" start="2014-02-19T09:21:01.4669156+00:00" finish="2014-02-19T09:21:03.7353131+00:00" />
+  <ResultSummary outcome="Warning">
+    <Counters total="1" executed="1" passed="1" error="0" failed="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <RunInfos>
+      <RunInfo computerName="WIN-DE2CCND9S8P" outcome="Warning" timestamp="2014-02-19T09:21:00.8910531+00:00">
+        <Text>Warning: Test Run deployment issue: The assembly or module 'NLog' directly or indirectly referenced by the test container 'c:\users\macbook air\appdata\local\temp\ninjaturtles\e737cb46d877437aac6d0aa81775ca7d\checkoutconsoletest.dll' was not found.</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+  <TestDefinitions>
+    <UnitTest name="ShouldRegisterTeam" storage="c:\users\macbook air\appdata\local\temp\ninjaturtles\e737cb46d877437aac6d0aa81775ca7d\checkoutconsoletest.dll" id="ca74c2fc-f984-558b-2f9e-2b79b67fe6ed">
+      <Execution id="61d461d1-0f20-4f5d-996e-0ef3cfb17757" />
+      <TestMethod codeBase="C:/Users/Macbook Air/AppData/Local/Temp/NinjaTurtles/e737cb46d877437aac6d0aa81775ca7d/CheckoutConsoleTest.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CheckoutConsoleTest.TeamRegistrationTest, CheckoutConsoleTest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="ShouldRegisterTeam" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <TestEntries>
+    <TestEntry testId="ca74c2fc-f984-558b-2f9e-2b79b67fe6ed" executionId="61d461d1-0f20-4f5d-996e-0ef3cfb17757" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <Results>
+    <UnitTestResult executionId="61d461d1-0f20-4f5d-996e-0ef3cfb17757" testId="ca74c2fc-f984-558b-2f9e-2b79b67fe6ed" testName="ShouldRegisterTeam" computerName="WIN-DE2CCND9S8P" duration="00:00:00.9798655" startTime="2014-02-19T09:21:01.5810866+00:00" endTime="2014-02-19T09:21:03.3407221+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="61d461d1-0f20-4f5d-996e-0ef3cfb17757">
+    </UnitTestResult>
+  </Results>
+</TestRun>

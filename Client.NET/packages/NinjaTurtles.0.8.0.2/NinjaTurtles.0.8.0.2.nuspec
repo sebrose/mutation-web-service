@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>NinjaTurtles</id>
+    <version>0.8.0.2</version>
+    <title>NinjaTurtles</title>
+    <authors>NinjaTurtles</authors>
+    <owners>NinjaTurtles</owners>
+    <licenseUrl>http://ninjaturtles.codeplex.com/license</licenseUrl>
+    <projectUrl>http://www.mutation-testing.net/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Mutation testing library for .NET</description>
+    <releaseNotes>Beta release of NinjaTurtles.</releaseNotes>
+    <copyright>Copyright (C) 2012 David Musgrove</copyright>
+    <language />
+    <dependencies>
+      <dependency id="Mono.Cecil" version="0.9.5.3" />
+      <dependency id="NLog" version="2.0.0.2000" />
+    </dependencies>
+  </metadata>
+</package>
