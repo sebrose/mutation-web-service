@@ -2,7 +2,7 @@ Feature: Post answers for a batch
 
   Team needs to be registered
   Results don't need to be in any particular order
-  If all answers are correct you get a 200 with points in body
+  If all answers are correct you get a 200
   If any answers are incorrect (or missing) you get 400 and a list of incorrect responses
   If we've finished all rounds, then error code
 
@@ -33,16 +33,3 @@ Feature: Post answers for a batch
     And my team is still in round 0
     And I know the basket ID of the unexpected basket
 
-  Scenario: Response without a mutation score is rejected
-    Given my team is in round 0
-    When I submit totals without a mutation score
-    Then I receive an ERROR response
-    And the error message mentions "mutation score"
-    And my team is still in round 0
-
-  Scenario: Response with an invalid mutation score is rejected
-    Given my team is in round 0
-    When I submit totals with an invalid mutation score
-    Then I receive an ERROR response
-    And the error message mentions "0 and 100"
-    And my team is still in round 0

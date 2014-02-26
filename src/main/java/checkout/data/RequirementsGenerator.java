@@ -24,10 +24,10 @@ public class RequirementsGenerator {
                 "The item will be a banana and each banana costs 25c\n\n" +
                 "You PUT the result to /Checkout/Batch/your_team_name\n" +
                 "The JSON payload should look something like this:\n" +
-                "    {\"batch\":{\"mutationScore\":85,\"baskets\":{\"1\":{\"dollars\":0,\"cents\":75}}}}\n" +
-                "                               basket ID from batch ^\n"+
-                "                                            total cost of basket     ^            ^\n" +
-                "                                             (which you have calculated)\n";
+                "    {\"batch\":{\"baskets\":{\"1\":{\"dollars\":0,\"cents\":75}}}}\n" +
+                "          basket ID from batch ^\n"+
+                "                       total cost of basket     ^            ^\n" +
+                "                        (which you have calculated)\n";
     }
 
     private static String round1() {
@@ -40,10 +40,10 @@ public class RequirementsGenerator {
                         "All items cost 25 cents\n\n" +
                         "You PUT the result to /Checkout/Batch/your_team_name\n" +
                         "The JSON payload should look something like this:\n" +
-                        "    {\"batch\":{\"mutationScore\":85,\"baskets\":{\"1\":{\"dollars\":0,\"cents\":75},\"2\":{\"dollars\":7,\"cents\":25}}}}\n" +
-                        "                               basket ID from batch ^                                  ^\n"+
-                        "                                       total cost of each basket     ^            ^                     ^            ^\n" +
-                        "                                        (which you have calculated)\n";
+                        "    {\"batch\":{\"baskets\":{\"1\":{\"dollars\":0,\"cents\":75},\"2\":{\"dollars\":7,\"cents\":25}}}}\n" +
+                        "          basket ID from batch ^                                  ^\n"+
+                        "                  total cost of each basket     ^            ^                     ^            ^\n" +
+                        "                   (which you have calculated)\n";
     }
 
     private static String round2() {
