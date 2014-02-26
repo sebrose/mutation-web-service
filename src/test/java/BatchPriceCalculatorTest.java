@@ -1,7 +1,7 @@
 import checkout.BatchPriceCalculator;
-import checkout.CheckoutServer;
 import checkout.Money;
 import checkout.data.BatchBuilder;
+import checkout.data.BatchPrice;
 import checkout.data.PriceListBuilder;
 import org.junit.Test;
 
@@ -18,7 +18,7 @@ public class BatchPriceCalculatorTest {
         batchBuilder.addNewBasket().withItem("banana");
         priceListBuilder.addEntry("banana").withPrice("0.50");
 
-        CheckoutServer.BatchPrice btdi;
+        BatchPrice btdi;
 
         btdi = BatchPriceCalculator.calculate(batchBuilder.build(), priceListBuilder.build());
 
@@ -30,7 +30,7 @@ public class BatchPriceCalculatorTest {
         batchBuilder.addNewBasket().withItem("banana").withQuantity(2);
         priceListBuilder.addEntry("banana").withPrice("0.50");
 
-        CheckoutServer.BatchPrice btdi;
+        BatchPrice btdi;
 
         btdi = BatchPriceCalculator.calculate(batchBuilder.build(), priceListBuilder.build());
 
@@ -45,7 +45,7 @@ public class BatchPriceCalculatorTest {
         priceListBuilder.addEntry("banana").withPrice("0.50");
         priceListBuilder.addEntry("apple").withPrice("1.50");
 
-        CheckoutServer.BatchPrice btdi;
+        BatchPrice btdi;
 
         btdi = BatchPriceCalculator.calculate(batchBuilder.build(), priceListBuilder.build());
 
@@ -60,7 +60,7 @@ public class BatchPriceCalculatorTest {
         priceListBuilder.addEntry("banana").withPrice("0.50");
         priceListBuilder.addEntry("apple").withPrice("1.50");
 
-        CheckoutServer.BatchPrice btdi;
+        BatchPrice btdi;
 
         btdi = BatchPriceCalculator.calculate(batchBuilder.build(), priceListBuilder.build());
 

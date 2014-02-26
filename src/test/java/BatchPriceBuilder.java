@@ -3,7 +3,7 @@ import checkout.Money;
 import java.util.HashMap;
 import java.util.Map;
 
-import static checkout.CheckoutServer.BatchPrice;
+import checkout.data.BatchPrice;
 
 public class BatchPriceBuilder {
     private int nextBasketId = 1;

@@ -1,6 +1,7 @@
 package checkout;
 
 
+import checkout.handlers.ErrorResponse;
 import com.google.gson.Gson;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
@@ -34,7 +35,7 @@ public class GeneralSteps {
 
     @And("^the error message mentions \"([^\"]*)\"$")
     public void the_error_message_mentions(String fragment) throws Throwable {
-        CheckoutServer.ErrorResponse error = json.fromJson(helper.getJsonResponse(), CheckoutServer.ErrorResponse.class);
+        ErrorResponse error = json.fromJson(helper.getJsonResponse(), ErrorResponse.class);
         assertTrue(error.errorMessage.contains(fragment));
     }
 }

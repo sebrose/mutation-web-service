@@ -9,8 +9,6 @@ import org.webbitserver.netty.NettyWebServer;
 import org.webbitserver.rest.Rest;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class CheckoutServer {
@@ -19,35 +17,6 @@ public class CheckoutServer {
     private Gson json = new Gson();
     private static final RoundEntity roundEntity = new RoundEntity();
 
-
-    public static class ErrorResponse {
-        String errorMessage;
-
-        public ErrorResponse(String message){
-            errorMessage = message;
-        }
-    }
-
-    public static class BatchPrice {
-        public BatchTotals batch = new BatchTotals();
-    }
-
-    public static class BatchTotals {
-        public Map<Integer, Money> baskets = new HashMap<Integer, Money>();
-    }
-
-
-    public static class BatchPriceComparisonResult {
-        Map<Integer, String> incorrectBaskets = new HashMap<Integer, String>();
-
-        public boolean allResultsCorrect() {
-             return incorrectBaskets.isEmpty();
-        }
-
-        public String getResult(Integer basketId) {
-            return incorrectBaskets.get(basketId);
-        }
-    }
 
     public CheckoutServer(int port) {
         new DatabaseConnectionInitialiser();

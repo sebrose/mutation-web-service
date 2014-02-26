@@ -4,7 +4,7 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static checkout.CheckoutServer.BatchPrice;
+import checkout.data.BatchPrice;
 
 public class GsonExploratoryTest {
     private Gson json = new Gson();

@@ -1,5 +1,7 @@
 package checkout;
 
+import checkout.data.BatchPrice;
+
 import java.util.Map;
 
 public class BatchPriceComparator {
@@ -7,8 +9,8 @@ public class BatchPriceComparator {
     public static final String UNEXPECTED_BASKET_ID_SUBMITTED = "UnexpectedBasket";
     public static final String MISSING_BASKET_ID = "MissingBasket";
 
-    public static CheckoutServer.BatchPriceComparisonResult check(CheckoutServer.BatchPrice expectedTotals, CheckoutServer.BatchPrice submittedTotals) {
-        CheckoutServer.BatchPriceComparisonResult result = new CheckoutServer.BatchPriceComparisonResult();
+    public static BatchPriceComparisonResult check(BatchPrice expectedTotals, BatchPrice submittedTotals) {
+        BatchPriceComparisonResult result = new BatchPriceComparisonResult();
 
         for (Map.Entry<Integer, Money> expectedEntry : expectedTotals.batch.baskets.entrySet()) {
             Integer basketId = expectedEntry.getKey();

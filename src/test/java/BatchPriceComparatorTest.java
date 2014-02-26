@@ -1,7 +1,7 @@
 import checkout.*;
 import org.junit.Test;
 
-import static checkout.CheckoutServer.BatchPrice;
+import checkout.data.BatchPrice;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -13,7 +13,7 @@ public class BatchPriceComparatorTest {
         BatchPrice response = builder.build();
         BatchPrice expected = builder.build();
 
-        CheckoutServer.BatchPriceComparisonResult v = checkout.BatchPriceComparator.check(expected, response);
+        BatchPriceComparisonResult v = checkout.BatchPriceComparator.check(expected, response);
 
         assertTrue(v.allResultsCorrect());
     }
@@ -23,7 +23,7 @@ public class BatchPriceComparatorTest {
         BatchPrice response = builder.withBasketTotal("10.00").build();
         BatchPrice expected = builder.withBasketTotal("10.00").build();;
 
-        CheckoutServer.BatchPriceComparisonResult v = checkout.BatchPriceComparator.check(expected, response);
+        BatchPriceComparisonResult v = checkout.BatchPriceComparator.check(expected, response);
 
         assertTrue(v.allResultsCorrect());
     }
@@ -36,7 +36,7 @@ public class BatchPriceComparatorTest {
         BatchPrice response = builder.withBasketTotal("10.00").build();
         BatchPrice expected = builder.withBasketTotal("7.00").build();;
 
-        CheckoutServer.BatchPriceComparisonResult v = checkout.BatchPriceComparator.check(expected, response);
+        BatchPriceComparisonResult v = checkout.BatchPriceComparator.check(expected, response);
 
         assertEquals(checkout.BatchPriceComparator.INCORRECT_VALUE_SUBMITTED, v.getResult(defaultBasketId));
     }
@@ -47,7 +47,7 @@ public class BatchPriceComparatorTest {
         BatchPrice response = builder.withBasketIdAndTotal(incorrectBasketId, "10.00").build();
         BatchPrice expected = builder.build();;
 
-        CheckoutServer.BatchPriceComparisonResult v = checkout.BatchPriceComparator.check(expected, response);
+        BatchPriceComparisonResult v = checkout.BatchPriceComparator.check(expected, response);
 
         assertEquals(checkout.BatchPriceComparator.UNEXPECTED_BASKET_ID_SUBMITTED, v.getResult(incorrectBasketId));
     }
@@ -59,7 +59,7 @@ public class BatchPriceComparatorTest {
         BatchPrice response = builder.build();
         BatchPrice expected = builder.withBasketTotal("10.00").build();;
 
-        CheckoutServer.BatchPriceComparisonResult v = checkout.BatchPriceComparator.check(expected, response);
+        BatchPriceComparisonResult v = checkout.BatchPriceComparator.check(expected, response);
 
         assertEquals(checkout.BatchPriceComparator.MISSING_BASKET_ID, v.getResult(defaultBasketId));
     }
@@ -76,7 +76,7 @@ public class BatchPriceComparatorTest {
                 .withBasketTotal("5.00")
                 .build();;
 
-        CheckoutServer.BatchPriceComparisonResult v = checkout.BatchPriceComparator.check(expected, response);
+        BatchPriceComparisonResult v = checkout.BatchPriceComparator.check(expected, response);
 
         assertTrue(v.allResultsCorrect());
     }
@@ -93,7 +93,7 @@ public class BatchPriceComparatorTest {
                 .withBasketIdAndTotal(2, "5.00")
                 .build();;
 
-        CheckoutServer.BatchPriceComparisonResult v = checkout.BatchPriceComparator.check(expected, response);
+        BatchPriceComparisonResult v = checkout.BatchPriceComparator.check(expected, response);
 
         assertEquals(BatchPriceComparator.INCORRECT_VALUE_SUBMITTED, v.getResult(1));
         assertEquals(checkout.BatchPriceComparator.INCORRECT_VALUE_SUBMITTED, v.getResult(2));
