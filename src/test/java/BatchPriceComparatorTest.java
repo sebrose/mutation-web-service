@@ -1,4 +1,5 @@
 import checkout.*;
+import com.google.gson.Gson;
 import org.junit.Test;
 
 import checkout.data.BatchPrice;
@@ -97,5 +98,27 @@ public class BatchPriceComparatorTest {
 
         assertEquals(BatchPriceComparator.INCORRECT_VALUE_SUBMITTED, v.getResult(1));
         assertEquals(checkout.BatchPriceComparator.INCORRECT_VALUE_SUBMITTED, v.getResult(2));
+    }
+
+    @Test
+    public void something() {
+        Gson json = new Gson();
+
+        String submission = "{\"batch\":{\"baskets\":{\"1\":{\"dollars\":0,\"cents\":25}}}}";
+        BatchPrice response = json.fromJson(submission, BatchPrice.class);
+
+        MyReader priceListReader = new MyReader("price_list.json", new FileDataSource());
+        MyReader batchReader = new MyReader("batch.json", new FileDataSource());
+        Batch batch = BatchFactory.create(batchReader, 0);
+        PriceList priceList = PriceListFactory.create(priceListReader, 0);
+        BatchPrice expected = BatchPriceCalculator.calculate(batch, priceList);
+
+//        BatchPrice expected = builder
+//                .withBasketIdAndTotal(1, "0.25")
+//                .build();
+
+        BatchPriceComparisonResult v = checkout.BatchPriceComparator.check(expected, response);
+
+        assertTrue(v.allResultsCorrect());
     }
 }

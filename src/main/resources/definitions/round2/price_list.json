@@ -1,0 +1,7 @@
+{"entries":
+    {
+        "banana":{"itemCode":"banana","unitPrice":{"dollars":0,"cents":25}},
+        "avocado":{"itemCode":"avocado","unitPrice":{"dollars":1,"cents":20}},
+        "apple":{"itemCode":"apple","unitPrice":{"dollars":0,"cents":40}}
+    }
+}

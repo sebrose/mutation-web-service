@@ -10,6 +10,7 @@ Feature: Get Price Lists
     When I ask for a price list
     Then I receive an OK response
     And the price list contains 1 item
+    And the price is 25c
 
 
   Scenario: In round 1 you get a price list with two items

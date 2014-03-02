@@ -1,16 +1,17 @@
 package checkout;
 
-import checkout.data.PriceListGenerator;
+import com.google.gson.Gson;
 
 public class PriceListFactory {
     private static PriceList testPriceList;
+    private static Gson json = new Gson();
 
-    public static PriceList create(int round) {
+    public static PriceList create(MyReader dataReader, int round) {
         if (testPriceList != null) {
             return testPriceList;
         }
 
-        return PriceListGenerator.forRound(round);
+        return json.fromJson(dataReader.getForRound(round), PriceList.class);
     }
 
     public static void WE_ARE_TESTING_WITH(PriceList testPriceList_) {

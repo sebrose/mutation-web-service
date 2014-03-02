@@ -14,6 +14,13 @@ Feature: Scoring
     When I retrieve my score
     Then my score is 10 points
 
+  @single
+  Scenario: Successful batch submission returns CREATED
+    Given my team is in round 0
+    And I submit the correct totals
+    Then I receive a CREATED response
+    
+
   Scenario: Successful batch submission gets points
     Given my team is in round 0
     And I submit the correct totals
@@ -33,7 +40,6 @@ Feature: Scoring
     When I retrieve my score
     Then my score is 45 points
 
-  @single
   Scenario: Round scores are preserved on restart
     Given my team is in round 0
     And another team has already submitted correct round 0 totals

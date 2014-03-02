@@ -26,17 +26,21 @@ public class CheckoutServer {
         webServer  = new NettyWebServer(port);
         rest = new Rest(webServer);
 
+        MyDataSource dataSource = new FileDataSource();
+
         addPutHandler("/Checkout/Team", new TeamRegistrationHandler(json));
 
-        addGetHandler("/Checkout/Requirements/{teamName}", new RequirementsRequestHandler(json));
+        addGetHandler("/Checkout/Requirements/{teamName}", new RequirementsRequestHandler(json, new MyReader("requirements.txt", dataSource)));
 
-        addGetHandler("/Checkout/Batch/{teamName}", new BatchRequestHandler(json));
+        addGetHandler("/Checkout/Batch/{teamName}", new BatchRequestHandler(json, new MyReader("batch.json", dataSource)));
 
         addGetHandler("/Checkout/Score/{teamName}", new ScoreRequestHandler(json));
 
-        addGetHandler("/Checkout/PriceList/{teamName}", new PricelistRequestHandler(json));
+        addGetHandler("/Checkout/PriceList/{teamName}", new PricelistRequestHandler(json, new MyReader("price_list.json", dataSource)));
 
-        addPutHandler("/Checkout/Batch/{teamName}", new BatchSubmissionHandler(json, roundEntity));
+        addPutHandler("/Checkout/Batch/{teamName}", new BatchSubmissionHandler(json, roundEntity,
+                new MyReader("batch.json", dataSource),
+                new MyReader("price_list.json", dataSource)));
     }
 
     private void addPutHandler(String path, final JsonProcessor operation) {

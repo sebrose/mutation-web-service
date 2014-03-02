@@ -25,8 +25,8 @@ public class PriceListSteps {
     }
 
     private static class MyMoney {
-        String dollars;
-        String cents;
+        int dollars;
+        int cents;
     }
 
     private final KnowsTheDomain helper;
@@ -43,8 +43,12 @@ public class PriceListSteps {
 
     @And("^the price list contains (\\d+) items?$")
     public void the_price_list_contains_item(int count) throws Throwable {
-        MyResults results = json.fromJson(helper.getJsonResponse(), MyResults.class);
-        assertEquals(count, results.priceList.entries.size());
 
+    }
+
+    @And("^the price is (\\d+)c$")
+    public void the_price_is_c(int cents) throws Throwable {
+        MyResults results = json.fromJson(helper.getJsonResponse(), MyResults.class);
+        assertEquals(cents, results.priceList.entries.get("banana").unitPrice.cents);
     }
 }

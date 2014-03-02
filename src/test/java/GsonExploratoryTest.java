@@ -1,22 +1,34 @@
+import checkout.Entry;
+import checkout.Money;
+import checkout.PriceList;
+import checkout.data.BatchPrice;
 import com.google.gson.Gson;
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import checkout.data.BatchPrice;
+import static com.thoughtworks.selenium.SeleneseTestNgHelper.assertEquals;
 
 public class GsonExploratoryTest {
     private Gson json = new Gson();
 
     @Test
-    public void serialiseMapToJson() {
-        Map<Integer, String> map = new HashMap<Integer, String>();
+    public void serialisePriceListToJson() {
+        PriceList priceList = new PriceList();
 
-        map.put(1, "Wibble");
-        map.put(2, "FooBar");
+        priceList.addEntry(new Entry("banana", new Money(1, 23)));
 
-        System.out.println(json.toJson(map));
+        System.out.println(json.toJson(priceList));
+    }
+
+    @Test
+    public void serialiseBatchToJson() {
+    }
+
+    @Test
+    public void whyDoesntThisDeserialise() {
+        String data = "{\"batch\":{\"baskets\":{\"1\":{\"dollars\":0,\"cents\":25}}}}";
+
+        BatchPrice batchPrice = json.fromJson(data, BatchPrice.class);
+        assertEquals(25, batchPrice.batch.baskets.get(1).cents());
     }
 
     @Test

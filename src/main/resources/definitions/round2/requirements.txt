@@ -1,0 +1,5 @@
+Round 2
+
+As before, but this round you need to use a price list to work out what items cost
+You GET this from /Checkout/PriceList/your_team_name
+

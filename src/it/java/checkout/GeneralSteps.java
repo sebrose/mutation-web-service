@@ -38,4 +38,10 @@ public class GeneralSteps {
         ErrorResponse error = json.fromJson(helper.getJsonResponse(), ErrorResponse.class);
         assertTrue(error.errorMessage.contains(fragment));
     }
+
+    @And("^the error message is \"([^\"]*)\"$")
+    public void the_error_message_is(String msg) throws Throwable {
+        ErrorResponse error = json.fromJson(helper.getJsonResponse(), ErrorResponse.class);
+        assertEquals(msg, error.errorMessage);
+    }
 }

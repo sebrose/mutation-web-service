@@ -1,21 +1,23 @@
 package checkout.handlers;
 
+import checkout.MyReader;
 import checkout.Team;
-import checkout.data.RequirementsGenerator;
 import com.google.gson.Gson;
 import org.webbitserver.HttpRequest;
 import org.webbitserver.rest.Rest;
 
 public class RequirementsRequestHandler implements JsonProcessor {
     private Gson json;
+    private MyReader dataReader;
 
     public static class RequirementsOut {
         String requirements;
         String errorMessage;
     }
 
-    public RequirementsRequestHandler(Gson json){
+    public RequirementsRequestHandler(Gson json, MyReader dataReader){
         this.json = json;
+        this.dataReader = dataReader;
     }
 
     @Override
@@ -28,7 +30,7 @@ public class RequirementsRequestHandler implements JsonProcessor {
         }
 
         team.refresh();
-        out.requirements = RequirementsGenerator.forRound(team.getCurrentRound());
+        out.requirements = dataReader.getForRound(team.getCurrentRound());
         return new JsonProcessorResultWrapper(200, json.toJson(out));
     }
 }
