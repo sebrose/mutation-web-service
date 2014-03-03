@@ -17,7 +17,7 @@ public class BatchSubmissionHandler implements JsonProcessor {
         String errorMessage;
     }
 
-    public BatchSubmissionHandler(Gson json, RoundEntity roundEntity, MyReader batchReader, MyReader priceListReader){
+    public BatchSubmissionHandler(Gson json, RoundEntity roundEntity, MyReader batchReader, MyReader priceListReader) {
         this.json = json;
         this.roundEntity = roundEntity;
         this.batchReader = batchReader;
@@ -26,46 +26,30 @@ public class BatchSubmissionHandler implements JsonProcessor {
 
     @Override
     public JsonProcessorResultWrapper execute(HttpRequest req) {
-
-        String teamName = Rest.param(req, "teamName");
-        Team team = Team.findFirst("name=?", teamName);
-        if (team == null) {
-            throw new IllegalArgumentException(String.format("Unregistered team name supplied '%s'", teamName));
-        }
+        Team team = Team.getRegisteredTeam(Rest.param(req, "teamName"));
 
         try {
+//            System.out.println("Submission rcvd: " + req.body());
             BatchPrice submittedTotals = json.fromJson(req.body(), BatchPrice.class);
-            int currentRound = team.getCurrentRound();
 
-            return evaluateSubmission(team, submittedTotals, currentRound);
+            return evaluateSubmission(team, submittedTotals);
         } catch (RuntimeException e) {
-            team.addPoints(Scoring.INCORRECT_RESPONSE_POINTS);
+            team.incorrectSubmission();
             throw new RuntimeException(e.getMessage() + " - " + req.body()); //e;
-        } finally {
-            team.saveIt();
         }
     }
 
-    private JsonProcessorResultWrapper evaluateSubmission(Team team, BatchPrice submittedTotals, int currentRound) {
+    private JsonProcessorResultWrapper evaluateSubmission(Team team, BatchPrice submittedTotals) {
         BatchTotalsDataOut out = new BatchTotalsDataOut();
-        out.batch = compareSubmissionWithExpected(currentRound, submittedTotals);
+        out.batch = team.processSubmission(submittedTotals, batchReader, priceListReader);
 
         if (out.batch.allResultsCorrect()) {
-            team.addPoints( Scoring.getScoreForRound(currentRound, roundEntity));
-            team.setCurrentRound(currentRound + 1);
+            team.correctSubmission(roundEntity);
             return new JsonProcessorResultWrapper(201, json.toJson(out));
         } else {
-            team.addPoints(Scoring.INCORRECT_RESPONSE_POINTS);
+            team.incorrectSubmission();
             return new JsonProcessorResultWrapper(400, json.toJson(out));
         }
-    }
-
-    private BatchPriceComparisonResult compareSubmissionWithExpected(int currentRound, BatchPrice submittedTotals) {
-        Batch batch = BatchFactory.create(batchReader, currentRound);
-        PriceList priceList = PriceListFactory.create(priceListReader, currentRound);
-        BatchPrice expectedTotals = BatchPriceCalculator.calculate(batch, priceList);
-
-        return BatchPriceComparator.check(expectedTotals, submittedTotals);
     }
 }
 

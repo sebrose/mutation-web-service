@@ -6,7 +6,7 @@ public class MyReader {
     private MyDataSource dataSource;
     private String descriptor;
 
-    public MyReader(String descriptor, MyDataSource dataSource){
+    public MyReader(String descriptor, MyDataSource dataSource) {
         this.dataSource = dataSource;
         this.descriptor = descriptor;
     }
@@ -15,7 +15,7 @@ public class MyReader {
         String location = String.format("/definitions/round%d/%s", round, descriptor);
         try {
             String data = dataSource.getStringData(location);
-            System.out.println("Data = " + data);
+            // System.out.println("Data = " + data);
 
             return data;
         } catch (IOException e) {

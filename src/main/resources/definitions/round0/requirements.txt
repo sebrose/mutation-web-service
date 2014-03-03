@@ -1,6 +1,6 @@
 Round 0
-                                                                                                     
-GET the URL 
+
+GET the URL
 Checkout/Batch/your_team_name to retrieve a batch of baskets that you need to calculate the price of.
 
 Each basket has a unique ID

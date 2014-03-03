@@ -3,8 +3,9 @@ package checkout.data;
 public class Item {
     private final String itemCode;
     private final Integer quantity;
+    private final Float weight = null;
 
-    public Item(String itemCode, int quantity){
+    public Item(String itemCode, int quantity) {
         this.itemCode = itemCode;
         this.quantity = quantity;
     }
@@ -15,8 +16,8 @@ public class Item {
         boolean result = false;
         if (other instanceof Item) {
             Item that = (Item) other;
-            result =  (this.itemCode.equals(that.itemCode)
-                        && this.quantity==that.quantity);
+            result = (this.itemCode.equals(that.itemCode)
+                    && this.quantity == that.quantity);
         }
         return result;
     }

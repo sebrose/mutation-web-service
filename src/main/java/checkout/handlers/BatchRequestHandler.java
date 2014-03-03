@@ -1,7 +1,6 @@
 package checkout.handlers;
 
 import checkout.Batch;
-import checkout.BatchFactory;
 import checkout.MyReader;
 import checkout.Team;
 import com.google.gson.Gson;
@@ -17,24 +16,21 @@ public class BatchRequestHandler implements JsonProcessor {
         String errorMessage;
     }
 
-    public BatchRequestHandler(Gson json, MyReader dataReader){
+    public BatchRequestHandler(Gson json, MyReader dataReader) {
         this.json = json;
         this.dataReader = dataReader;
     }
 
     @Override
     public JsonProcessorResultWrapper execute(HttpRequest req) {
-        BatchDataOut out = new BatchDataOut();
-        String teamName = Rest.param(req, "teamName");
-        Team team = Team.findFirst("name=?", teamName);
-        if (team == null) {
-            throw new IllegalArgumentException(String.format("Unregistered team name supplied '%s'", teamName));
-        }
 
+        Team team = Team.getRegisteredTeam(Rest.param(req, "teamName"));
         team.refresh();
-        out.batch = BatchFactory.create(dataReader, team.getCurrentRound());
 
-        System.out.println("Batch = " + out.batch.toString());
+        BatchDataOut out = new BatchDataOut();
+        out.batch = team.getCurrentBatch(dataReader);
+
+        //System.out.println("Batch = " + out.batch.toString());
         return new JsonProcessorResultWrapper(200, json.toJson(out));
     }
 }

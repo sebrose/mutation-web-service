@@ -2,7 +2,6 @@ package checkout.handlers;
 
 import checkout.MyReader;
 import checkout.PriceList;
-import checkout.PriceListFactory;
 import checkout.Team;
 import com.google.gson.Gson;
 import org.webbitserver.HttpRequest;
@@ -17,22 +16,19 @@ public class PricelistRequestHandler implements JsonProcessor {
         String errorMessage;
     }
 
-    public PricelistRequestHandler(Gson json, MyReader dataReader){
+    public PricelistRequestHandler(Gson json, MyReader dataReader) {
         this.json = json;
         this.dataReader = dataReader;
     }
 
     @Override
     public JsonProcessorResultWrapper execute(HttpRequest req) {
-        String teamName = Rest.param(req, "teamName");
-        Team team = Team.findFirst("name=?", teamName);
-        if (team == null) {
-            throw new IllegalArgumentException(String.format("Unregistered team name supplied '%s'", teamName));
-        }
-
+        Team team = Team.getRegisteredTeam(Rest.param(req, "teamName"));
         team.refresh();
+
         PriceListDataOut out = new PriceListDataOut();
-        out.priceList = PriceListFactory.create(dataReader, team.getCurrentRound());
+        out.priceList = team.getCurrentPriceList(dataReader);
+
         return new JsonProcessorResultWrapper(200, json.toJson(out));
     }
 }
