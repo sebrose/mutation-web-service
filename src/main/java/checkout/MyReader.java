@@ -12,7 +12,7 @@ public class MyReader {
     }
 
     public String getForRound(int round) {
-        String location = String.format("/definitions/round%d/%s", round, descriptor);
+        String location = String.format(CheckoutServer.LOCATION_FORMAT, round, descriptor);
         try {
             String data = dataSource.getStringData(location);
             // System.out.println("Data = " + data);

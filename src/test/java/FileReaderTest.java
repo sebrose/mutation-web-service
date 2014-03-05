@@ -20,6 +20,9 @@ public class FileReaderTest {
             return data;
         }
 
+        @Override
+        public void setStringData_FOR_TEST_ONLY(Integer round, String location, String data) {
+        }
     }
 
     @Test

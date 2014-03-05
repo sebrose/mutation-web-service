@@ -1,6 +1,7 @@
 package checkout;
 
 import com.google.gson.Gson;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import support.KnowsTheDomain;
@@ -99,6 +100,11 @@ public class BasketSteps {
     public void the_basket_contains_item(int count) throws Throwable {
         MyResults results = json.fromJson(helper.getJsonResponse(), MyResults.class);
         assertEquals(count, results.batch.baskets.get(0).items.size());
+    }
+
+    @And("^we have a simple batch$")
+    public void we_have_a_simple_batch() throws Throwable {
+        helper.setSimpleBatch();
     }
 
 }

@@ -6,6 +6,14 @@ Feature: Post answers for a batch
   If any answers are incorrect (or missing) you get 400 and a list of incorrect responses
   If we've finished all rounds, then error code
 
+  @single
+  Scenario: Correct response success
+    Given I register a team
+    And we have a simple batch
+    And we have a simple price list
+    When I submit the simple totals
+    Then I receive a CREATED response
+
   Scenario: Correct response is successful and moves to next round
     Given my team is in round 0
     When I submit the correct totals

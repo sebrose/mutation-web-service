@@ -66,6 +66,7 @@ public class Team extends Model {
     public BatchPriceComparisonResult processSubmission(BatchPrice submittedTotals, MyReader batchReader, MyReader priceListReader) {
 
         Batch batch = BatchFactory.create(batchReader, getCurrentRound());
+        System.out.println("Batch: " + batch.toString());
         PriceList priceList = PriceListFactory.create(priceListReader, getCurrentRound());
         checkout.data.BatchPrice expectedTotals = BatchPriceCalculator.calculate(batch, priceList);
 

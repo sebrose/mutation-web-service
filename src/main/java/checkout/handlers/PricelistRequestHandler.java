@@ -7,7 +7,7 @@ import com.google.gson.Gson;
 import org.webbitserver.HttpRequest;
 import org.webbitserver.rest.Rest;
 
-public class PricelistRequestHandler implements JsonProcessor {
+public class PriceListRequestHandler implements JsonProcessor {
     private Gson json;
     private MyReader dataReader;
 
@@ -16,7 +16,7 @@ public class PricelistRequestHandler implements JsonProcessor {
         String errorMessage;
     }
 
-    public PricelistRequestHandler(Gson json, MyReader dataReader) {
+    public PriceListRequestHandler(Gson json, MyReader dataReader) {
         this.json = json;
         this.dataReader = dataReader;
     }

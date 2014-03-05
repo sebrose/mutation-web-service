@@ -10,12 +10,13 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 
 public class PriceListSteps {
+
     private static class MyResults {
         String errorMessage;
         MyPriceList priceList;
     }
 
-    private static class MyPriceList{
+    private static class MyPriceList {
         Map<String, MyEntry> entries;
     }
 
@@ -34,6 +35,11 @@ public class PriceListSteps {
 
     public PriceListSteps(KnowsTheDomain helper) {
         this.helper = helper;
+    }
+
+    @And("^we have a simple price list$")
+    public void we_have_a_simple_price_list() throws Throwable {
+        helper.setSimplePriceList();
     }
 
     @When("^I ask for a price list$")

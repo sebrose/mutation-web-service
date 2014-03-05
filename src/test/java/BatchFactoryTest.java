@@ -42,6 +42,10 @@ public class BatchFactoryTest {
                         "{\"basketId\":1,\"items\":[{\"itemCode\":\"banana\",\"quantity\":1}]}" +
                         "]}}";
             }
+
+            @Override
+            public void setStringData_FOR_TEST_ONLY(Integer round, String location, String data) {
+            }
         };
 
         MyReader dataReader = new MyReader("wibble", dataSource);
@@ -59,11 +63,15 @@ public class BatchFactoryTest {
             @Override
             public String getStringData(String location) throws IOException {
                 return "{\"baskets\":[" +
-                        "{\"basketId\":1,\"items\":[{\"itemCode\":\"banana\",\"quantity\":1}]},"+
-                        "{\"basketId\":2,\"items\":[{\"itemCode\":\"banana\",\"quantity\":2}]},"+
+                        "{\"basketId\":1,\"items\":[{\"itemCode\":\"banana\",\"quantity\":1}]}," +
+                        "{\"basketId\":2,\"items\":[{\"itemCode\":\"banana\",\"quantity\":2}]}," +
                         "{\"basketId\":3,\"items\":[{\"itemCode\":\"banana\",\"quantity\":1}," +
-                                                    "{\"itemCode\":\"apple\",\"quantity\":3}," +
-                                                    "{\"itemCode\":\"banana\",\"quantity\":1}]}]}";
+                        "{\"itemCode\":\"apple\",\"quantity\":3}," +
+                        "{\"itemCode\":\"banana\",\"quantity\":1}]}]}";
+            }
+
+            @Override
+            public void setStringData_FOR_TEST_ONLY(Integer round, String location, String data) {
             }
         };
 
@@ -74,7 +82,6 @@ public class BatchFactoryTest {
         assertEquals(1, batch.getBasket(0).getBasketId());
         assertEquals(2, batch.getBasket(1).getBasketId());
     }
-
 
 
 }
