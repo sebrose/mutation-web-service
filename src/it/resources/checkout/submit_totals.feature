@@ -7,35 +7,32 @@ Feature: Post answers for a batch
   If we've finished all rounds, then error code
 
   @single
-  Scenario: Correct response success
-    Given I register a team
-    And we have a simple batch
-    And we have a simple price list
+  Scenario: Correct response advances round
+    Given a just registered team with simple data
+    When I submit the simple totals
+    And my team is now in round 1
+
+  Scenario: Correct response gets CREATED response
+    Given a just registered team with simple data
     When I submit the simple totals
     Then I receive a CREATED response
 
-  Scenario: Correct response is successful and moves to next round
-    Given my team is in round 0
-    When I submit the correct totals
-    Then I receive a CREATED response
-    And my team is now in round 1
-
   Scenario: Incorrect response is rejected
-    Given my team is in round 0
+    Given a just registered team with simple data
     When I submit incorrect totals
     Then I receive an ERROR response
     And my team is still in round 0
     And I know the basket ID of the incorrect total
 
   Scenario: Empty response is rejected
-    Given my team is in round 0
+    Given a just registered team with simple data
     When I submit empty totals
     Then I receive an ERROR response
     And my team is still in round 0
     And I know the basket ID of the missing basket
 
   Scenario: Unexpected response is rejected
-    Given my team is in round 0
+    Given a just registered team with simple data
     When I submit totals for an unexpected basket
     Then I receive an ERROR response
     And my team is still in round 0

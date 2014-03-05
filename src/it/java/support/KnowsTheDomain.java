@@ -254,5 +254,10 @@ public class KnowsTheDomain {
             e.printStackTrace();
         }
     }
+
+    public void setSimpleData() {
+        setSimpleBatch();
+        setSimplePriceList();
+    }
 }
 

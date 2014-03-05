@@ -48,6 +48,14 @@ public class TeamSteps {
         requestedName = teamName;
     }
 
+    @Given("^a just registered team with simple data$")
+    public void a_just_registered_team_with_simple_data() throws Throwable {
+        requestedName = "MyTeam";
+        I_register();
+
+        helper.setSimpleData();
+    }
+
     @Given("^I register a team$")
     public void I_register_a_team() throws Throwable {
         requestedName = "MyTeam";
@@ -61,16 +69,16 @@ public class TeamSteps {
         Arrays.fill(chars, 'c');
         requestedName = new String(chars);
     }
-    
+
     @When("^I register$")
     public void I_register() throws Throwable {
         ResponseWrapper response = helper.registerTeam(requestedName);
 
-        if (response.jsonBody != null){
+        if (response.jsonBody != null) {
             registrationData = json.fromJson(response.jsonBody, RegistrationData.class);
             helper.registeredTeamIs(registrationData.acceptedName);
         }
-        
+
     }
 
     @Then("^my choice of name should be confirmed$")
