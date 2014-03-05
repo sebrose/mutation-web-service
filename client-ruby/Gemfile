@@ -1,0 +1,9 @@
+source 'https://rubygems.org'
+
+ruby '2.0.0'
+
+MUTANT_VERSION = '~> 0.5.0'
+
+gem 'mutant',       MUTANT_VERSION
+gem 'mutant-rspec', MUTANT_VERSION
+gem 'rake'

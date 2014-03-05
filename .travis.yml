@@ -1,0 +1,9 @@
+language: ruby
+script: "cd client-ruby; bundle exec rake ci"
+rvm:
+  - 1.9.3
+  - 2.0.0
+  - 2.1.0
+  - rbx
+matrix:
+  allow_failures: []

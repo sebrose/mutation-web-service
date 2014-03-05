@@ -1,0 +1,13 @@
+task ci: :tests do
+end
+
+task default: :tests do
+end
+
+task :tests do
+  sh 'bundle exec rspec spec'
+end
+
+task :mutant => :tests do
+  sh 'bundle exec mutant -I lib -r checkout --use rspec "Checkout::*"'
+end
