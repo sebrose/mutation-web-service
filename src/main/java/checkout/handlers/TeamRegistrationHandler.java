@@ -18,20 +18,20 @@ public class TeamRegistrationHandler implements JsonProcessor {
         String errorMessage;
     }
 
-    public TeamRegistrationHandler(Gson json){
+    public TeamRegistrationHandler(Gson json) {
         this.json = json;
     }
 
     @Override
     public JsonProcessorResultWrapper execute(HttpRequest reqJson) {
-        System.out.println(String.format("Body: %s", reqJson.body()));
+        // System.out.println(String.format("Body: %s", reqJson.body()));
         RegistrationDataIn body = json.fromJson(reqJson.body(), RegistrationDataIn.class);
         RegistrationDataOut out = new RegistrationDataOut();
         Team team = TeamFactory.create(body.name);
         out.id = ((Long) team.getId());
         out.acceptedName = team.getName();
         String jsonOut = json.toJson(out);
-        System.out.println(String.format("Response: %s", jsonOut));
+        // System.out.println(String.format("Response: %s", jsonOut));
         return new JsonProcessorResultWrapper(201, jsonOut);
     }
 }

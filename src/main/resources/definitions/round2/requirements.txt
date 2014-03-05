@@ -1,5 +1,15 @@
 Round 2
 
-As before, but this round you need to use a price list to work out what items cost
-You GET this from /Checkout/PriceList/your_team_name
+Same as Round 1, but this time you need to use a price list to work out what items cost
+
+GET the URL /Checkout/PriceList/your_team_name to retrieve your price list
+
+You PUT the result to /Checkout/Batch/your_team_name
+
+The JSON payload should look something like this:
+    {"batch":{"baskets":{"1":{"dollars":0,"cents":75},"2":{"dollars":7,"cents":25}}}}
+     basket ID from batch ^                            ^
+          total cost of each basket     ^          ^                 ^          ^
+            (which you have calculated)
+
 

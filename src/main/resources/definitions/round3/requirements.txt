@@ -1,0 +1,16 @@
+Round 3
+
+Same as Round 2, but now some items are priced by weight.
+
+The data contained in the price list will identify which items are priced by weight(kg).
+Quantities of items sold by weight may not be integers (1.234 = 1kg and 234g)
+
+You PUT the result to /Checkout/Batch/your_team_name
+
+The JSON payload should look something like this:
+    {"batch":{"baskets":{"1":{"dollars":0,"cents":75},"2":{"dollars":7,"cents":25}}}}
+     basket ID from batch ^                            ^
+          total cost of each basket     ^          ^                 ^          ^
+            (which you have calculated)
+
+

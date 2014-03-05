@@ -24,9 +24,9 @@ public class BasketAnswerSteps {
 
         @Override
         public String toString() {
-            String result =  "baskets: [";
+            String result = "baskets: [";
 
-            for (Integer basketId : incorrectBaskets.keySet())  {
+            for (Integer basketId : incorrectBaskets.keySet()) {
                 result += String.format("%d : %s, ", basketId, incorrectBaskets.get(basketId));
             }
 
@@ -44,8 +44,13 @@ public class BasketAnswerSteps {
         }
     }
 
-    public BasketAnswerSteps(KnowsTheDomain helper){
+    public BasketAnswerSteps(KnowsTheDomain helper) {
         this.helper = helper;
+    }
+
+    @When("^I submit the simple totals$")
+    public void I_submit_the_simple_totals() throws Throwable {
+        helper.submitTotals("{\"batch\":{\"baskets\":{\"1\":{\"dollars\":0,\"cents\":25}}}}");
     }
 
     @When("^I submit the correct totals$")

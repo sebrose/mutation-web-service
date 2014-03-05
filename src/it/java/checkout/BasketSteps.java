@@ -1,6 +1,7 @@
 package checkout;
 
 import com.google.gson.Gson;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import support.KnowsTheDomain;
@@ -28,9 +29,9 @@ public class BasketSteps {
 
         @Override
         public String toString() {
-            String result =  "baskets: [";
+            String result = "baskets: [";
 
-            for (MyBasket b : baskets)  {
+            for (MyBasket b : baskets) {
                 result += b.toString() + ", ";
             }
 
@@ -44,9 +45,9 @@ public class BasketSteps {
 
         @Override
         public String toString() {
-            String result =  "items: [";
+            String result = "items: [";
 
-            for (MyItem i : items)  {
+            for (MyItem i : items) {
                 result += i.toString() + ", ";
             }
 
@@ -71,7 +72,7 @@ public class BasketSteps {
 
     private Gson json = new Gson();
 
-    public BasketSteps(KnowsTheDomain helper){
+    public BasketSteps(KnowsTheDomain helper) {
         this.helper = helper;
     }
 
@@ -84,8 +85,8 @@ public class BasketSteps {
     public void the_batch_contains_baskets(int count) throws Throwable {
         MyResults results = json.fromJson(helper.getJsonResponse(), MyResults.class);
 
-        System.out.println("HaHa " + helper.getJsonResponse());
-        System.out.println("HoHo " + results.batch.toString());
+        //System.out.println("HaHa " + helper.getJsonResponse());
+        //System.out.println("HoHo " + results.batch.toString());
         assertEquals(count, results.batch.baskets.size());
     }
 
@@ -99,6 +100,11 @@ public class BasketSteps {
     public void the_basket_contains_item(int count) throws Throwable {
         MyResults results = json.fromJson(helper.getJsonResponse(), MyResults.class);
         assertEquals(count, results.batch.baskets.get(0).items.size());
+    }
+
+    @And("^we have a simple batch$")
+    public void we_have_a_simple_batch() throws Throwable {
+        helper.setSimpleBatch();
     }
 
 }

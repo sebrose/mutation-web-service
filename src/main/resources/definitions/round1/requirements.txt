@@ -1,11 +1,16 @@
 Round 1
+
 GET the URL /Checkout/Batch/your_team_name to retrieve a batch of baskets that you need to calculate the price of.
+
 Each basket has a unique ID
 In this round the batch will contain multiple baskets
-In this round the basket will contain multiple items
-All items cost 25 cents
+In this round the baskets will contain some of the following items:
+banana : 25 cents
+orange : 35 cents
+avocado: $1.20
 
 You PUT the result to /Checkout/Batch/your_team_name
+
 The JSON payload should look something like this:
     {"batch":{"baskets":{"1":{"dollars":0,"cents":75},"2":{"dollars":7,"cents":25}}}}
      basket ID from batch ^                            ^

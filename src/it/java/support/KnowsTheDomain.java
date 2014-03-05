@@ -1,17 +1,20 @@
 package support;
 
 import checkout.*;
+import checkout.data.BatchBuilder;
+import checkout.data.PriceListBuilder;
+import com.google.gson.Gson;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
-public class KnowsTheDomain{
+public class KnowsTheDomain {
 
     public static class ResponseWrapper {
         public Integer httpResponseCode;
         public String jsonBody;
 
-        public ResponseWrapper(Integer httpResponseCode, String jsonBody){
+        public ResponseWrapper(Integer httpResponseCode, String jsonBody) {
             this.httpResponseCode = httpResponseCode;
             this.jsonBody = jsonBody;
         }
@@ -19,6 +22,7 @@ public class KnowsTheDomain{
 
     private Team team;
     private ResponseWrapper response;
+    private Gson json = new Gson();
 
     public KnowsTheDomain() {
     }
@@ -73,7 +77,7 @@ public class KnowsTheDomain{
     }
 
     public String getTeamName() {
-        if (team == null){
+        if (team == null) {
             return "UnknownTeam";
         }
 
@@ -81,7 +85,7 @@ public class KnowsTheDomain{
     }
 
     public int getTeamRound() {
-        if (team == null){
+        if (team == null) {
             return -1;
         }
 
@@ -102,11 +106,9 @@ public class KnowsTheDomain{
                     .get(ClientResponse.class);
 
             storeResponse(response.getStatus(), response.getEntity(String.class));
-        }
-        catch (RuntimeException r) {
+        } catch (RuntimeException r) {
             throw r;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("Exception caught");
             e.printStackTrace();
 
@@ -125,11 +127,9 @@ public class KnowsTheDomain{
                     .get(ClientResponse.class);
 
             storeResponse(response.getStatus(), response.getEntity(String.class));
-        }
-        catch (RuntimeException r) {
+        } catch (RuntimeException r) {
             throw r;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("Exception caught");
             e.printStackTrace();
 
@@ -148,11 +148,9 @@ public class KnowsTheDomain{
                     .get(ClientResponse.class);
 
             storeResponse(response.getStatus(), response.getEntity(String.class));
-        }
-        catch (RuntimeException r) {
+        } catch (RuntimeException r) {
             throw r;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("Exception caught");
             e.printStackTrace();
 
@@ -165,7 +163,7 @@ public class KnowsTheDomain{
             Client client = Client.create();
 
             WebResource webResource = client
-                    .resource("http://localhost:"+ ServerHooks.PORT +"/Checkout/Batch/"  + getTeamName() );
+                    .resource("http://localhost:" + ServerHooks.PORT + "/Checkout/Batch/" + getTeamName());
 
             ClientResponse response = webResource.type("application/json")
                     .put(ClientResponse.class, input);
@@ -175,11 +173,9 @@ public class KnowsTheDomain{
             String jsonString = response.getEntity(String.class);
 
             storeResponse(httpReturnCode, jsonString);
-        }
-        catch (RuntimeException r) {
+        } catch (RuntimeException r) {
             throw r;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
 
             e.printStackTrace();
 
@@ -193,7 +189,7 @@ public class KnowsTheDomain{
             Client client = Client.create();
 
             WebResource webResource = client
-                    .resource("http://localhost:"+ ServerHooks.PORT +"/Checkout/Team");
+                    .resource("http://localhost:" + ServerHooks.PORT + "/Checkout/Team");
 
             String input = "{\"name\":\"" + requestedName + "\"}";
             ClientResponse clientResponse = webResource.type("application/json")
@@ -203,11 +199,9 @@ public class KnowsTheDomain{
             storeResponse(clientResponse.getStatus(), jsonString);
 
             return response;
-        }
-        catch (RuntimeException r) {
+        } catch (RuntimeException r) {
             throw r;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
 
             e.printStackTrace();
 
@@ -216,5 +210,54 @@ public class KnowsTheDomain{
         return null;
     }
 
+    public void setSimplePriceList() {
+        try {
+
+            Client client = Client.create();
+
+            WebResource webResource = client
+                    .resource("http://localhost:" + ServerHooks.PORT + "/TestCheckout/PriceList");
+
+            PriceListBuilder builder = new PriceListBuilder();
+            builder.addEntry("foobar").withUnitPrice("0.50");
+            String input = json.toJson(builder.build());
+
+            ClientResponse clientResponse = webResource.type("application/json")
+                    .put(ClientResponse.class, input);
+        } catch (RuntimeException r) {
+            throw r;
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        }
+    }
+
+    public void setSimpleBatch() {
+        try {
+
+            Client client = Client.create();
+
+            WebResource webResource = client
+                    .resource("http://localhost:" + ServerHooks.PORT + "/TestCheckout/Batch");
+
+            BatchBuilder builder = new BatchBuilder();
+            builder.addNewBasket().withItem("foobar").withQuantity(2);
+            String input = json.toJson(builder.build());
+
+            ClientResponse clientResponse = webResource.type("application/json")
+                    .put(ClientResponse.class, input);
+        } catch (RuntimeException r) {
+            throw r;
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+    }
+
+    public void setSimpleData() {
+        setSimpleBatch();
+        setSimplePriceList();
+    }
 }
 

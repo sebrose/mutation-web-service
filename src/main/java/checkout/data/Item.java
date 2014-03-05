@@ -3,10 +3,24 @@ package checkout.data;
 public class Item {
     private final String itemCode;
     private final Integer quantity;
+    private final Float weight;
 
-    public Item(String itemCode, int quantity){
+    public Item(String itemCode, Integer quantity, Float weight) {
         this.itemCode = itemCode;
         this.quantity = quantity;
+        this.weight = weight;
+
+        if (itemCode == null) {
+            throw new IllegalArgumentException("Must have item code set");
+        }
+
+        if (quantity == null && weight == null) {
+            throw new IllegalArgumentException("Must have quantity or weight set");
+        }
+
+        if (quantity != null && weight != null) {
+            throw new IllegalArgumentException("Cannot have both quantity or weight set");
+        }
     }
 
 
@@ -15,8 +29,8 @@ public class Item {
         boolean result = false;
         if (other instanceof Item) {
             Item that = (Item) other;
-            result =  (this.itemCode.equals(that.itemCode)
-                        && this.quantity==that.quantity);
+            result = (this.itemCode.equals(that.itemCode)
+                    && this.quantity == that.quantity);
         }
         return result;
     }
@@ -30,7 +44,11 @@ public class Item {
         return itemCode;
     }
 
-    public Integer getQuantity() {
-        return quantity;
+    public Float getAmount() {
+        if (quantity != null) {
+            return quantity.floatValue();
+        }
+
+        return weight;
     }
 }

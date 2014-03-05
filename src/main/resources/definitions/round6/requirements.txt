@@ -1,0 +1,9 @@
+Round 6
+
+Same as round 5, but now every item belongs to a category.
+
+The data contained in the price list will identify which category each item belongs to.
+
+The data returned by the SpecialOffers service call will identify whether the
+offer applies to a specific item or an entire category
+
