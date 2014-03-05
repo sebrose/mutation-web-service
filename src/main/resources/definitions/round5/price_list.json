@@ -6,18 +6,18 @@
             "cents": 25
         }
     },
-    "orange": {
-        "itemCode": "orange",
-        "unitPrice": {
-            "dollars": 0,
-            "cents": 35
-        }
-    },
     "avocado": {
         "itemCode": "avocado",
         "unitPrice": {
             "dollars": 1,
             "cents": 20
+        }
+    },
+    "apple": {
+        "itemCode": "apple",
+        "unitPrice": {
+            "dollars": 0,
+            "cents": 40
         }
     }
 }

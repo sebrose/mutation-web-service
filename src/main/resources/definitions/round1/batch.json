@@ -1,7 +1,56 @@
-{"baskets":[
-    {"basketId":"1","items":[{"itemCode":"banana","quantity":1}]},
-    {"basketId":"2","items":[{"itemCode":"banana","quantity":2}]},
-    {"basketId":"3","items":[{"itemCode":"banana","quantity":1},{"itemCode":"apple","quantity":3},{"itemCode":"banana","quantity":1}]}
+{"baskets": [
+    {
+        "basketId": "1",
+        "items": [
+            {
+                "itemCode": "banana",
+                "quantity": 1
+            }
+        ]
+    },
+    {
+        "basketId": "2",
+        "items": [
+            {
+                "itemCode": "banana",
+                "quantity": 2
+            }
+        ]
+    },
+    {
+        "basketId": "3",
+        "items": [
+            {
+                "itemCode": "banana",
+                "quantity": 1
+            },
+            {
+                "itemCode": "orange",
+                "quantity": 3
+            },
+            {
+                "itemCode": "banana",
+                "quantity": 1
+            }
+        ]
+    },
+    {
+        "basketId": "4",
+        "items": [
+            {
+                "itemCode": "avocado",
+                "quantity": 1
+            },
+            {
+                "itemCode": "orange",
+                "quantity": 2
+            },
+            {
+                "itemCode": "banana",
+                "quantity": 3
+            }
+        ]
+    }
 ]}
 
 

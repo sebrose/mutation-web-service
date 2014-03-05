@@ -1,13 +1,9 @@
-Round 1
+Round 3
 
-GET the URL /Checkout/Batch/your_team_name to retrieve a batch of baskets that you need to calculate the price of.
+Same as Round 2, but now some items are priced by weight.
 
-Each basket has a unique ID
-In this round the batch will contain multiple baskets
-In this round the baskets will contain some of the following items:
-banana : 25 cents
-orange : 35 cents
-avocado: $1.20
+The data contained in the price list will identify which items are priced by weight(kg).
+Quantities of items sold by weight may not be integers (1.234 = 1kg and 234g)
 
 You PUT the result to /Checkout/Batch/your_team_name
 
@@ -16,3 +12,5 @@ The JSON payload should look something like this:
      basket ID from batch ^                            ^
           total cost of each basket     ^          ^                 ^          ^
             (which you have calculated)
+
+

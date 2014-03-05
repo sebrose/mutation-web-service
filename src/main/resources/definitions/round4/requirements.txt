@@ -1,0 +1,7 @@
+Round 4
+
+Same as round 3, but we have introduced a special offer which you can
+GET from /Checkout/SpecialOffers/your_team_name
+
+The information returned by the SpecialOffers service call will describe the
+offer and identify the item that it applies to.
