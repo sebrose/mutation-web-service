@@ -9,6 +9,18 @@ public class Entry {
         this.itemCode = itemCode;
         this.unitPrice = unitPrice;
         this.kiloPrice = kiloPrice;
+
+        if (itemCode == null) {
+            throw new IllegalArgumentException("Must have item code set");
+        }
+
+        if (unitPrice == null && kiloPrice == null) {
+            throw new IllegalArgumentException("Must have unit or kilo price set");
+        }
+
+        if (unitPrice != null && kiloPrice != null) {
+            throw new IllegalArgumentException("Cannot have both unit and kilo price set");
+        }
     }
 
     public String getItemCode() {

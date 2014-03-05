@@ -9,6 +9,18 @@ public class Item {
         this.itemCode = itemCode;
         this.quantity = quantity;
         this.weight = weight;
+
+        if (itemCode == null) {
+            throw new IllegalArgumentException("Must have item code set");
+        }
+
+        if (quantity == null && weight == null) {
+            throw new IllegalArgumentException("Must have quantity or weight set");
+        }
+
+        if (quantity != null && weight != null) {
+            throw new IllegalArgumentException("Cannot have both quantity or weight set");
+        }
     }
 
 
