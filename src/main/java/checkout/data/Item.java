@@ -3,11 +3,12 @@ package checkout.data;
 public class Item {
     private final String itemCode;
     private final Integer quantity;
-    private final Float weight = null;
+    private final Float weight;
 
-    public Item(String itemCode, int quantity) {
+    public Item(String itemCode, Integer quantity, Float weight) {
         this.itemCode = itemCode;
         this.quantity = quantity;
+        this.weight = weight;
     }
 
 
@@ -31,7 +32,11 @@ public class Item {
         return itemCode;
     }
 
-    public Integer getQuantity() {
-        return quantity;
+    public Float getAmount() {
+        if (quantity != null) {
+            return quantity.floatValue();
+        }
+
+        return weight;
     }
 }

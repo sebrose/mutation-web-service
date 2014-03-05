@@ -8,15 +8,14 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 
-
 public class BatchPriceCalculatorTest {
     BatchBuilder batchBuilder = new BatchBuilder();
     PriceListBuilder priceListBuilder = new PriceListBuilder();
 
     @Test
     public void shouldUsePriceListToCalculatePrice() {
-        batchBuilder.addNewBasket().withItem("banana");
-        priceListBuilder.addEntry("banana").withPrice("0.50");
+        batchBuilder.addNewBasket().withItem("banana").withQuantity(1);
+        priceListBuilder.addEntry("banana").withUnitPrice("0.50");
 
         BatchPrice btdi;
 
@@ -28,7 +27,7 @@ public class BatchPriceCalculatorTest {
     @Test
     public void shouldTakeAccountOfQuantityWhenCalculatingPrice() {
         batchBuilder.addNewBasket().withItem("banana").withQuantity(2);
-        priceListBuilder.addEntry("banana").withPrice("0.50");
+        priceListBuilder.addEntry("banana").withUnitPrice("0.50");
 
         BatchPrice btdi;
 
@@ -42,8 +41,8 @@ public class BatchPriceCalculatorTest {
         batchBuilder.addNewBasket().withItem("banana").withQuantity(2);
         batchBuilder.addToBasket().withItem("apple").withQuantity(1);
 
-        priceListBuilder.addEntry("banana").withPrice("0.50");
-        priceListBuilder.addEntry("apple").withPrice("1.50");
+        priceListBuilder.addEntry("banana").withUnitPrice("0.50");
+        priceListBuilder.addEntry("apple").withUnitPrice("1.50");
 
         BatchPrice btdi;
 
@@ -57,8 +56,8 @@ public class BatchPriceCalculatorTest {
         batchBuilder.addNewBasket().withItem("banana").withQuantity(2);
         batchBuilder.addNewBasket().withItem("apple").withQuantity(1);
 
-        priceListBuilder.addEntry("banana").withPrice("0.50");
-        priceListBuilder.addEntry("apple").withPrice("1.50");
+        priceListBuilder.addEntry("banana").withUnitPrice("0.50");
+        priceListBuilder.addEntry("apple").withUnitPrice("1.50");
 
         BatchPrice btdi;
 
@@ -66,5 +65,21 @@ public class BatchPriceCalculatorTest {
 
         assertEquals(new Money("1.00"), btdi.batch.baskets.get(1));
         assertEquals(new Money("1.50"), btdi.batch.baskets.get(2));
+    }
+
+    @Test
+    public void shouldHandleItemSoldByWeight() throws Exception {
+        batchBuilder.addNewBasket().withItem("banana").withWeight(1.0f);
+        batchBuilder.addNewBasket().withItem("apple").withWeight(1.5f);
+
+        priceListBuilder.addEntry("banana").withKiloPrice("0.50");
+        priceListBuilder.addEntry("apple").withKiloPrice("1.50");
+
+        BatchPrice btdi;
+
+        btdi = BatchPriceCalculator.calculate(batchBuilder.build(), priceListBuilder.build());
+
+        assertEquals(new Money("0.50"), btdi.batch.baskets.get(1));
+        assertEquals(new Money("2.25"), btdi.batch.baskets.get(2));
     }
 }
