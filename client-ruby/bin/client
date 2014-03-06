@@ -4,6 +4,5 @@ require 'pathname'
 $LOAD_PATH << File.expand_path('../../lib', __FILE__)
 
 require 'checkout'
-require 'checkout/cli'
 
 Checkout::CLI.run(ARGV)

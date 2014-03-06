@@ -16,6 +16,19 @@ module Checkout
       new(Faraday.new(uri), team_name)
     end
 
+    # Build client from config file
+    #
+    # @param [String] filename
+    #
+    # @return [Client]
+    #
+    def self.from_config_file(filename)
+      config = YAML.load_file(filename)
+      server_uri       = config.fetch('server_uri')
+      team_name = config.fetch('team_name')
+      build(server_uri, team_name)
+    end
+
     # Register team name
     #
     # @return [self]
@@ -87,7 +100,7 @@ module Checkout
     #
     # @api private
     #
-    def team_score
+    def current_score
       request = Request.get("/Checkout/Score/#{team_name}")
       run(request)
     end
