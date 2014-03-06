@@ -66,5 +66,9 @@ describe Checkout, 'integration' do
         ]
       }
     )
+
+    expect(client.team_score).to eql(
+      'score' => 10
+    )
   end
 end

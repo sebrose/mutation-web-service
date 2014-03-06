@@ -77,6 +77,21 @@ module Checkout
       run(request)
     end
 
+    # Return team score
+    #
+    # @return [Hash]
+    #   the current team score
+    #
+    # @raise [Error]
+    #   in case there is any problem returing the team score
+    #
+    # @api private
+    #
+    def team_score
+      request = Request.get("/Checkout/Score/#{team_name}")
+      run(request)
+    end
+
   private
 
     # Run reqeuest with status code expectation
