@@ -2,10 +2,12 @@
 .project
 .settings/
 target/
+build/
+pitReports
 
 *.class
 
 # Package Files #
-*.jar
+#*.jar
 *.war
 *.ear

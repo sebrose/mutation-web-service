@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="mutation-workshop" default="pit">
+
+	<property name="classOutputDir" value="build" />
+
+
+	<path id="pitest.path">
+		<pathelement location="lib/pitest-0.33.jar" />
+		<pathelement location="lib/pitest-ant-0.33.jar" />
+		<pathelement location="lib/junit-4.11.jar" />
+	</path>
+
+	<taskdef name="pitest" classname="org.pitest.ant.PitestTask" classpathref="pitest.path" />
+
+	<target name="clean">
+
+		<delete dir="${classOutputDir}" />
+
+	</target>
+
+
+	<path id="test.path">
+
+		<pathelement location="${classOutputDir}/classes" />
+		<pathelement location="${classOutputDir}/test-classes" />
+
+		<pathelement location="lib/junit-4.11.jar" />
+                <pathelement location="lib/hamcrest-core-1.3.jar" />
+                <pathelement location="lib/gson-2.2.4.jar" />  
+
+                <pathelement location="lib/jersey-client-1.8.jar"/>
+                <pathelement location="lib/jersey-core-1.8.jar"/>
+                <pathelement location="lib/mockito-all-1.8.4.jar"/>
+
+	</path>
+
+
+	<target name="compile" depends="clean">
+
+		<mkdir dir="${classOutputDir}/classes" />
+		<mkdir dir="${classOutputDir}/test-classes" />
+
+		<!-- Essential that line numbers and filenames are included in order for PIT to work -->
+		<javac  includeantruntime="false" srcdir="src/main/java" debug="true" debuglevel="source,lines"  destdir="${classOutputDir}/classes">
+	            <classpath refid="test.path" />
+		</javac>
+	</target>
+
+
+
+	<target name="test" depends="compile">
+
+		<mkdir dir="${classOutputDir}/test-result" />
+
+		<mkdir dir="${classOutputDir}/test-classes" />
+
+
+		<javac  includeantruntime="false" srcdir="src/test/java" destdir="${classOutputDir}/test-classes">
+			<classpath refid="test.path" />
+		</javac>
+
+
+
+		<junit>
+
+			<classpath refid="test.path" />
+
+			<batchtest todir="${classOutputDir}/test-result">
+
+				<!-- set test classes -->
+
+				<fileset dir="src/test/java">
+					<include name="**/*Test.java" />
+				</fileset>
+
+				<formatter type="xml" />
+
+			</batchtest>
+
+		</junit>
+
+
+
+		<junitreport todir="${classOutputDir}/test-result">
+
+			<fileset dir="${classOutputDir}/test-result">
+
+				<include name="TEST-*.xml" />
+
+			</fileset>
+
+			<report format="frames" todir="${classOutputDir}/test-result/report" />
+
+		</junitreport>
+
+	</target>
+	
+	<target name="pit" depends="test">
+		<pitest  pitClasspath="pitest.path" classPath="test.path" targetTests="uk.co.claysnow.*" targetClasses="uk.co.claysnow.*" reportDir="pitReports" sourceDir="src/main/java"  mutators="DEFAULTS"/>
+	</target>
+
+
+</project>
