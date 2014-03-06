@@ -92,11 +92,12 @@ module Checkout
     def run(request, expected_status_code = 200)
       response = request.run(connection)
       unless response.status == expected_status_code
-        raise Error.new(response)
+        raise Error::StatusCode.new(response)
       end
       unless response.headers[:content_type] == JSON_CONTENT_TYPE
-        raise "Unexpected content type"
+        raise Error::ContentType.new(response)
       end
+
       MultiJson.load(response.body)
     end
 
