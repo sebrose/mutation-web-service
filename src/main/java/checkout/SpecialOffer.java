@@ -4,12 +4,14 @@ public class SpecialOffer {
     private final String offerCode;
     private final String description;
     private final String eligibleItemCode;
+    private final String eligibleCategoryCode;
     private OfferTracker offerTracker;
 
-    public SpecialOffer(String offerCode, String description, String eligibleItemCode) {
+    public SpecialOffer(String offerCode, String description, String eligibleItemCode, String eligibleCategoryCode) {
         this.offerCode = offerCode;
         this.description = description;
         this.eligibleItemCode = eligibleItemCode;
+        this.eligibleCategoryCode = eligibleCategoryCode;
 
         if (offerCode == null) {
             throw new IllegalArgumentException("Must have offer code set");
@@ -19,17 +21,25 @@ public class SpecialOffer {
             throw new IllegalArgumentException("Must have description set");
         }
 
-        if (eligibleItemCode == null) {
-            throw new IllegalArgumentException("Must have eligible item set");
+        if (eligibleItemCode == null && eligibleCategoryCode == null) {
+            throw new IllegalArgumentException("Must have EITHER item or category code set");
+        }
+
+        if (eligibleCategoryCode != null && eligibleItemCode != null) {
+            throw new IllegalArgumentException("Must have EITHER item OR category code set");
         }
     }
 
-    public Money calculateSavings() {
-        return getOfferTracker().calculateSavings();
+    public Money calculateAndClearSavings() {
+        Money savings = getOfferTracker().calculateSavings();
+
+        offerTracker = null;
+
+        return savings;
     }
 
     public void process(String itemCode, String categoryCode, float amount, Money cost) {
-        if (itemCode.equals(eligibleItemCode)) {
+        if (itemCode.equals(eligibleItemCode) || categoryCode.equals(eligibleCategoryCode)) {
             getOfferTracker().process(amount, cost);
         }
     }

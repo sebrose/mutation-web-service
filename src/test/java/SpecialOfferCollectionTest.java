@@ -16,7 +16,7 @@ public class SpecialOfferCollectionTest {
     private static final String TEST_OFFER = "TEST";
     private static final String TEST_DESCRIPTION = "Desc";
 
-    private static final SpecialOffer testOffer = new SpecialOffer(TEST_OFFER, TEST_DESCRIPTION, NON_MATCHING_ITEM) {
+    private static final SpecialOffer testOffer = new SpecialOffer(TEST_OFFER, TEST_DESCRIPTION, NON_MATCHING_ITEM, null) {
         private boolean processed;
 
         @Override
@@ -26,7 +26,7 @@ public class SpecialOfferCollectionTest {
         }
 
         @Override
-        public Money calculateSavings() {
+        public Money calculateAndClearSavings() {
             if (processed) {
                 return DUMMY_SAVINGS;
             }
@@ -41,7 +41,7 @@ public class SpecialOfferCollectionTest {
 
         collection.process(DUMMY_ITEM_CODE, DUMMY_CATEGORY_CODE, DUMMY_AMOUNT, DUMMY_COST);
 
-        Assert.assertEquals(new Money(), collection.calculateSavings());
+        Assert.assertEquals(new Money(), collection.calculateAndClearSavings());
     }
 
     @Test
@@ -52,7 +52,7 @@ public class SpecialOfferCollectionTest {
 
         collection.process(MATCHING_ITEM, DUMMY_CATEGORY_CODE, DUMMY_AMOUNT, DUMMY_COST);
 
-        Assert.assertEquals(DUMMY_SAVINGS, collection.calculateSavings());
+        Assert.assertEquals(DUMMY_SAVINGS, collection.calculateAndClearSavings());
     }
 
 
@@ -65,6 +65,6 @@ public class SpecialOfferCollectionTest {
 
         collection.process(MATCHING_ITEM, DUMMY_CATEGORY_CODE, DUMMY_AMOUNT, DUMMY_COST);
 
-        Assert.assertEquals(DUMMY_SAVINGS.multiply(2.0), collection.calculateSavings());
+        Assert.assertEquals(DUMMY_SAVINGS.multiply(2.0), collection.calculateAndClearSavings());
     }
 }

@@ -59,6 +59,11 @@ public class BasketAnswerSteps {
         helper.submitTotals("{\"batch\":{\"baskets\":{\"1\":{\"dollars\":0,\"cents\":50}}}}");
     }
 
+    @When("^I submit the Ten Percent totals$")
+    public void I_submit_the_Ten_Percent_totals() throws Throwable {
+        helper.submitTotals("{\"batch\":{\"baskets\":{\"1\":{\"dollars\":9,\"cents\":95}}}}");
+    }
+
     @When("^I submit the correct totals$")
     public void I_submit_the_correct_totals() throws Throwable {
         helper.submitTotals("{\"batch\":{\"baskets\":{\"1\":{\"dollars\":0,\"cents\":25}}}}");

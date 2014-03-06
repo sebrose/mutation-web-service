@@ -14,7 +14,7 @@ public class GsonExploratoryTest {
     public void serialisePriceListToJson() {
         PriceList priceList = new PriceList();
 
-        priceList.addEntry(new Entry("banana", new Money(1, 23), null));
+        priceList.addEntry(new Entry("banana", "misc", new Money(1, 23), null));
 
         System.out.println(json.toJson(priceList));
     }

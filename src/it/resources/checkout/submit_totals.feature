@@ -42,3 +42,8 @@ Feature: Post answers for a batch
     Given a just registered team with BOGOF data
     When I submit the BOGOF totals
     Then I receive a CREATED response
+
+  Scenario: Ten Percent off offer is respected
+    Given a just registered team with Ten Percent offer data
+    When I submit the Ten Percent totals
+    Then I receive a CREATED response

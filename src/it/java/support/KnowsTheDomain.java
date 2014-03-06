@@ -12,6 +12,7 @@ import com.sun.jersey.api.client.WebResource;
 public class KnowsTheDomain {
 
     public static class ResponseWrapper {
+
         public Integer httpResponseCode;
         public String jsonBody;
 
@@ -19,9 +20,11 @@ public class KnowsTheDomain {
             this.httpResponseCode = httpResponseCode;
             this.jsonBody = jsonBody;
         }
+
     }
 
     private Team team;
+
     private ResponseWrapper response;
     private Gson json = new Gson();
 
@@ -267,7 +270,7 @@ public class KnowsTheDomain {
         setBOGOFSpecialOffers();
     }
 
-    public void setBOGOFSpecialOffers() {
+    private void setBOGOFSpecialOffers() {
         try {
 
             Client client = Client.create();
@@ -277,6 +280,85 @@ public class KnowsTheDomain {
 
             SpecialOfferCollectionBuilder builder = new SpecialOfferCollectionBuilder();
             builder.addOffer(BogofTracker.OFFER_CODE).withDescription("Buy one get one free").forItemCode("foobar");
+            String input = json.toJson(builder.build());
+
+            ClientResponse clientResponse = webResource.type("application/json")
+                    .put(ClientResponse.class, input);
+        } catch (RuntimeException r) {
+            throw r;
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+    }
+
+    public void setTenPercentData() {
+        setComplexBatch();
+        setComplexPriceList();
+        setTenPercentCategorySpecialOffers();
+    }
+
+    private void setComplexPriceList() {
+        try {
+
+            Client client = Client.create();
+
+            WebResource webResource = client
+                    .resource("http://localhost:" + ServerHooks.PORT + "/TestCheckout/PriceList/0");
+
+            PriceListBuilder builder = new PriceListBuilder();
+            builder.addEntry("thingy").withUnitPrice("0.25").inCategory("widgets");
+            builder.addEntry("jigger").withUnitPrice("0.75").inCategory("widgets");
+            builder.addEntry("banana").withUnitPrice("0.50").inCategory("fruit");
+            builder.addEntry("orange").withKiloPrice("1.00").inCategory("fruit");
+            String input = json.toJson(builder.build());
+
+            ClientResponse clientResponse = webResource.type("application/json")
+                    .put(ClientResponse.class, input);
+        } catch (RuntimeException r) {
+            throw r;
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        }
+    }
+
+    private void setComplexBatch() {
+        try {
+
+            Client client = Client.create();
+
+            WebResource webResource = client
+                    .resource("http://localhost:" + ServerHooks.PORT + "/TestCheckout/Batch/0");
+
+            BatchBuilder builder = new BatchBuilder();
+            builder.addNewBasket().withItem("thingy").withQuantity(2);
+            builder.addToBasket().withItem("jigger").withQuantity(3);
+            builder.addToBasket().withItem("banana").withQuantity(10);
+            builder.addToBasket().withItem("orange").withWeight(2.5f);
+            String input = json.toJson(builder.build());
+
+            ClientResponse clientResponse = webResource.type("application/json")
+                    .put(ClientResponse.class, input);
+        } catch (RuntimeException r) {
+            throw r;
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+    }
+
+    private void setTenPercentCategorySpecialOffers() {
+        try {
+
+            Client client = Client.create();
+
+            WebResource webResource = client
+                    .resource("http://localhost:" + ServerHooks.PORT + "/TestCheckout/SpecialOffers/0");
+
+            SpecialOfferCollectionBuilder builder = new SpecialOfferCollectionBuilder();
+            builder.addOffer(TenPercentTracker.OFFER_CODE).withDescription("Ten per cent off specified").forCategory("widgets");
             String input = json.toJson(builder.build());
 
             ClientResponse clientResponse = webResource.type("application/json")

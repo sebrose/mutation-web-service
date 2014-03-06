@@ -19,11 +19,11 @@ public class SpecialOfferCollection {
         }
     }
 
-    public Money calculateSavings() {
+    public Money calculateAndClearSavings() {
         Money savings = new Money();
 
         for (SpecialOffer offer : offers) {
-            Money saving = offer.calculateSavings();
+            Money saving = offer.calculateAndClearSavings();
             savings = savings.add(saving);
         }
 

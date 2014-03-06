@@ -8,6 +8,7 @@ public class OfferTrackerFactory {
 
     public static OfferTracker create(String code) {
         if (trackers.containsKey(code)) {
+            System.out.println("Returning test OfferTracker " + code);
             return trackers.get(code);
         }
 
@@ -15,10 +16,15 @@ public class OfferTrackerFactory {
             return new BogofTracker();
         }
 
+        if (code.equals(TenPercentTracker.OFFER_CODE)) {
+            return new TenPercentTracker();
+        }
+
         throw new IllegalArgumentException("Unrecognised offer code: " + code);
     }
 
     public static void WE_ARE_TESTING_WITH(String code, OfferTracker tracker) {
+        System.out.println("caching test OfferTracker " + code);
         trackers.put(code, tracker);
     }
 

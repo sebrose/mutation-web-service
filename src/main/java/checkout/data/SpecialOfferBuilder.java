@@ -7,9 +7,10 @@ public class SpecialOfferBuilder {
     private String offerCode;
     private String description;
     private String eligibleItemCode;
+    private String eligibleCategoryCode;
 
     public SpecialOffer build() {
-        return new SpecialOffer(offerCode, description, eligibleItemCode);
+        return new SpecialOffer(offerCode, description, eligibleItemCode, eligibleCategoryCode);
     }
 
     public SpecialOfferBuilder withOfferCode(String offerCode) {
@@ -24,6 +25,11 @@ public class SpecialOfferBuilder {
 
     public SpecialOfferBuilder forItemCode(String itemCode) {
         this.eligibleItemCode = itemCode;
+        return this;
+    }
+
+    public SpecialOfferBuilder forCategory(String categoryCode) {
+        this.eligibleCategoryCode = categoryCode;
         return this;
     }
 }

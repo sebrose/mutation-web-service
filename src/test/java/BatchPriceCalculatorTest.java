@@ -1,5 +1,7 @@
 import checkout.BatchPriceCalculator;
 import checkout.Money;
+import checkout.OfferTracker;
+import checkout.OfferTrackerFactory;
 import checkout.data.BatchBuilder;
 import checkout.data.BatchPrice;
 import checkout.data.PriceListBuilder;
@@ -86,28 +88,64 @@ public class BatchPriceCalculatorTest {
     }
 
     @Test
-    public void buyOnePayForOneWithBOGOF() throws Exception {
-        batchBuilder.addNewBasket().withItem("banana").withQuantity(1);
+    public void shouldAccessCorrectCategory() throws Exception {
+        batchBuilder.addNewBasket().withItem("banana").withWeight(1.0f);
+        priceListBuilder.addEntry("banana").inCategory("fruit").withKiloPrice("0.50");
+        specialOfferCollectionBuilder.addOffer("OFFER").forCategory("fruit").withDescription("test");
+        OfferTrackerFactory.WE_ARE_TESTING_WITH("OFFER", new OfferTracker() {
 
-        priceListBuilder.addEntry("banana").withUnitPrice("0.50");
+            Money saving = new Money();
+
+            @Override
+            public void process(Float amount, Money cost) {
+                System.out.println("Processing " + cost);
+                saving = saving.add(cost);
+                System.out.println("Saving " + saving);
+            }
+
+            @Override
+            public Money calculateSavings() {
+                System.out.println("Savings " + saving);
+                return saving;
+            }
+        });
 
         BatchPrice btdi;
 
         btdi = BatchPriceCalculator.calculate(batchBuilder.build(), priceListBuilder.build(), specialOfferCollectionBuilder.build());
 
-        assertEquals(new Money("0.50"), btdi.batch.baskets.get(1));
+        assertEquals(new Money(), btdi.batch.baskets.get(1));
     }
 
-    //    @Test
-    public void buyTwoPayForOneWithBOGOF() throws Exception {
-        batchBuilder.addNewBasket().withItem("banana").withQuantity(2);
-        priceListBuilder.addEntry("banana").withUnitPrice("0.50");
-        specialOfferCollectionBuilder.addOffer("BOGOF").withDescription("dummy").forItemCode("banana");
+    @Test
+    public void shouldResetTrackersForEachBasket() throws Exception {
+        batchBuilder.addNewBasket().withItem("banana").withWeight(1.0f);
+        batchBuilder.addNewBasket().withItem("thingy").withWeight(1.0f);
+        priceListBuilder.addEntry("banana").inCategory("fruit").withKiloPrice("0.50");
+        priceListBuilder.addEntry("thingy").inCategory("widget").withUnitPrice("0.50");
+        specialOfferCollectionBuilder.addOffer("OFFER").forCategory("fruit").withDescription("test");
+        OfferTrackerFactory.WE_ARE_TESTING_WITH("OFFER", new OfferTracker() {
+
+            Money saving = new Money();
+
+            @Override
+            public void process(Float amount, Money cost) {
+                saving = saving.add(cost);
+            }
+
+            @Override
+            public Money calculateSavings() {
+                Money mySaving = saving;
+                saving = new Money();
+                return mySaving;
+            }
+        });
 
         BatchPrice btdi;
 
         btdi = BatchPriceCalculator.calculate(batchBuilder.build(), priceListBuilder.build(), specialOfferCollectionBuilder.build());
 
-        assertEquals(new Money("0.50"), btdi.batch.baskets.get(1));
+        assertEquals(new Money(), btdi.batch.baskets.get(1));
+        assertEquals(new Money("0.50"), btdi.batch.baskets.get(2));
     }
 }

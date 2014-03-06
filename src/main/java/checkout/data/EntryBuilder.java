@@ -6,11 +6,12 @@ import checkout.Money;
 
 public class EntryBuilder {
     private String itemCode;
+    private String categoryCode = "misc";
     private Money unitPrice;
     private Money kiloPrice;
 
     public Entry build() {
-        return new Entry(itemCode, unitPrice, kiloPrice);
+        return new Entry(itemCode, categoryCode, unitPrice, kiloPrice);
     }
 
     public EntryBuilder withItemCode(String itemCode) {
@@ -25,6 +26,11 @@ public class EntryBuilder {
 
     public EntryBuilder withKiloPrice(String kiloPrice) {
         this.kiloPrice = new Money(kiloPrice);
+        return this;
+    }
+
+    public EntryBuilder inCategory(String categoryCode) {
+        this.categoryCode = categoryCode;
         return this;
     }
 }

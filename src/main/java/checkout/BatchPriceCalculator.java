@@ -18,10 +18,11 @@ public class BatchPriceCalculator {
 
                 basketTotal = basketTotal.add(entry.getPrice().multiply(item.getAmount()));
 
-                offers.process(item.getItemCode(), "", item.getAmount(), entry.getPrice());
+                offers.process(item.getItemCode(), entry.getCategoryCode(), item.getAmount(), entry.getPrice());
             }
 
-            Money savings = offers.calculateSavings();
+            Money savings = offers.calculateAndClearSavings();
+            System.out.println("BatchPriceCalculator savings: " + savings + ", " + basket.getBasketId());
             basketTotal = basketTotal.minus(savings);
 
             in.batch.baskets.put(basket.getBasketId(), basketTotal);
