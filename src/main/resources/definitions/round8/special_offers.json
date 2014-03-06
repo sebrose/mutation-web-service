@@ -1,0 +1,24 @@
+{
+    "offers": [
+        {
+            "offerCode": "BOGOF",
+            "description": "Buy one, get one free",
+            "eligibleItemCode": "orange"
+        },
+        {
+            "offerCode": "TEN_PC",
+            "description": "10% off (calculated per item)",
+            "eligibleCategoryCode": "hardware"
+        },
+        {
+            "offerCode": "3_FOR_2",
+            "description": "Buy 3, get cheapest free",
+            "eligibleCategoryCode": "supplements"
+        },
+        {
+            "offerCode": "5_OFF_FOR_50_SPEND",
+            "description": "Spend over $50 (after discounts) and get a further $5 off",
+            "eligibleCategoryCode": "supplements"
+        }
+    ]
+}

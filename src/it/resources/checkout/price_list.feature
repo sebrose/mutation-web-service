@@ -17,4 +17,4 @@ Feature: Get Price Lists
     Given my team is in round 1
     When I ask for a price list
     Then I receive an OK response
-    And the price list contains 2 items
+    And the price list contains 3 items

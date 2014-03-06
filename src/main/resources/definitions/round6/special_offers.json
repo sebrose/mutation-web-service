@@ -1,0 +1,14 @@
+{
+    "offers": [
+        {
+            "offerCode": "BOGOF",
+            "description": "Buy one, get one free",
+            "eligibleItemCode": "orange"
+        },
+        {
+            "offerCode": "TEN_PC",
+            "description": "10% off (calculated per item)",
+            "eligibleCategoryCode": "hardware"
+        }
+    ]
+}

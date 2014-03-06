@@ -1,6 +1,4 @@
-import checkout.Entry;
-import checkout.Money;
-import checkout.PriceList;
+import checkout.*;
 import checkout.data.BatchPrice;
 import com.google.gson.Gson;
 import org.junit.Test;
@@ -9,6 +7,13 @@ import static com.thoughtworks.selenium.SeleneseTestNgHelper.assertEquals;
 
 public class GsonExploratoryTest {
     private Gson json = new Gson();
+
+    @Test
+    public void serialiseSpecialOffersToJson() throws Exception {
+        SpecialOfferCollection collection = new SpecialOfferCollection();
+        collection.addOffer(new SpecialOffer("offer", "desc", "item", null));
+        System.out.println(json.toJson(collection));
+    }
 
     @Test
     public void serialisePriceListToJson() {

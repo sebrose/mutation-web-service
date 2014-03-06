@@ -1,23 +1,42 @@
 {"entries": {
     "banana": {
         "itemCode": "banana",
+        "categoryCode": "fruit",
         "unitPrice": {
             "dollars": 0,
-            "cents": 25
+            "cents": 22
         }
     },
     "avocado": {
         "itemCode": "avocado",
+        "categoryCode": "fruit",
         "unitPrice": {
             "dollars": 1,
-            "cents": 20
+            "cents": 24
         }
     },
     "apple": {
         "itemCode": "apple",
+        "categoryCode": "fruit",
         "unitPrice": {
             "dollars": 0,
-            "cents": 40
+            "cents": 37
+        }
+    },
+    "washers": {
+        "itemCode": "washers",
+        "categoryCode": "hardware",
+        "unitPrice": {
+            "dollars": 0,
+            "cents": 15
+        }
+    },
+    "coathooks": {
+        "itemCode": "coathooks",
+        "categoryCode": "hardware",
+        "unitPrice": {
+            "dollars": 7,
+            "cents": 99
         }
     }
 }

@@ -49,7 +49,8 @@ public class PriceListSteps {
 
     @And("^the price list contains (\\d+) items?$")
     public void the_price_list_contains_item(int count) throws Throwable {
-
+        MyResults results = json.fromJson(helper.getJsonResponse(), MyResults.class);
+        assertEquals(count, results.priceList.entries.size());
     }
 
     @And("^the price is (\\d+)c$")

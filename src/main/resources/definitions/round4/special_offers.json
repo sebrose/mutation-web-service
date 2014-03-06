@@ -1,0 +1,10 @@
+{
+    "offers": [
+        {
+            "offerCode": "BOGOF",
+            "description": "Buy one, get one free",
+            "eligibleItemCode": "avocado"
+        }
+    ]
+}
+
