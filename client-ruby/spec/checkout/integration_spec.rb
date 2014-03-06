@@ -50,5 +50,21 @@ describe Checkout, 'integration' do
          TEXT
       )
     )
+
+    expect(client.basket_batch).to eql(
+      'batch' => {
+        'baskets' => [
+          {
+            'basketId'=>1,
+            'items'=> [
+              {
+                'itemCode' => 'banana',
+                'quantity' => 1
+              }
+            ]
+          }
+        ]
+      }
+    )
   end
 end
