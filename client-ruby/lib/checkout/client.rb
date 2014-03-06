@@ -92,6 +92,24 @@ module Checkout
       run(request)
     end
 
+    # Submit batch of calculations
+    #
+    # @param [Hash] batch
+    #   the json payload
+    #
+    # @return [self]
+    #   in case batch could be submitted successfuly
+    #
+    # @raise [Error]
+    #   in case there is a problem with the submission
+    #
+    # @api private
+    #
+    def submit_batch(batch)
+      request = Request.put("/Checkout/Batch/#{team_name}", batch)
+      run(request)
+    end
+
   private
 
     # Run reqeuest with status code expectation

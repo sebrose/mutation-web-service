@@ -70,5 +70,12 @@ describe Checkout, 'integration' do
     expect(client.team_score).to eql(
       'score' => 10
     )
+
+    expect { client.submit_batch({}) }.to raise_error(Checkout::Client::Error::StatusCode) do |error|
+      expect(error.message).to eql(strip(<<-TEXT))
+        Unexpected response with code: 400
+        {"batch"=>{"incorrectBaskets"=>{"1"=>"MissingBasket"}}}
+      TEXT
+    end
   end
 end
