@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+require 'pathname'
+$LOAD_PATH << File.expand_path('../../lib', __FILE__)
+
+require 'checkout'
+
+Checkout::CLI.run(ARGV)
