@@ -31,7 +31,6 @@ public class BatchSubmissionHandler implements JsonProcessor {
         Team team = Team.getRegisteredTeam(Rest.param(req, "teamName"));
 
         try {
-//            System.out.println("Submission rcvd: " + req.body());
             BatchPrice submittedTotals = json.fromJson(req.body(), BatchPrice.class);
 
             return evaluateSubmission(team, submittedTotals);

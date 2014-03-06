@@ -26,11 +26,11 @@ public class BatchRequestHandler implements JsonProcessor {
 
         Team team = Team.getRegisteredTeam(Rest.param(req, "teamName"));
         team.refresh();
+        team.requestProcessed();
 
         BatchDataOut out = new BatchDataOut();
         out.batch = team.getCurrentBatch(dataReader);
 
-        //System.out.println("Batch = " + out.batch.toString());
         return new JsonProcessorResultWrapper(200, json.toJson(out));
     }
 }

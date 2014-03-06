@@ -140,6 +140,26 @@ public class KnowsTheDomain {
         }
     }
 
+    public void requestSpecialOffers() {
+        try {
+
+            Client client = Client.create();
+
+            WebResource webResource = client
+                    .resource("http://localhost:" + ServerHooks.PORT + "/Checkout/SpecialOffers/" + getTeamName());
+
+            ClientResponse response = webResource.type("application/json")
+                    .get(ClientResponse.class);
+
+            storeResponse(response.getStatus(), response.getEntity(String.class));
+        } catch (RuntimeException r) {
+            throw r;
+        } catch (Exception e) {
+            System.out.println("Exception caught");
+            e.printStackTrace();
+        }
+    }
+
     public void requestPriceList() {
         try {
 

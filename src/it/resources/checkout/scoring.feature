@@ -32,6 +32,24 @@ Feature: Scoring
     When I retrieve my score
     Then my score is -1 points
 
+  Scenario: Use of batch service loses a point
+    Given my team is in round 0
+    And I ask for a batch
+    When I retrieve my score
+    Then my score is -1 points
+
+  Scenario: Use of price list service loses a point
+    Given my team is in round 0
+    And I ask for a price list
+    When I retrieve my score
+    Then my score is -1 points
+
+  Scenario: Use of special offer service loses a point
+    Given my team is in round 0
+    And I ask for special offers
+    When I retrieve my score
+    Then my score is -1 points
+
   Scenario: Points awarded for successful batch submission decreases
     Given my team is in round 0
     And another team has already submitted correct round 0 totals

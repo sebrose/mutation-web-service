@@ -37,7 +37,6 @@ Feature: Post answers for a batch
     And my team is still in round 0
     And I know the basket ID of the unexpected basket
 
-  @single
   Scenario: BOGOF offer is respected
     Given a just registered team with BOGOF data
     When I submit the BOGOF totals

@@ -63,6 +63,10 @@ public class Team extends Model {
         return PriceListFactory.create(priceListReader, getCurrentRound());
     }
 
+    public SpecialOfferCollection getCurrentSpecialOffers(MyReader specialOfferReader) {
+        return SpecialOfferCollectionFactory.create(specialOfferReader, getCurrentRound());
+    }
+
     public BatchPriceComparisonResult processSubmission(BatchPrice submittedTotals, MyReader batchReader, MyReader priceListReader, MyReader specialOfferReader) {
 
         Batch batch = BatchFactory.create(batchReader, getCurrentRound());
@@ -87,6 +91,11 @@ public class Team extends Model {
     }
 
     public void incorrectSubmission() {
+        addPoints(Scoring.INCORRECT_RESPONSE_POINTS);
+        saveIt();
+    }
+
+    public void requestProcessed() {
         addPoints(Scoring.INCORRECT_RESPONSE_POINTS);
         saveIt();
     }

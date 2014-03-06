@@ -49,6 +49,8 @@ public class CheckoutServer {
 
         addGetHandler("/Checkout/PriceList/{teamName}", new PriceListRequestHandler(json, new MyReader(PRICE_LIST_LOCATION, dataSource)));
 
+        addGetHandler("/Checkout/SpecialOffers/{teamName}", new SpecialOfferRequestHandler(json, new MyReader(SPECIAL_OFFER_LOCATION, dataSource)));
+
         addPutHandler("/Checkout/Batch/{teamName}", new BatchSubmissionHandler(json, roundEntity,
                 new MyReader(BATCH_LOCATION, dataSource),
                 new MyReader(PRICE_LIST_LOCATION, dataSource),
