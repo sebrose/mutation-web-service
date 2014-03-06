@@ -31,12 +31,12 @@ module Checkout
         def message
           message = []
           message << "Unexpected response with code: #{response.status}"
-          if response.content_type == APPLICATION_JSON
-            message << MultiJSON.parse(response.body).inspect
+          if response.headers[:content_type] == JSON_CONTENT_TYPE
+            message << MultiJson.load(response.body).inspect
           else
             message << response.body
           end
-          message.join
+          message.join("\n")
         end
 
       end # StatusCode
