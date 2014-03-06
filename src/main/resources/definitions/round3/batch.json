@@ -13,7 +13,7 @@
         "items": [
             {
                 "itemCode": "banana",
-                "quantity": 2
+                "weight": 0.25
             }
         ]
     },
@@ -22,28 +22,28 @@
         "items": [
             {
                 "itemCode": "banana",
-                "quantity": 1
+                "weight": 0.5
             },
             {
                 "itemCode": "apple",
-                "quantity": 3
+                "weight": 0.3
             },
             {
                 "itemCode": "banana",
-                "quantity": 1
+                "weight": 0.1
             }
         ]
     },
     {
         "basketId": "4",
-        "items": []
-    },
-    {
-        "basketId": "5",
         "items": [
             {
                 "itemCode": "avocado",
-                "quantity": 12
+                "quantity": 1
+            },
+            {
+                "itemCode": "pear",
+                "weight": 1.2
             }
         ]
     }

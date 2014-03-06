@@ -1,8 +1,8 @@
 {"entries": {
     "banana": {
         "itemCode": "banana",
-        "unitPrice": {
-            "dollars": 0,
+        "kiloPrice": {
+            "dollars": 2,
             "cents": 25
         }
     },
@@ -15,9 +15,16 @@
     },
     "apple": {
         "itemCode": "apple",
-        "unitPrice": {
-            "dollars": 0,
+        "kiloPrice": {
+            "dollars": 3,
             "cents": 40
+        }
+    },
+    "pear": {
+        "itemCode": "pear",
+        "kiloPrice": {
+            "dollars": 4,
+            "cents": 90
         }
     }
 }

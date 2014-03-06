@@ -36,10 +36,6 @@
     },
     {
         "basketId": "4",
-        "items": []
-    },
-    {
-        "basketId": "5",
         "items": [
             {
                 "itemCode": "avocado",

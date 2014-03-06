@@ -3,7 +3,7 @@
         "basketId": "1",
         "items": [
             {
-                "itemCode": "banana",
+                "itemCode": "orange",
                 "quantity": 1
             }
         ]
@@ -12,7 +12,7 @@
         "basketId": "2",
         "items": [
             {
-                "itemCode": "banana",
+                "itemCode": "avocado",
                 "quantity": 2
             }
         ]
@@ -21,29 +21,33 @@
         "basketId": "3",
         "items": [
             {
-                "itemCode": "banana",
-                "quantity": 1
-            },
-            {
-                "itemCode": "apple",
+                "itemCode": "orange",
                 "quantity": 3
             },
             {
-                "itemCode": "banana",
-                "quantity": 1
+                "itemCode": "avocado",
+                "quantity": 3
+            },
+            {
+                "itemCode": "apple",
+                "weight": 1.3
             }
         ]
     },
     {
         "basketId": "4",
-        "items": []
-    },
-    {
-        "basketId": "5",
         "items": [
             {
+                "itemCode": "orange",
+                "quantity": 3
+            },
+            {
+                "itemCode": "orange",
+                "quantity": 1
+            },
+            {
                 "itemCode": "avocado",
-                "quantity": 12
+                "quantity": 3
             }
         ]
     }

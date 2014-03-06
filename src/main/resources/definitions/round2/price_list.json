@@ -19,6 +19,13 @@
             "dollars": 0,
             "cents": 40
         }
+    },
+    "pear": {
+        "itemCode": "pear",
+        "unitPrice": {
+            "dollars": 0,
+            "cents": 33
+        }
     }
 }
 }
