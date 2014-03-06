@@ -1,0 +1,6 @@
+--backtrace
+--color
+--fail-fast
+--format progress
+--order random
+--profile
