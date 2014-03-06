@@ -3,6 +3,7 @@ package support;
 import checkout.*;
 import checkout.data.BatchBuilder;
 import checkout.data.PriceListBuilder;
+import checkout.data.SpecialOfferCollectionBuilder;
 import com.google.gson.Gson;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -216,7 +217,7 @@ public class KnowsTheDomain {
             Client client = Client.create();
 
             WebResource webResource = client
-                    .resource("http://localhost:" + ServerHooks.PORT + "/TestCheckout/PriceList");
+                    .resource("http://localhost:" + ServerHooks.PORT + "/TestCheckout/PriceList/0");
 
             PriceListBuilder builder = new PriceListBuilder();
             builder.addEntry("foobar").withUnitPrice("0.50");
@@ -239,7 +240,7 @@ public class KnowsTheDomain {
             Client client = Client.create();
 
             WebResource webResource = client
-                    .resource("http://localhost:" + ServerHooks.PORT + "/TestCheckout/Batch");
+                    .resource("http://localhost:" + ServerHooks.PORT + "/TestCheckout/Batch/0");
 
             BatchBuilder builder = new BatchBuilder();
             builder.addNewBasket().withItem("foobar").withQuantity(2);
@@ -259,5 +260,34 @@ public class KnowsTheDomain {
         setSimpleBatch();
         setSimplePriceList();
     }
+
+    public void setBOGOFData() {
+        setSimpleBatch();
+        setSimplePriceList();
+        setBOGOFSpecialOffers();
+    }
+
+    public void setBOGOFSpecialOffers() {
+        try {
+
+            Client client = Client.create();
+
+            WebResource webResource = client
+                    .resource("http://localhost:" + ServerHooks.PORT + "/TestCheckout/SpecialOffers/0");
+
+            SpecialOfferCollectionBuilder builder = new SpecialOfferCollectionBuilder();
+            builder.addOffer(BogofTracker.OFFER_CODE).withDescription("Buy one get one free").forItemCode("foobar");
+            String input = json.toJson(builder.build());
+
+            ClientResponse clientResponse = webResource.type("application/json")
+                    .put(ClientResponse.class, input);
+        } catch (RuntimeException r) {
+            throw r;
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+    }
+
 }
 

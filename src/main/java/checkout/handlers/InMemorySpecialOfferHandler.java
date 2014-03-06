@@ -6,10 +6,10 @@ import com.google.gson.Gson;
 import org.webbitserver.HttpRequest;
 import org.webbitserver.rest.Rest;
 
-public class InMemoryBatchHandler implements JsonProcessor {
+public class InMemorySpecialOfferHandler implements JsonProcessor {
     private MyDataSource dataSource;
 
-    public InMemoryBatchHandler(Gson json, MyDataSource dataSource) {
+    public InMemorySpecialOfferHandler(Gson json, MyDataSource dataSource) {
         this.dataSource = dataSource;
     }
 
@@ -17,8 +17,8 @@ public class InMemoryBatchHandler implements JsonProcessor {
     public JsonProcessorResultWrapper execute(HttpRequest req) {
         Integer round = Integer.valueOf(Rest.param(req, "round"));
 
-        dataSource.setStringData_FOR_TEST_ONLY(round, CheckoutServer.BATCH_LOCATION, req.body());
+        dataSource.setStringData_FOR_TEST_ONLY(round, CheckoutServer.SPECIAL_OFFER_LOCATION, req.body());
 
-        return new JsonProcessorResultWrapper(201, "Cached batch changed");
+        return new JsonProcessorResultWrapper(201, "Cached offers changed");
     }
 }

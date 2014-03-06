@@ -11,17 +11,19 @@ public class BatchSubmissionHandler implements JsonProcessor {
     private RoundEntity roundEntity;
     private MyReader batchReader;
     private MyReader priceListReader;
+    private MyReader specialOfferReader;
 
     public static class BatchTotalsDataOut {
         BatchPriceComparisonResult batch;
         String errorMessage;
     }
 
-    public BatchSubmissionHandler(Gson json, RoundEntity roundEntity, MyReader batchReader, MyReader priceListReader) {
+    public BatchSubmissionHandler(Gson json, RoundEntity roundEntity, MyReader batchReader, MyReader priceListReader, MyReader specialOfferReader) {
         this.json = json;
         this.roundEntity = roundEntity;
         this.batchReader = batchReader;
         this.priceListReader = priceListReader;
+        this.specialOfferReader = specialOfferReader;
     }
 
     @Override
@@ -41,7 +43,7 @@ public class BatchSubmissionHandler implements JsonProcessor {
 
     private JsonProcessorResultWrapper evaluateSubmission(Team team, BatchPrice submittedTotals) {
         BatchTotalsDataOut out = new BatchTotalsDataOut();
-        out.batch = team.processSubmission(submittedTotals, batchReader, priceListReader);
+        out.batch = team.processSubmission(submittedTotals, batchReader, priceListReader, specialOfferReader);
 
         if (out.batch.allResultsCorrect()) {
             team.correctSubmission(roundEntity);

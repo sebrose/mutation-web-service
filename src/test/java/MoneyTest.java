@@ -49,4 +49,13 @@ public class MoneyTest {
 
         assertEquals(new Money("1.00"), result);
     }
+
+    @Test
+    public void shouldMultiplyByZero() throws Exception {
+        Money orig = new Money("1.00");
+
+        Money result = orig.multiply(0);
+
+        assertEquals(new Money(), result);
+    }
 }

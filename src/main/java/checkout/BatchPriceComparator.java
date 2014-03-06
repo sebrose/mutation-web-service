@@ -20,7 +20,7 @@ public class BatchPriceComparator {
                 Money expectedValue = expectedEntry.getValue();
 
                 if (!submittedValue.equals(expectedValue)) {
-                    result.incorrectBaskets.put(basketId, INCORRECT_VALUE_SUBMITTED);
+                    result.incorrectBaskets.put(basketId, INCORRECT_VALUE_SUBMITTED + " " + submittedValue + " Expected " + expectedValue);
                 }
             } else {
                 result.incorrectBaskets.put(basketId, MISSING_BASKET_ID);

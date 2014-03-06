@@ -28,15 +28,17 @@ public class TeamTest {
         MyDataSource dataSource = new FileDataSource();
         dataSource.setStringData_FOR_TEST_ONLY(99, CheckoutServer.BATCH_LOCATION, batchJson);
         dataSource.setStringData_FOR_TEST_ONLY(99, CheckoutServer.PRICE_LIST_LOCATION, priceListJson);
+        dataSource.setStringData_FOR_TEST_ONLY(99, CheckoutServer.SPECIAL_OFFER_LOCATION, "{}");
 
 
         MyReader batchReader = new MyReader(CheckoutServer.BATCH_LOCATION, dataSource);
         MyReader priceListReader = new MyReader(CheckoutServer.PRICE_LIST_LOCATION, dataSource);
+        MyReader offersReader = new MyReader(CheckoutServer.SPECIAL_OFFER_LOCATION, dataSource);
 
         BatchPriceBuilder builder = new BatchPriceBuilder();
         builder.withBasketTotal("1.00");
 
-        BatchPriceComparisonResult result = team.processSubmission(builder.build(), batchReader, priceListReader);
+        BatchPriceComparisonResult result = team.processSubmission(builder.build(), batchReader, priceListReader, offersReader);
 
         Assert.assertTrue(result.allResultsCorrect());
     }

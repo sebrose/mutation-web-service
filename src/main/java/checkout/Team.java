@@ -63,12 +63,13 @@ public class Team extends Model {
         return PriceListFactory.create(priceListReader, getCurrentRound());
     }
 
-    public BatchPriceComparisonResult processSubmission(BatchPrice submittedTotals, MyReader batchReader, MyReader priceListReader) {
+    public BatchPriceComparisonResult processSubmission(BatchPrice submittedTotals, MyReader batchReader, MyReader priceListReader, MyReader specialOfferReader) {
 
         Batch batch = BatchFactory.create(batchReader, getCurrentRound());
         System.out.println("Batch: " + batch.toString());
         PriceList priceList = PriceListFactory.create(priceListReader, getCurrentRound());
-        checkout.data.BatchPrice expectedTotals = BatchPriceCalculator.calculate(batch, priceList);
+        SpecialOfferCollection offers = SpecialOfferCollectionFactory.create(specialOfferReader, getCurrentRound());
+        checkout.data.BatchPrice expectedTotals = BatchPriceCalculator.calculate(batch, priceList, offers);
 
         return BatchPriceComparator.check(expectedTotals, submittedTotals);
     }

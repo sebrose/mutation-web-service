@@ -7,6 +7,7 @@ import support.KnowsTheDomain;
 
 import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class BasketAnswerSteps {
@@ -50,7 +51,12 @@ public class BasketAnswerSteps {
 
     @When("^I submit the simple totals$")
     public void I_submit_the_simple_totals() throws Throwable {
-        helper.submitTotals("{\"batch\":{\"baskets\":{\"1\":{\"dollars\":0,\"cents\":25}}}}");
+        helper.submitTotals("{\"batch\":{\"baskets\":{\"1\":{\"dollars\":1,\"cents\":0}}}}");
+    }
+
+    @When("^I submit the BOGOF totals$")
+    public void I_submit_the_BOGOF_totals() throws Throwable {
+        helper.submitTotals("{\"batch\":{\"baskets\":{\"1\":{\"dollars\":0,\"cents\":50}}}}");
     }
 
     @When("^I submit the correct totals$")
@@ -77,7 +83,7 @@ public class BasketAnswerSteps {
     public void I_know_the_basket_ID_of_the_incorrect_total() throws Throwable {
         MyResults results = json.fromJson(helper.getJsonResponse(), MyResults.class);
 
-        assertTrue(results.batch.incorrectBaskets.containsValue(BatchPriceComparator.INCORRECT_VALUE_SUBMITTED));
+        assertTrue(results.batch.incorrectBaskets.get(1).contains(BatchPriceComparator.INCORRECT_VALUE_SUBMITTED));
     }
 
     @And("^I know the basket ID of the missing basket$")
@@ -92,6 +98,13 @@ public class BasketAnswerSteps {
         MyResults results = json.fromJson(helper.getJsonResponse(), MyResults.class);
 
         assertTrue(results.batch.incorrectBaskets.containsValue(BatchPriceComparator.UNEXPECTED_BASKET_ID_SUBMITTED));
+    }
+
+    @And("^I know why my submission failed")
+    public void I_know_why() throws Throwable {
+        MyResults results = json.fromJson(helper.getJsonResponse(), MyResults.class);
+
+        assertEquals("", results.batch.toString());
     }
 
 }

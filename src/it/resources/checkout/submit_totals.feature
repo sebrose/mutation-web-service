@@ -6,7 +6,6 @@ Feature: Post answers for a batch
   If any answers are incorrect (or missing) you get 400 and a list of incorrect responses
   If we've finished all rounds, then error code
 
-  @single
   Scenario: Correct response advances round
     Given a just registered team with simple data
     When I submit the simple totals
@@ -38,3 +37,8 @@ Feature: Post answers for a batch
     And my team is still in round 0
     And I know the basket ID of the unexpected basket
 
+  @single
+  Scenario: BOGOF offer is respected
+    Given a just registered team with BOGOF data
+    When I submit the BOGOF totals
+    Then I receive a CREATED response

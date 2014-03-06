@@ -20,6 +20,7 @@ public class CheckoutServer {
     public static final String REQUIREMENTS_LOCATION = "requirements.txt";
     public static final String BATCH_LOCATION = "batch.json";
     public static final String PRICE_LIST_LOCATION = "price_list.json";
+    public static final String SPECIAL_OFFER_LOCATION = "special_offers.json";
     public static final String LOCATION_FORMAT = "/definitions/round%d/%s";
 
     public CheckoutServer(int port) {
@@ -32,9 +33,11 @@ public class CheckoutServer {
 
         MyDataSource dataSource = new FileDataSource();
 
-        addPutHandler("/TestCheckout/Batch", new InMemoryBatchHandler(json, dataSource));
+        addPutHandler("/TestCheckout/Batch/{round}", new InMemoryBatchHandler(json, dataSource));
 
-        addPutHandler("/TestCheckout/PriceList", new InMemoryPriceListHandler(json, dataSource));
+        addPutHandler("/TestCheckout/PriceList/{round}", new InMemoryPriceListHandler(json, dataSource));
+
+        addPutHandler("/TestCheckout/SpecialOffers/{round}", new InMemorySpecialOfferHandler(json, dataSource));
 
         addPutHandler("/Checkout/Team", new TeamRegistrationHandler(json));
 
@@ -48,7 +51,8 @@ public class CheckoutServer {
 
         addPutHandler("/Checkout/Batch/{teamName}", new BatchSubmissionHandler(json, roundEntity,
                 new MyReader(BATCH_LOCATION, dataSource),
-                new MyReader(PRICE_LIST_LOCATION, dataSource)));
+                new MyReader(PRICE_LIST_LOCATION, dataSource),
+                new MyReader(SPECIAL_OFFER_LOCATION, dataSource)));
     }
 
     private void addPutHandler(String path, final JsonProcessor operation) {

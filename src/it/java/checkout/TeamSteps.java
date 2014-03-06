@@ -56,6 +56,14 @@ public class TeamSteps {
         helper.setSimpleData();
     }
 
+    @Given("^a just registered team with BOGOF data$")
+    public void a_just_registered_team_with_BOGOF_data() throws Throwable {
+        requestedName = "MyTeam";
+        I_register();
+
+        helper.setBOGOFData();
+    }
+
     @Given("^I register a team$")
     public void I_register_a_team() throws Throwable {
         requestedName = "MyTeam";
