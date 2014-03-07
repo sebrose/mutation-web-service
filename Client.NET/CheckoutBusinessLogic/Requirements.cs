@@ -31,7 +31,7 @@ namespace CheckoutBusinessLogic
         {
             response = client.get<RequirementResponse>(String.Format("/Checkout/Requirements/{0}", teamName));
 
-            return (response.Item1 == System.Net.HttpStatusCode.Created);
+            return (response.Item1 == System.Net.HttpStatusCode.OK);
         }
     }
 }
