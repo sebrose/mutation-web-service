@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Checkout, 'integration' do
+describe 'integration' do
   let(:client) { Checkout::Client.build('http://localhost:9988', "test-team-#{Time.now.to_i}") }
 
   def strip(source)

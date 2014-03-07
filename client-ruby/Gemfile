@@ -5,6 +5,7 @@ ruby '2.0.0'
 MUTANT_VERSION = '~> 0.5.3'
 
 gem 'concord',             '~> 0.1.4'
+gem 'rspec',               '~> 2.14'
 gem 'rspec-core',          '~> 2.14.8'
 gem 'rspec-expectations',  '~> 2.14.5'
 gem 'rspec-mocks',         '~> 2.14.6'
