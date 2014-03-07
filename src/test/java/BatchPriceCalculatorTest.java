@@ -1,7 +1,4 @@
-import checkout.BatchPriceCalculator;
-import checkout.Money;
-import checkout.OfferTracker;
-import checkout.OfferTrackerFactory;
+import checkout.*;
 import checkout.data.BatchBuilder;
 import checkout.data.BatchPrice;
 import checkout.data.PriceListBuilder;
@@ -87,6 +84,17 @@ public class BatchPriceCalculatorTest {
         assertEquals(new Money("2.25"), btdi.batch.baskets.get(2));
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldHandleMissingItem() throws Exception {
+        batchBuilder.addNewBasket().withItem("banana").withWeight(1.0f);
+
+        priceListBuilder.addEntry("apple").withKiloPrice("1.50");
+
+        BatchPrice btdi;
+
+        btdi = BatchPriceCalculator.calculate(batchBuilder.build(), priceListBuilder.build(), specialOfferCollectionBuilder.build());
+    }
+
     @Test
     public void shouldAccessCorrectCategory() throws Exception {
         batchBuilder.addNewBasket().withItem("banana").withWeight(1.0f);
@@ -147,5 +155,19 @@ public class BatchPriceCalculatorTest {
 
         assertEquals(new Money(), btdi.batch.baskets.get(1));
         assertEquals(new Money("0.50"), btdi.batch.baskets.get(2));
+    }
+
+    @Test
+    public void shouldHandleUnusedSpecialOffer() throws Exception {
+        batchBuilder.addNewBasket().withItem("banana").withWeight(1.0f);
+        priceListBuilder.addEntry("banana").inCategory("fruit").withKiloPrice("0.50");
+        specialOfferCollectionBuilder.addOffer("OFFER").forCategory("hardware").withDescription("test");
+        OfferTrackerFactory.WE_ARE_TESTING_WITH("OFFER", new BogofTracker());
+
+        BatchPrice btdi;
+
+        btdi = BatchPriceCalculator.calculate(batchBuilder.build(), priceListBuilder.build(), specialOfferCollectionBuilder.build());
+
+        assertEquals(new Money("0.50"), btdi.batch.baskets.get(1));
     }
 }

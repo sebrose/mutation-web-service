@@ -53,6 +53,16 @@ public class SpecialOfferTest {
     }
 
     @Test
+    public void shouldHandleNullCategory() throws Exception {
+        SpecialOffer offer = builder.withOfferCode(DUMMY_OFFER_CODE).forItemCode("foo").withDescription("dummy").build();
+        OfferTrackerFactory.WE_ARE_TESTING_WITH(DUMMY_OFFER_CODE, testTracker);
+
+        offer.process("bar", null, 1.0f, new Money("100.00"));
+
+        Assert.assertEquals(new Money(), offer.calculateAndClearSavings());
+    }
+
+    @Test
     public void shouldAccumulateSavingsItemCodeMatches() throws Exception {
         SpecialOffer offer = builder.withOfferCode(DUMMY_OFFER_CODE).forItemCode("foo").withDescription("dummy").build();
         OfferTrackerFactory.WE_ARE_TESTING_WITH(DUMMY_OFFER_CODE, testTracker);

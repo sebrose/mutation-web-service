@@ -46,3 +46,45 @@ Feature: Post answers for a batch
     Given a just registered team with Ten Percent offer data
     When I submit the Ten Percent totals
     Then I receive a CREATED response
+
+  Scenario: round 0
+    Given my team is in round 0
+    When I submit one 0 totals
+    Then I receive an ERROR response
+#And I know why my submission failed
+
+  Scenario: round 1
+    Given my team is in round 1
+    When I submit four 0 totals
+    Then I receive an ERROR response
+#And I know why my submission failed
+
+  Scenario: round 2
+    Given my team is in round 2
+    When I submit four 0 totals
+    Then I receive an ERROR response
+#And I know why my submission failed
+
+  Scenario: round 3
+    Given my team is in round 3
+    When I submit four 0 totals
+    Then I receive an ERROR response
+#And I know why my submission failed
+
+  Scenario: round 4
+    Given my team is in round 4
+    When I submit two 0 totals
+    Then I receive an ERROR response
+#And I know why my submission failed
+
+  Scenario: round 5
+    Given my team is in round 5
+    When I submit four 0 totals
+    Then I receive an ERROR response
+#And I know why my submission failed
+
+  Scenario: round 6
+    Given my team is in round 6
+    When I submit four 0 totals
+    Then I receive an ERROR response
+#And I know why my submission failed

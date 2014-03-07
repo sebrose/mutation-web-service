@@ -39,7 +39,7 @@ public class SpecialOffer {
     }
 
     public void process(String itemCode, String categoryCode, float amount, Money cost) {
-        if (itemCode.equals(eligibleItemCode) || categoryCode.equals(eligibleCategoryCode)) {
+        if (itemCode.equals(eligibleItemCode) || (categoryCode != null && categoryCode.equals(eligibleCategoryCode))) {
             getOfferTracker().process(amount, cost);
         }
     }

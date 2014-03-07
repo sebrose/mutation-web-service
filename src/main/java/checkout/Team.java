@@ -70,12 +70,12 @@ public class Team extends Model {
     public BatchPriceComparisonResult processSubmission(BatchPrice submittedTotals, MyReader batchReader, MyReader priceListReader, MyReader specialOfferReader) {
 
         Batch batch = BatchFactory.create(batchReader, getCurrentRound());
-        System.out.println("Batch: " + batch.toString());
         PriceList priceList = PriceListFactory.create(priceListReader, getCurrentRound());
         SpecialOfferCollection offers = SpecialOfferCollectionFactory.create(specialOfferReader, getCurrentRound());
         checkout.data.BatchPrice expectedTotals = BatchPriceCalculator.calculate(batch, priceList, offers);
 
-        return BatchPriceComparator.check(expectedTotals, submittedTotals);
+        BatchPriceComparisonResult check = BatchPriceComparator.check(expectedTotals, submittedTotals);
+        return check;
     }
 
     private void successfulRegistration() {

@@ -16,31 +16,5 @@
                 "quantity": 2
             }
         ]
-    },
-    {
-        "basketId": "3",
-        "items": [
-            {
-                "itemCode": "avocado",
-                "quantity": 1
-            },
-            {
-                "itemCode": "avocado",
-                "quantity": 3
-            },
-            {
-                "itemCode": "banana",
-                "weight": 1.5
-            }
-        ]
-    },
-    {
-        "basketId": "4",
-        "items": [
-            {
-                "itemCode": "avocado",
-                "quantity": 13
-            }
-        ]
     }
 ]}

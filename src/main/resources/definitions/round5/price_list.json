@@ -2,8 +2,8 @@
     "orange": {
         "itemCode": "orange",
         "unitPrice": {
-            "dollars": 0,
-            "cents": 25
+            "dollars": 1,
+            "cents": 20
         }
     },
     "avocado": {

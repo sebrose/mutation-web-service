@@ -74,6 +74,21 @@ public class BasketAnswerSteps {
         helper.submitTotals("{\"batch\":{\"baskets\":{}}}");
     }
 
+    @When("^I submit one 0 totals$")
+    public void I_submit_zero_totals() throws Throwable {
+        helper.submitTotals("{\"batch\":{\"baskets\":{\"1\":{\"dollars\":0,\"cents\":0}}}}");
+    }
+
+    @When("^I submit two 0 totals$")
+    public void I_submit_teo_zero_totals() throws Throwable {
+        helper.submitTotals("{\"batch\":{\"baskets\":{\"1\":{\"dollars\":0,\"cents\":0},\"2\":{\"dollars\":0,\"cents\":0}}}}");
+    }
+
+    @When("^I submit four 0 totals$")
+    public void I_submit_four_zero_totals() throws Throwable {
+        helper.submitTotals("{\"batch\":{\"baskets\":{\"1\":{\"dollars\":0,\"cents\":0},\"2\":{\"dollars\":0,\"cents\":0},\"3\":{\"dollars\":0,\"cents\":0},\"4\":{\"dollars\":0,\"cents\":0}}}}");
+    }
+
     @When("^I submit incorrect totals$")
     public void I_submit_incorrect_totals() throws Throwable {
         helper.submitTotals("{\"batch\":{\"baskets\":{\"1\":{\"dollars\":0,\"cents\":50}}}}");

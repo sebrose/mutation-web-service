@@ -15,6 +15,9 @@ public class BatchPriceCalculator {
             for (int j = 0; j < basket.getItemCount(); j++) {
                 Item item = basket.getBasketItem(j);
                 Entry entry = priceList.findEntry(item.getItemCode());
+                if (entry == null) {
+                    throw new IllegalArgumentException("Item not found in pricelist: " + item);
+                }
 
                 basketTotal = basketTotal.add(entry.getPrice().multiply(item.getAmount()));
 
@@ -22,7 +25,6 @@ public class BatchPriceCalculator {
             }
 
             Money savings = offers.calculateAndClearSavings();
-            System.out.println("BatchPriceCalculator savings: " + savings + ", " + basket.getBasketId());
             basketTotal = basketTotal.minus(savings);
 
             in.batch.baskets.put(basket.getBasketId(), basketTotal);
