@@ -9,5 +9,5 @@ task :tests do
 end
 
 task :mutant => :tests do
-  sh 'bundle exec mutant -I lib -r checkout --use rspec "Checkout::*"'
+  sh 'bundle exec mutant -I lib -r checkout --use rspec "Checkout::Calculator"'
 end

@@ -1,6 +1,22 @@
 module Checkout
   class Calculator
 
+    # Return client
+    #
+    # @return [Client]
+    #
+    # @api private
+    #
+    attr_reader :client
+
+    # Return batch
+    #
+    # @return [Hash]
+    #
+    # @api private
+    #
+    attr_reader :batch
+
     # Initialitze object
     #
     # @param [Checkout::Client] client
